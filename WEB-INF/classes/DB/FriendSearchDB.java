@@ -19,7 +19,6 @@ public class FriendSearchDB{
             ResultSet rs = friendidselect.getRs();
 
             rs.next();
-
             String search_id = rs.getString(1);
             String nickname = rs.getString(2);
             String single_word = rs.getString(3);
@@ -27,6 +26,11 @@ public class FriendSearchDB{
             String top_picture = acquisitionImage.getImagePath(rs);
             String user_id = rs.getString(5);
 
+            System.out.println("search_id"+search_id);
+            System.out.println("nickname"+nickname);
+            System.out.println("single_word"+single_word);
+            System.out.println("top_picture"+top_picture);
+            System.out.println("user_id"+user_id);
             ub.setSearch_id(search_id);
             ub.setName(nickname);
             ub.setSingle_word(single_word);
