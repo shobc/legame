@@ -18,15 +18,14 @@ public class AcquisitionImage{
     private ResultSet rs = null;
     private FileOutputStream output = null;
 
-    public String getImagePath(ResultSet rs) {
+    public String getImagePath(String user_id,String search_id,Blob blob) {
         String pathImage = null;
         try {
-            File file = new File(PathHolder.pathName+"image/"+rs.getString(1)+rs.getString(5)+".jpg");
-            pathImage = "image/"+rs.getString(1)+rs.getString(5)+".jpg";
+            File file = new File(PathHolder.pathName+"image/"+user_id+search_id+".jpg");
+            pathImage = "image/"+user_id+search_id+".jpg";
 
             output = new FileOutputStream(file);
 
-            Blob blob = rs.getBlob(4);
             BufferedInputStream binput = new BufferedInputStream(blob.getBinaryStream());
 
             byte[] buff = new byte[4*1024];

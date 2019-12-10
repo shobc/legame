@@ -23,7 +23,7 @@ public class FriendAddServlet extends HttpServlet{
 
         FriendAddDB friendadddb = new FriendAddDB();
         friendadddb.friendAdd(user_id,friend_id);
-        RequestDispatcher dis = req.getRequestDispatcher("/friendSearch");
-        dis.forward(req,res);
+        res.sendRedirect("NewFriendListServlet");
+
     }
 }

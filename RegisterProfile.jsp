@@ -4,7 +4,6 @@
 <html>
 <head>
     <title>プロフィール設定</title>
-
     <script type="text/javascript" language="javascript">
         function OnFileSelect( inputElement )
         {

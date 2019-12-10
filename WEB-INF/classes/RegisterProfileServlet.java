@@ -49,7 +49,7 @@ public class RegisterProfileServlet extends HttpServlet{
             System.out.println("ƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ");
         }
         ProfileSearchDB psd = new ProfileSearchDB();
-        UserBean ub = psd.searchProfile(Integer.parseInt(user_id));
+        UserBean ub = psd.searchProfile(user_id);
         HttpSession session = req.getSession();
         session.setAttribute("ub",ub);
         RequestDispatcher dis = req.getRequestDispatcher("registeredProfilePage");

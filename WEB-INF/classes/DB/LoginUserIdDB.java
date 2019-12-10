@@ -5,19 +5,22 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import DB.selectSentence.LoginUserIdSelect;
+import DB.selectSentence.SelectPutTogether;
 
 public class LoginUserIdDB{
-    public static int loginUserId(String mail,String pass){
-        int user_id = 0;
+    public static String loginUserId(String mail,String pass){
+        String user_id = null;
         try{
             Connection cn = OracleConnector.getConnection("learn","learn");
             System.out.println("ê⁄ë±äÆóπ");
-            LoginUserIdSelect loginuseridselect = new LoginUserIdSelect(cn,mail,pass);
-            ResultSet rs = loginuseridselect.getRs();
+
+            String sql = "select user_id from user_table where mail= '" +mail+ "' and password = '" +pass+"'";
+
+            SelectPutTogether spt = new SelectPutTogether(cn,sql);
+            ResultSet rs = spt.getRs();
 
             rs.next();
-            user_id = Integer.parseInt(rs.getString(1));
+            user_id = rs.getString(1);
 
         }catch(SQLException e){
             e.printStackTrace();

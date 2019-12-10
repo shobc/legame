@@ -17,13 +17,13 @@ public class FriendSearchServlet extends HttpServlet{
         UserBean ub =(UserBean)session.getAttribute("ub");
         if(id.equals(ub.getSearch_id())){
             System.out.println("if•¶‚Ì’†‚É“ü‚è‚Ü‚µ‚½");
-            res.sendRedirect("friendSearch");
+            res.sendRedirect("NewFriendListServlet");
         }else{
             FriendSearchDB friendsearchdb = new FriendSearchDB();
             System.out.println("ŒŸõ‚Åæ“¾‚µ‚½’l="+id);
-            ub = friendsearchdb.searchFriendId(id);
+            ub = friendsearchdb.searchFriendId(ub.getUser_id(),id);
             req.setAttribute("ub",ub);
-            RequestDispatcher dis = req.getRequestDispatcher("/friendSearch");
+            RequestDispatcher dis = req.getRequestDispatcher("/NewFriendListServlet");
             dis.forward(req,res);
         }
     }

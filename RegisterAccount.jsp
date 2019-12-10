@@ -7,11 +7,10 @@
 </head>
 <body>
 <h1>登録</h1>
-<form action="RegisterAccountServlet" method="post">
-  メールアドレス：<input type="email" name="mail"><br>
-  <p>${requestScope.error}</p>
-  パスワード：<input type="password" name="pass"><br>
-  パスワード：<input type="password" name="pass1"><br>
+<form action="InputAccountServlet" method="post">
+  メールアドレス：<input type="email" name="mail" required><br>
+  パスワード：<input type="password" name="pass" required><br>
+  パスワード：<input type="password" name="pass1" required><br>
 <input type="submit" value="登録"><br>
 </form>
 </body>

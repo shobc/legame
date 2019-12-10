@@ -10,16 +10,16 @@
 <c:if test="${requestScope.target==null}" var="target"/>
 <h1>ログイン</h1>
 <c:if test="${target}">
-<form action="/legame/profile" method="post">
+<form action="/legame/ProfilePageServlet" method="post">
 </c:if>
 <c:if test="${!target}">
 <form action="/legame${requestScope.target}" method="post">
 </c:if>
-<%--<form action="/legame${requestScope.target}" method="post">--%>
-メールアドレス：<input type="email" name="mail"><br>
-  パスワード：<input type="password" name="pass"><br><br>
+メールアドレス：<input type="email" name="mail" required><br>
+  パスワード：<input type="password" name="pass" required><br><br>
   <input type="submit" value="ログイン">
 </form>
-<a href="registerAccount">会員登録</a>
+  <a href="mail">パスワードを忘れた方へ</a>
+  <a href="registerAccount">会員登録</a>
 </body>
 </html>

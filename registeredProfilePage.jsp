@@ -7,6 +7,6 @@
 </head>
 <body>
 <h1>登録完了</h1>
-<a href="profile">プロフィールに飛ぶ</a>
+<a href="loginPage">ログイン画面へ</a>
 </body>
 </html>

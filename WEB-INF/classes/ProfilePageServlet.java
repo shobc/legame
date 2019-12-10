@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.RequestDispatcher;
@@ -6,19 +7,31 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
-import DB.ProfileSearchDB;
-import DB.LoginUserIdDB;
-import Bean.UserBean;
 
+import bean.UserBean;
+import DB.FriendSearchListDB;
+import DB.NewFriendSearchDB;
 
+//profile画面に必要なサーブレット
 public class ProfilePageServlet extends HttpServlet{
-    public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
+    public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         HttpSession session = req.getSession();
-        ProfileSearchDB psd = new ProfileSearchDB();
-        UserBean ub = psd.searchProfile(Integer.parseInt((String)session.getAttribute("user_id")));
-        session.setAttribute("token","OK");
-        session.setAttribute("ub",ub);
+        UserBean ub = (UserBean)session.getAttribute("ub");
+        String user_id = ub.getUser_id();
+        //友達リストを取得するためのクラス
+        FriendSearchListDB friendsearchlistdb = new FriendSearchListDB();
+        ArrayList friendList = friendsearchlistdb.searchFriendProfile(user_id);
+        //新しい友達がいるかを数で取得
+        NewFriendSearchDB newfriendsearchdb = new NewFriendSearchDB();
+        String noticeCount = newfriendsearchdb.searchNewFriend(user_id);
+        //値をセットする
+        req.setAttribute("friendList",friendList);
+        req.setAttribute("noticeCount",noticeCount);
+        //URLを指定する
         RequestDispatcher dis = req.getRequestDispatcher("profile");
         dis.forward(req,res);
+    }
+    public void doGet (HttpServletRequest req, HttpServletResponse res)throws IOException, ServletException {
+        this.doPost(req,res);
     }
 }

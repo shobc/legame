@@ -16,6 +16,6 @@ public class DSession extends HttpServlet{
         session.invalidate();
         System.out.println("sessionを切りました");
         //sessionを切ったあとに行くページ
-        res.sendRedirect("login");
+        res.sendRedirect("loginPage");
     }
 }

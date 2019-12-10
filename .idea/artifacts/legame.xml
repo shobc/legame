@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="legame">
+    <output-path>$PROJECT_DIR$/out/artifacts/legame</output-path>
+    <root id="archive" name="legame.jar" />
+  </artifact>
+</component>
