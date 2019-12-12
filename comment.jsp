@@ -6,6 +6,7 @@
     <title>タイムライン</title>
 </head>
 <body>
+<h1>選択されたタイムライン</h1>
 <table border="1">
 <tr><th>名前&写真</th><th>時間</th><th>コメント</th></tr>
     <tr>
@@ -14,6 +15,7 @@
         <td>${tlb.timeline_sentence}</td>
     </tr>
 </table>
+<h1>コメント一覧</h1>
 <table border="1">
     <tr><th>名前&写真</th><th>時間</th><th>コメント</th></tr>
     <c:forEach var="ca" items="${commentArray}">

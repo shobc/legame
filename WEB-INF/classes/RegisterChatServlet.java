@@ -7,11 +7,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import DB.ChatAddDB;
-import DB.FriendSearchListDB;
-import DB.ChatSearchDB;
-import DB.ChatIdDB;
-import Bean.UserBean;
+
+import dao.OracleConnectionManager;
+import dao.AbstractDaoFactory;
+import dao.ChatDao;
+
+import bean.UserBean;
+import bean.ChatBean;
 
 public class RegisterChatServlet extends HttpServlet{
     public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
@@ -19,11 +21,19 @@ public class RegisterChatServlet extends HttpServlet{
         HttpSession session = req.getSession();
         UserBean ub= (UserBean)session.getAttribute("ub");
         String user_id = ub.getUser_id();
-        if(ChatSearchDB.getBooleanJudge(user_id,friend_id)){
-            ChatAddDB chatadddb = new ChatAddDB();
-            chatadddb.ChatAdd(user_id,friend_id);
+        ChatBean cb = new ChatBean();
+        cb.setUser_id(user_id);
+        cb.setFriend_id(friend_id);
+        OracleConnectionManager.getInstance().beginTransaction();
+        AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
+        ChatDao dao = factory.getOraChatDao();
+
+        if(dao.getJudge(cb)){
+            dao.addChat(cb);
         }
-        String chat_id = ChatIdDB.getChatId(user_id,friend_id);
+        String chat_id = dao.getChatId(cb);
+        OracleConnectionManager.getInstance().commit();
+        OracleConnectionManager.getInstance().closeConnection();
         res.sendRedirect("TalkPageServlet?chat_id="+chat_id);
     }
 }

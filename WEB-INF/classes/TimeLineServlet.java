@@ -8,9 +8,11 @@ import javax.servlet.ServletException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpSession;
 
-import DB.TimeLineSearchDB;
-import Bean.UserBean;
-
+import bean.UserBean;
+import bean.TimeLineBean;
+import dao.OracleConnectionManager;
+import dao.AbstractDaoFactory;
+import dao.TimeLineDao;
 
 public class TimeLineServlet extends HttpServlet{
     public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
@@ -18,8 +20,15 @@ public class TimeLineServlet extends HttpServlet{
         HttpSession session = req.getSession();
         UserBean ub = (UserBean)session.getAttribute("ub");
         String user_id = ub.getUser_id();
-        TimeLineSearchDB timelinesearchdb = new TimeLineSearchDB();
-        ArrayList timelineArray = timelinesearchdb.searchTimeLime(user_id);
+
+        OracleConnectionManager.getInstance().beginTransaction();
+        AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
+        TimeLineDao dao = factory.getOraTimeLineDao();
+        ArrayList timelineArray = dao.getTimeLines(user_id);
+
+        OracleConnectionManager.getInstance().commit();
+        OracleConnectionManager.getInstance().closeConnection();
+
         req.setAttribute("timelineArray",timelineArray);
         RequestDispatcher dis = req.getRequestDispatcher("timeline");
         dis.forward(req,res);

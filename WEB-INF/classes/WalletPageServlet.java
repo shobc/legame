@@ -27,7 +27,7 @@ public class WalletPageServlet extends HttpServlet{
 
         OracleConnectionManager.getInstance().beginTransaction();
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
-        PropertyDao dao = factory.getPropertyDao();
+        PropertyDao dao = factory.getOraPropertyDao();
 
         List propertylist =dao.getAllProperty(user_id);
 

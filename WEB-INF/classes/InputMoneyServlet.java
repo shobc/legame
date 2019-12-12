@@ -23,13 +23,15 @@ public class InputMoneyServlet extends HttpServlet{
         PropertyBean pb = new PropertyBean();
         int pay = Integer.parseInt(req.getParameter("pay"));
         HttpSession session = req.getSession();
+        System.out.println(session.getId());
         UserBean ub = (UserBean)session.getAttribute("ub");
         String user_id = ub.getUser_id();
         pb.setUser_id(user_id);
         pb.setMoney(pay);
+
         OracleConnectionManager.getInstance().beginTransaction();
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
-        PropertyDao dao = factory.getPropertyDao();
+        PropertyDao dao = factory.getOraPropertyDao();
         dao.addPropery(pb);
         OracleConnectionManager.getInstance().commit();
         OracleConnectionManager.getInstance().closeConnection();

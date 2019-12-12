@@ -32,7 +32,7 @@ public class SettlementServlet extends HttpServlet{
         pb.setRandomString(randomString);
         OracleConnectionManager.getInstance().beginTransaction();
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
-        PropertyDao dao = factory.getPropertyDao();
+        PropertyDao dao = factory.getOraPropertyDao();
         dao.employMoney(pb);
         OracleConnectionManager.getInstance().commit();
         OracleConnectionManager.getInstance().closeConnection();

@@ -29,5 +29,11 @@ public abstract class AbstractDaoFactory{
         }
         return factory;
     }
-    public abstract PropertyDao getPropertyDao();
+    public abstract PropertyDao getOraPropertyDao();
+    public abstract UserDao getOraUserDao();
+    public abstract ProfileDao getOraProfileDao();
+    public abstract TimeLineDao getOraTimeLineDao();
+    public abstract CommentDao getOraCommentDao();
+    public abstract ChatDao getOraChatDao();
+
 }

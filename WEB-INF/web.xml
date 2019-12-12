@@ -14,7 +14,6 @@
         <filter-name>authFilter</filter-name>
         <filter-class>filter.AuthFilter</filter-class>
     </filter>
-
     <filter-mapping>
         <filter-name>authFilter</filter-name>
         <url-pattern>/ProfilePageServlet</url-pattern>
@@ -30,7 +29,6 @@
         <servlet-name>loginservlet</servlet-name>
         <url-pattern>/loginservlet</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>WalletPageServlet</servlet-name>
         <servlet-class>WalletPageServlet</servlet-class>
@@ -43,7 +41,6 @@
         <servlet-name>CommentAddServlet</servlet-name>
         <servlet-class>CommentAddServlet</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>CommentAddServlet</servlet-name>
         <url-pattern>/CommentAddServlet</url-pattern>
@@ -132,7 +129,6 @@
         <servlet-name>DeleteFriendServlet</servlet-name>
         <url-pattern>/DeleteFriendServlet</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>BlockUserListServlet</servlet-name>
         <servlet-class>BlockUserListServlet</servlet-class>
@@ -387,6 +383,7 @@
         <servlet-name>wallet</servlet-name>
         <jsp-file>/wallet.jsp</jsp-file>
     </servlet>
+
     <servlet-mapping>
         <servlet-name>wallet</servlet-name>
         <url-pattern>/wallet</url-pattern>
@@ -428,6 +425,7 @@
         <jsp-file>/timeline.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
+
         <servlet-name>timeline</servlet-name>
         <url-pattern>/timeline</url-pattern>
     </servlet-mapping>
@@ -447,6 +445,4 @@
         <servlet-name>comment</servlet-name>
         <url-pattern>/comment</url-pattern>
     </servlet-mapping>
-
-
 </web-app>

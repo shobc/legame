@@ -8,8 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
 
-import DB.CommentAddDB;
-import Bean.UserBean;
+import dao.OracleConnectionManager;
+import dao.AbstractDaoFactory;
+import dao.CommentDao;
+import bean.UserBean;
+import bean.CommentBean;
 
 public class CommentAddServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
@@ -19,8 +22,17 @@ public class CommentAddServlet extends HttpServlet{
         HttpSession session = req.getSession();
         UserBean ub = (UserBean)session.getAttribute("ub");
         String user_id = ub.getUser_id();
-        CommentAddDB commentadddb = new CommentAddDB();
-        commentadddb.commentAdd(user_id,timeline_id,comment);
+        CommentBean cb = new CommentBean();
+        cb.setUser_id(user_id);
+        cb.setComment_sentence(comment);
+        cb.setTimeline_id(timeline_id);
+        OracleConnectionManager.getInstance().beginTransaction();
+        AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
+        CommentDao dao = factory.getOraCommentDao();
+        dao.addComment(cb);
+        OracleConnectionManager.getInstance().commit();
+        OracleConnectionManager.getInstance().closeConnection();
+
         res.sendRedirect("CommentSearchServlet?timeline_id="+timeline_id);
     }
 }

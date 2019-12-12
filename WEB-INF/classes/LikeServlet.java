@@ -6,9 +6,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
-import Bean.UserBean;
-import DB.TimeLineLikeChangeDB;
 
+import bean.UserBean;
+import bean.TimeLineBean;
+import dao.OracleConnectionManager;
+import dao.AbstractDaoFactory;
+import dao.TimeLineDao;
 
 public class LikeServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
@@ -18,16 +21,19 @@ public class LikeServlet extends HttpServlet{
         String id = req.getParameter("timeline_id");
         String likeJudge = req.getParameter("likeJudge");
         String user_id = ub.getUser_id();
-        System.out.println("id="+id);
-        System.out.println("likeJudge="+likeJudge);
-        System.out.println("user_id="+user_id);
+        TimeLineBean tlb = new TimeLineBean();
+        tlb.setUser_id(user_id);
+        tlb.setTimeline_id(id);
+        OracleConnectionManager.getInstance().beginTransaction();
+        AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
+        TimeLineDao dao = factory.getOraTimeLineDao();
         if(likeJudge.equals("0")){
-            TimeLineLikeChangeDB lcb = new TimeLineLikeChangeDB(id,user_id);
-            lcb.insertLikeRecord();
+            dao.addTimeLineLike(tlb);
         }else{
-            TimeLineLikeChangeDB lcb = new TimeLineLikeChangeDB(id,user_id);
-            lcb.deleteLikeRecord();
+            dao.deleteTimeLineLike(tlb);
         }
+        OracleConnectionManager.getInstance().commit();
+        OracleConnectionManager.getInstance().closeConnection();
     }
     public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         this.doPost(req,res);

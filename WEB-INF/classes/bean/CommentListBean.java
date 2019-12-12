@@ -1,4 +1,4 @@
-package n;
+package bean;
 
 import java.io.Serializable;
 

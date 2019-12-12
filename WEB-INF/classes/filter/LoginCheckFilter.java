@@ -13,8 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpSession;
 
-import DB.ProfileSearchDB;
-import DB.LoginUserIdDB;
+import dao.OracleConnectionManager;
+import dao.AbstractDaoFactory;
+import dao.ProfileDao;
 import bean.UserBean;
 
 public class LoginCheckFilter  extends HttpServlet implements Filter{
@@ -25,10 +26,23 @@ public class LoginCheckFilter  extends HttpServlet implements Filter{
         String pass = req.getParameter("pass");
         HttpSession session = ((HttpServletRequest)req).getSession();
         if(mail!=null&&pass!=null){
-            ProfileSearchDB psd = new ProfileSearchDB();
-            UserBean ub = psd.searchProfile(LoginUserIdDB.loginUserId(mail,pass));
-            session.setAttribute("token","OK");
-            session.setAttribute("ub",ub);
+            OracleConnectionManager.getInstance().beginTransaction();
+            AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
+            ProfileDao dao = factory.getOraProfileDao();
+
+            UserBean ub = dao.getProfile(mail,pass);
+
+            OracleConnectionManager.getInstance().commit();
+            OracleConnectionManager.getInstance().closeConnection();
+
+            System.out.println("ub="+ub);
+            System.out.println("ub.getUser_id()"+ub.getUser_id());
+            if(ub.getUser_id()!=null){
+                session.setAttribute("token","OK");
+                session.setAttribute("ub",ub);
+                session.setAttribute("user_id",ub.getUser_id());
+                System.out.println(session.getId());
+            }
         }
         chain.doFilter(req,res);
     }

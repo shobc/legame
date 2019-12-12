@@ -7,8 +7,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpSession;
-import Bean.UserBean;
-import DB.TimeLineCreateDB;
+
+import bean.UserBean;
+import bean.TimeLineBean;
+import dao.OracleConnectionManager;
+import dao.AbstractDaoFactory;
+import dao.TimeLineDao;
+
+//import DB.TimeLineCreateDB;
 
 public class CreateTimeLineServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
@@ -17,8 +23,15 @@ public class CreateTimeLineServlet extends HttpServlet{
         HttpSession session = req.getSession();
         UserBean ub = (UserBean)session.getAttribute("ub");
         String user_id = ub.getUser_id();
-        TimeLineCreateDB timelinecreatedb = new TimeLineCreateDB();
-        timelinecreatedb.createTimeline(user_id,timeline_sentence);
+        TimeLineBean tlb = new TimeLineBean();
+        tlb.setUser_id(user_id);
+        tlb.setTimeline_sentence(timeline_sentence);
+        OracleConnectionManager.getInstance().beginTransaction();
+        AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
+        TimeLineDao dao = factory.getOraTimeLineDao();
+        dao.addTimeline(tlb);
+        OracleConnectionManager.getInstance().commit();
+        OracleConnectionManager.getInstance().closeConnection();
 
         res.sendRedirect("TimeLineServlet");
     }

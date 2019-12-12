@@ -18,6 +18,7 @@ public class ProfilePageServlet extends HttpServlet{
         HttpSession session = req.getSession();
         UserBean ub = (UserBean)session.getAttribute("ub");
         String user_id = ub.getUser_id();
+        System.out.println("user_id="+user_id);
         //友達リストを取得するためのクラス
         FriendSearchListDB friendsearchlistdb = new FriendSearchListDB();
         ArrayList friendList = friendsearchlistdb.searchFriendProfile(user_id);

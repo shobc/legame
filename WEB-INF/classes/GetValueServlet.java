@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import Bean.LoginUserBean;
+import bean.LoginUserBean;
 
 
 public class GetValueServlet extends HttpServlet{
@@ -17,7 +17,7 @@ public class GetValueServlet extends HttpServlet{
         ServletContext sc = getServletContext();
         LoginUserBean lub = (LoginUserBean)sc.getAttribute(RandomCode);
         if(RandomCode.equals(lub.getRandomCode())){
-            req.setAttribute("judge","OK");
+            //ä‘à·Ç¡ÇƒÇΩÇÁó·äOÇèoÇ∑
         }
         RequestDispatcher dis = req.getRequestDispatcher("chang");
         dis.forward(req,res);

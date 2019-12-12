@@ -33,6 +33,7 @@ public class OracleConnectionManager{
         try{
             if(cn !=null){
                 cn.close();
+                cn =null;
             }
         }catch(SQLException e){
             System.out.println(e.getMessage());
@@ -52,7 +53,6 @@ public class OracleConnectionManager{
     public void commit(){
         try{
             cn.commit();
-            cn =null;
         }catch (SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();

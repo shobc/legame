@@ -7,9 +7,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import DB.RegisterAcountDB;
-import DB.LoginUserIdDB;
-import Bean.LoginUserBean;
+
+import bean.LoginUserBean;
+import dao.OracleConnectionManager;
+import dao.UserDao;
+import dao.AbstractDaoFactory;
 
 public class AuthAccountServlet extends HttpServlet{
     public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
@@ -18,15 +20,30 @@ public class AuthAccountServlet extends HttpServlet{
         ServletContext sc = getServletContext();
         LoginUserBean lb = (LoginUserBean)sc.getAttribute(RandomCode);
         if(RandomCode.equals(lb.getRandomCode())){
-            RegisterAcountDB.registerAcount(lb.getMail(),lb.getPass());
-            String user_id = LoginUserIdDB.loginUserId(lb.getMail(),lb.getPass());
-            HttpSession session = req.getSession();
-            session.setAttribute("user_id",user_id);
-            sc.removeAttribute(RandomCode);
-        }else{
 
+            OracleConnectionManager.getInstance().beginTransaction();
+
+            AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
+
+            UserDao dao = factory.getOraUserDao();
+
+            dao.RegisterUser(lb);
+
+            OracleConnectionManager.getInstance().commit();
+//            OracleConnectionManager.getInstance().closeConnection();
+
+            OracleConnectionManager.getInstance().beginTransaction();
+
+            String user_id = dao.getUserId(lb);
+            System.out.println("user_id="+user_id);
+            OracleConnectionManager.getInstance().closeConnection();
+
+            req.setAttribute("user_id",user_id);
+            sc.removeAttribute(RandomCode);
+            RequestDispatcher dis = req.getRequestDispatcher("registerProfile");
+            dis.forward(req,res);
+        }else{
+            //—áŠO‚ð“ü‚ê‚é
         }
-        RequestDispatcher dis = req.getRequestDispatcher("registerProfile");
-        dis.forward(req,res);
     }
 }

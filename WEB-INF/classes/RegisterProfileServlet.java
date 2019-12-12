@@ -10,11 +10,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import javax.servlet.annotation.MultipartConfig;
+
 import function.ProfileImageName;
-import DB.RegisterProfileDB;
-import DB.ProfileSearchDB;
+
+
+import dao.OracleConnectionManager;
+import dao.AbstractDaoFactory;
+import dao.ProfileDao;
+
 import function.PathHolder;
-import Bean.UserBean;
+import bean.UserBean;
 
 @MultipartConfig(maxFileSize=1048571121)
 public class RegisterProfileServlet extends HttpServlet{
@@ -30,28 +35,41 @@ public class RegisterProfileServlet extends HttpServlet{
         String file_name = ProfileImageName.getProfileImageName(part);
         String pathPic = null;
         if(file_name.equals("")){
-            pathPic = realPath+ "pic/noimage.png";
+            pathPic = realPath+ "pic/noimage.jpg";
             file_name = "noimage.png";
         }else{
             part.write(realPath+ "pic/" + file_name);
             pathPic = realPath+ "pic/" + file_name;
         }
-        RegisterProfileDB registerProfiledb = new RegisterProfileDB();
-        registerProfiledb.RegisterProfile(user_id,name,id,comment,pathPic);
+        UserBean ub = new UserBean();
+        ub.setUser_id(user_id);
+        ub.setSearch_id(id);
+        ub.setSingle_word(comment);
+        ub.setName(name);
+        ub.setTop_picture(pathPic);
+
+        OracleConnectionManager.getInstance().beginTransaction();
+        AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
+        ProfileDao dao = factory.getOraProfileDao();
+
+        dao.addProfile(ub);
+
+        OracleConnectionManager.getInstance().commit();
+        OracleConnectionManager.getInstance().closeConnection();
         File file = new File(pathPic);
-        if (file.exists()){
-            if (file.delete()){
-                System.out.println("ファイルを削除しました");
+
+        if(!pathPic.equals(realPath+"pic/noimage.jpg")){
+            if (file.exists()){
+                if (file.delete()){
+                    System.out.println("ファイルを削除しました");
+                }else{
+                    System.out.println("ファイルの削除に失敗しました");
+                }
             }else{
-                System.out.println("ファイルの削除に失敗しました");
+                System.out.println("ファイルが見つかりません");
             }
-        }else{
-            System.out.println("ファイルが見つかりません");
         }
-        ProfileSearchDB psd = new ProfileSearchDB();
-        UserBean ub = psd.searchProfile(user_id);
-        HttpSession session = req.getSession();
-        session.setAttribute("ub",ub);
+
         RequestDispatcher dis = req.getRequestDispatcher("registeredProfilePage");
         dis.forward(req,res);
     }

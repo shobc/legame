@@ -20,11 +20,10 @@
     </script>
 </head>
 <body>
-<p>${requestScope.user_id}</p>
 <h1>プロフィール設定</h1>
 ※必須
 <form action="RegisterProfileServlet" enctype="multipart/form-data" method="post">
-    <input type="hidden" name="user_id" value="${sessionScope.user_id}">
+    <input type="hidden" name="user_id" value="${user_id}">
 ※名前:<input type="text" name="name"><br>
 ※ID:<input type="text" name="id"><br>
 コメント:<input type="text" name="comment"><br>

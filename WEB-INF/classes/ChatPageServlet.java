@@ -8,17 +8,27 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
 
-import DB.ProfileSearchDB;
-import DB.ChatSearchListDB;
-import Bean.UserBean;
+import dao.OracleConnectionManager;
+import dao.AbstractDaoFactory;
+import dao.ChatDao;
+
+import bean.UserBean;
 
 public class ChatPageServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         HttpSession session = req.getSession();
         UserBean ub = (UserBean)session.getAttribute("ub");
         String user_id = ub.getUser_id();
-        ChatSearchListDB chatsearchlistdb = new ChatSearchListDB();
-        ArrayList chatList = chatsearchlistdb.searchChat(user_id);
+
+        OracleConnectionManager.getInstance().beginTransaction();
+        AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
+        ChatDao dao = factory.getOraChatDao();
+
+        ArrayList chatList =dao.getChat(user_id);
+
+        OracleConnectionManager.getInstance().commit();
+        OracleConnectionManager.getInstance().closeConnection();
+
         req.setAttribute("chatList",chatList);
 
         RequestDispatcher dis = req.getRequestDispatcher("chatList");
