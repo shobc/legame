@@ -121,6 +121,7 @@
         <servlet-name>GetValueServlet</servlet-name>
         <url-pattern>/GetValueServlet</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>DeleteFriendServlet</servlet-name>
         <servlet-class>DeleteFriendServlet</servlet-class>

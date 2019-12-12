@@ -35,5 +35,5 @@ public abstract class AbstractDaoFactory{
     public abstract TimeLineDao getOraTimeLineDao();
     public abstract CommentDao getOraCommentDao();
     public abstract ChatDao getOraChatDao();
-
+    public abstract TalkDao getOraTalkDao();
 }

@@ -13,4 +13,5 @@ public class OraDaoFactory extends AbstractDaoFactory{
     public TimeLineDao getOraTimeLineDao(){return new OraTimeLineDao();}
     public CommentDao getOraCommentDao(){return new OraCommentDao();}
     public ChatDao getOraChatDao(){return new OraChatDao();}
+    public TalkDao getOraTalkDao(){return new OraTalkDao();}
 }

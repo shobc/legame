@@ -3,6 +3,7 @@ package bean;
 import java.io.Serializable;
 public class TalkBean implements Serializable{
     private String user_id;
+    private String chat_id;
     private String name;
     private String content;
     private String image;
@@ -15,6 +16,14 @@ public class TalkBean implements Serializable{
 
     public void setUser_id(String user_id) {
         this.user_id = user_id;
+    }
+
+    public void setChat_id(String chat_id) {
+        this.chat_id = chat_id;
+    }
+
+    public String getChat_id() {
+        return chat_id;
     }
 
     public void setName(String name) {

@@ -8,36 +8,36 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
 
-import DB.RegisterTalkDB;
-import DB.TalkSearchListDB;
-import Bean.UserBean;
+import dao.OracleConnectionManager;
+import dao.AbstractDaoFactory;
+import dao.TalkDao;
+import bean.UserBean;
+import bean.TalkBean;
 
 public class RegisterTalkServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         req.setCharacterEncoding("windows-31j");
         String chat_id = req.getParameter("chat_id");
-        System.out.println(chat_id);
         String content = req.getParameter("content");
-        System.out.println(content);
 //        Part part = req.getPart("contentPicture");
         HttpSession session = req.getSession();
         UserBean ub = (UserBean)session.getAttribute("ub");
-        System.out.println("1");
-        RegisterTalkDB registertalkdb = new RegisterTalkDB();
-        System.out.println("2");
-        registertalkdb.RegisterTalk(chat_id,ub.getUser_id(),content);
+        TalkBean tb = new TalkBean();
+        tb.setChat_id(chat_id);
+        tb.setUser_id(ub.getUser_id());
+        tb.setContent(content);
+        OracleConnectionManager.getInstance().beginTransaction();
+        AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
+        TalkDao dao = factory.getOraTalkDao();
 
-        TalkSearchListDB talksearchlistdb = new TalkSearchListDB();
-        ArrayList talkList = talksearchlistdb.searchTalkList(chat_id);
-        req.setAttribute("talkList",talkList);
-        req.setAttribute("chat_id",chat_id);
+        dao.addTalk(tb);
 
+        OracleConnectionManager.getInstance().commit();
+        OracleConnectionManager.getInstance().closeConnection();
 
-
-        RequestDispatcher dis = req.getRequestDispatcher("talkScreen");
-        dis.forward(req,res);
+        res.sendRedirect("TalkPageServlet?chat_id="+chat_id);
     }
-//    public void doGet (HttpServletRequest req, HttpServletResponse res)throws IOException, ServletException {
-//        this.doPost(req,res);
-//    }
+    public void doGet (HttpServletRequest req, HttpServletResponse res)throws IOException, ServletException {
+        this.doPost(req,res);
+    }
 }
