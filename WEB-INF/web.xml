@@ -105,6 +105,7 @@
         <servlet-name>PassChangServlet</servlet-name>
         <url-pattern>/PassChangServlet</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>CommentSearchServlet</servlet-name>
         <servlet-class>CommentSearchServlet</servlet-class>
@@ -121,7 +122,6 @@
         <servlet-name>GetValueServlet</servlet-name>
         <url-pattern>/GetValueServlet</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>DeleteFriendServlet</servlet-name>
         <servlet-class>DeleteFriendServlet</servlet-class>

@@ -136,4 +136,27 @@ public class OraPropertyDao implements PropertyDao{
         }
         return propertyList;
     }
+    public void updateQRCode(String user_id,String randomString){
+        PreparedStatement st = null;
+        Connection cn = null;
+        try{
+            cn = OracleConnectionManager.getInstance().getConnection();
+            String sql="update user_information_table set qrcode= ? where user_id = ?";
+            st = cn.prepareStatement(sql);
+            st.setString(1,randomString);
+            st.setString(2,user_id);
+            st.executeUpdate();
+        }catch(SQLException e){
+            OracleConnectionManager.getInstance().rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
 }

@@ -17,12 +17,12 @@
         <tr>
             <td>picture</td><td>search_id</td><td>name</td><td>single_word</td>
         </tr>
-        <tr><c:if test="${not empty requestScope.ub}">
-            <td><img src="${requestScope.ub.top_picture}" height="20%" width="10%" style="border: solid;"></td>
-            <td>${requestScope.ub.search_id}</td>
-            <td>${requestScope.ub.name}</td>
-            <td>${requestScope.ub.single_word}</td>
-            <td><a href="FriendAddServlet?friend_id=${requestScope.ub.user_id}">’Ç‰Á</a></td>
+        <tr><c:if test="${not empty requestScope.fb}">
+            <td><img src="${requestScope.fb.top_picture}" height="20%" width="10%" style="border: solid;"></td>
+            <td>${requestScope.fb.search_id}</td>
+            <td>${requestScope.fb.name}</td>
+            <td>${requestScope.fb.single_word}</td>
+            <td><a href="FriendAddServlet?friend_id=${requestScope.fb.user_id}">’Ç‰Á</a></td>
         </c:if>
         </tr>
     </table>

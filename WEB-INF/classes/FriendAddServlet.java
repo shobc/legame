@@ -6,8 +6,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
-import Bean.UserBean;
-import DB.FriendAddDB;
+
+import dao.OracleConnectionManager;
+import dao.AbstractDaoFactory;
+import dao.FriendDao;
+import bean.UserBean;
+import bean.FriendBean;
 
 public class FriendAddServlet extends HttpServlet{
     public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
@@ -15,14 +19,19 @@ public class FriendAddServlet extends HttpServlet{
         String friend_id = req.getParameter("friend_id");
         HttpSession session = req.getSession();
         UserBean ub =(UserBean)session.getAttribute("ub");
-        System.out.println("servlet‚Å‚ÌUserBean="+ub);
-        System.out.println("getSearch_id="+ub.getSearch_id());
-        System.out.println("getUser_id="+ub.getUser_id());
         String user_id = ub.getUser_id();
-        System.out.println("Bean‚©‚çŽæ“¾‚µ‚½user_id"+user_id);
+        FriendBean fb = new FriendBean();
+        fb.setUser_id(user_id);
+        fb.setFriend_id(friend_id);
+        OracleConnectionManager.getInstance().beginTransaction();
+        AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
+        FriendDao dao = factory.getOraFriendDao();
 
-        FriendAddDB friendadddb = new FriendAddDB();
-        friendadddb.friendAdd(user_id,friend_id);
+        dao.addFriend(fb);
+
+        OracleConnectionManager.getInstance().commit();
+        OracleConnectionManager.getInstance().closeConnection();
+
         res.sendRedirect("NewFriendListServlet");
 
     }

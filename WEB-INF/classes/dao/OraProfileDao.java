@@ -1,6 +1,5 @@
 package dao;
 
-import dao.function.AcquisitionImage;
 import bean.UserBean;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -11,14 +10,18 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileInputStream;
 
+//写真ファイルをBlobから作成するためのクラス
+import dao.function.AcquisitionImage;
 
+//ログインユーザーの情報を扱うためのDaoクラス
 public class OraProfileDao implements ProfileDao{
 
+    //ログイン時にユーザーのメールとパスでプロフィールを取得する
     public UserBean getProfile(String mail,String pass){
         PreparedStatement st = null;
         ResultSet rs = null;
-        UserBean ub = new UserBean();
         Connection cn = null;
+        UserBean ub = new UserBean();
         try{
             cn = OracleConnectionManager.getInstance().getConnection();
             String sql = "select user_id,search_id,nickname,single_word,top_picture" +
@@ -57,6 +60,7 @@ public class OraProfileDao implements ProfileDao{
         }
         return ub;
     }
+    //新規登録してくるユーザーのプロフィールを追加する
     public void addProfile(UserBean ub){
         PreparedStatement st = null;
         FileInputStream fip = null;
@@ -92,6 +96,7 @@ public class OraProfileDao implements ProfileDao{
             }
         }
     }
+    //ログインユーザーのプロフィールを取得する
     public UserBean getProfile(UserBean ub){
         PreparedStatement st = null;
         ResultSet rs = null;

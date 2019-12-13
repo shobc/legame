@@ -6,11 +6,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Blob;
 
+//写真ファイルをBlobから作成するためのクラス
 import dao.function.AcquisitionImage;
 import java.util.ArrayList;
 import bean.CommentBean;
 
 public class OraCommentDao implements CommentDao{
+    //タイムラインのコメントを追加する
     public void addComment(CommentBean cb){
         PreparedStatement st = null;
         Connection cn = null;
@@ -37,6 +39,7 @@ public class OraCommentDao implements CommentDao{
             }
         }
     }
+    //タイムラインのコメント一覧を表示する
     public ArrayList getComment(String timeline_id){
         PreparedStatement st = null;
         ResultSet rs = null;

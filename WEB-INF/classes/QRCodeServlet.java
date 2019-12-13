@@ -9,7 +9,10 @@ import javax.servlet.http.HttpSession;
 
 import function.CreateQRCode;
 import function.PathHolder;
-import DB.UpdateQRCodeDB;
+
+import dao.OracleConnectionManager;
+import dao.AbstractDaoFactory;
+import dao.PropertyDao;
 import bean.UserBean;
 
 public class QRCodeServlet extends HttpServlet{
@@ -17,8 +20,18 @@ public class QRCodeServlet extends HttpServlet{
         HttpSession session = req.getSession();
         PathHolder.pathName = getServletContext().getRealPath("/");
         UserBean ub = (UserBean)session.getAttribute("ub");
-        CreateQRCode value = CreateQRCode.getQRCode(ub.getUser_id());
-        UpdateQRCodeDB.updateQRCode(ub.getUser_id(),value.randomString);
+        String user_id = ub.getUser_id();
+        CreateQRCode value = CreateQRCode.getQRCode(user_id);
+
+        OracleConnectionManager.getInstance().beginTransaction();
+        AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
+        PropertyDao dao = factory.getOraPropertyDao();
+
+        dao.updateQRCode(user_id,value.randomString);
+
+        OracleConnectionManager.getInstance().commit();
+        OracleConnectionManager.getInstance().closeConnection();
+
         req.setAttribute("picURI",ub.getUser_id()+value.filePathImage);
         RequestDispatcher dis = req.getRequestDispatcher("qrcode");
         dis.forward(req,res);

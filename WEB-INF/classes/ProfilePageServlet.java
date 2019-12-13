@@ -8,9 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
 
+import dao.OracleConnectionManager;
+import dao.AbstractDaoFactory;
+import dao.FriendDao;
 import bean.UserBean;
-import DB.FriendSearchListDB;
-import DB.NewFriendSearchDB;
+import bean.FriendBean;
 
 //profile画面に必要なサーブレット
 public class ProfilePageServlet extends HttpServlet{
@@ -19,13 +21,18 @@ public class ProfilePageServlet extends HttpServlet{
         UserBean ub = (UserBean)session.getAttribute("ub");
         String user_id = ub.getUser_id();
         System.out.println("user_id="+user_id);
-        //友達リストを取得するためのクラス
-        FriendSearchListDB friendsearchlistdb = new FriendSearchListDB();
-        ArrayList friendList = friendsearchlistdb.searchFriendProfile(user_id);
-        //新しい友達がいるかを数で取得
-        NewFriendSearchDB newfriendsearchdb = new NewFriendSearchDB();
-        String noticeCount = newfriendsearchdb.searchNewFriend(user_id);
-        //値をセットする
+
+        OracleConnectionManager.getInstance().beginTransaction();
+        AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
+        FriendDao dao = factory.getOraFriendDao();
+
+        ArrayList friendList =dao.getFriend(user_id);
+
+        String noticeCount = dao.getNewFriendCount(user_id);
+
+        OracleConnectionManager.getInstance().commit();
+        OracleConnectionManager.getInstance().closeConnection();
+
         req.setAttribute("friendList",friendList);
         req.setAttribute("noticeCount",noticeCount);
         //URLを指定する

@@ -6,12 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Blob;
 
-
+//写真ファイルをBlobから作成するためのクラス
 import dao.function.AcquisitionImage;
 import bean.ChatBean;
 import java.util.ArrayList;
 
+//チャットのデータを取り扱うためのDaoクラス
 public class OraChatDao implements ChatDao{
+    //チャットを追加する
     public void addChat(ChatBean cb){
         PreparedStatement st = null;
         Connection cn = null;
@@ -37,6 +39,7 @@ public class OraChatDao implements ChatDao{
             }
         }
     }
+    //チャットが作られているか判定する
     public boolean getJudge(ChatBean cb){
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -56,6 +59,7 @@ public class OraChatDao implements ChatDao{
             rs = st.executeQuery();
             rs.next();
             String j = rs.getString(1);
+            //０だった場合チャットルームを作成する
             if(j.equals("0")){
                 judge = true;
             }
@@ -75,6 +79,7 @@ public class OraChatDao implements ChatDao{
         }
         return judge;
     }
+    //チャットのIdを取得する
     public String getChatId(ChatBean cb){
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -110,6 +115,7 @@ public class OraChatDao implements ChatDao{
         }
         return chat_id;
     }
+    //チャット一覧を取得する
     public ArrayList getChat(String user_id){
         PreparedStatement st = null;
         ResultSet rs = null;

@@ -8,8 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import DB.ReleaseFriendDB;
-import Bean.UserBean;
+import dao.OracleConnectionManager;
+import dao.AbstractDaoFactory;
+import dao.FriendDao;
+import bean.UserBean;
+import bean.FriendBean;
 
 public class ReleaseFriendServlet extends HttpServlet{
     public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
@@ -17,8 +20,18 @@ public class ReleaseFriendServlet extends HttpServlet{
         String friend_id = req.getParameter("friend_id");
         UserBean ub = (UserBean) session.getAttribute("ub");
         String user_id = ub.getUser_id();
-        ReleaseFriendDB releasefrienddb = new ReleaseFriendDB();
-        releasefrienddb.friendRelease(user_id,friend_id);
+        FriendBean fb = new FriendBean();
+        fb.setUser_id(user_id);
+        fb.setFriend_id(friend_id);
+        OracleConnectionManager.getInstance().beginTransaction();
+        AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
+        FriendDao dao = factory.getOraFriendDao();
+
+        dao.releaseBlockFriend(fb);
+
+        OracleConnectionManager.getInstance().commit();
+        OracleConnectionManager.getInstance().closeConnection();
+
         res.sendRedirect("BlockUserListServlet");
     }
 }
