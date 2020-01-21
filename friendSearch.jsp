@@ -6,7 +6,7 @@
     <title></title>
 </head>
 <body>
-<a href="profilePage">プロフィールに戻る</a>
+<a href="HomePageServlet">プロフィールに戻る</a>
     <h1>検索</h1>
     <p><a href="BlockUserListServlet">ブロックリスト</a></p>
     <form action="FriendSearchServlet" method="post">
@@ -18,7 +18,7 @@
             <td>picture</td><td>search_id</td><td>name</td><td>single_word</td>
         </tr>
         <tr><c:if test="${not empty requestScope.fb}">
-            <td><img src="${requestScope.fb.top_picture}" height="20%" width="10%" style="border: solid;"></td>
+            <td><img src="data:image;base64,${requestScope.fb.top_picture}" height="20%" width="10%" style="border: solid;"></td>
             <td>${requestScope.fb.search_id}</td>
             <td>${requestScope.fb.name}</td>
             <td>${requestScope.fb.single_word}</td>
@@ -32,7 +32,7 @@
             <td>picture</td><td>search_id</td><td>name</td><td>single_word</td>
         </tr>
         <c:forEach var="nfl" items="${newFrinedList}">
-            <tr><td><img src="${nfl.top_picture}" height="20%" width="10%" style="border: solid;"></td>
+            <tr><td><img src="data:image;base64,${nfl.top_picture}" height="20%" width="10%" style="border: solid;"></td>
             <td>${nfl.search_id}</td>
             <td>${nfl.name}</td>
             <td>${nfl.single_word}</td>

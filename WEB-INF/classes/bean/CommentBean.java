@@ -3,12 +3,22 @@ package bean;
 import java.io.Serializable;
 
 public class CommentBean implements Serializable{
+    private String comment_id;
     private String user_id;
     private String name;
     private String timeline_id;
     private String top_picture;
     private String comment_sentence;
     private String comment_time;
+    private String comment_like_id;
+
+    public String getComment_id() {
+        return comment_id;
+    }
+
+    public void setComment_id(String comment_id) {
+        this.comment_id = comment_id;
+    }
 
     public void setTimeline_id(String timeline_id) {
         this.timeline_id = timeline_id;
@@ -56,5 +66,13 @@ public class CommentBean implements Serializable{
 
     public void setComment_time(String comment_time) {
         this.comment_time = comment_time;
+    }
+
+    public String getComment_like_id() {
+        return comment_like_id;
+    }
+
+    public void setComment_like_id(String comment_like_id) {
+        this.comment_like_id = comment_like_id;
     }
 }

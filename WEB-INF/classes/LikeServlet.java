@@ -13,6 +13,7 @@ import dao.OracleConnectionManager;
 import dao.AbstractDaoFactory;
 import dao.TimeLineDao;
 
+
 public class LikeServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         req.setCharacterEncoding("windows-31j");

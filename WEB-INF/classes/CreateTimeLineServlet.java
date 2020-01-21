@@ -7,20 +7,30 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+import javax.servlet.annotation.MultipartConfig;
 
 import bean.UserBean;
 import bean.TimeLineBean;
 import dao.OracleConnectionManager;
 import dao.AbstractDaoFactory;
 import dao.TimeLineDao;
+import function.ImageName;
+import function.RandomString;
+//import function.FilePath;
 
 //import DB.TimeLineCreateDB;
 
+@MultipartConfig(maxFileSize=1048571121)
 public class CreateTimeLineServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         req.setCharacterEncoding("Windows-31J");
+        String realPath =  getServletContext().getRealPath("/WEB-INF/image");
         String timeline_sentence = req.getParameter("timeline_sentence");
+
+//        Part part = req.getPart("timelineImage");
         HttpSession session = req.getSession();
+//        System.out.println(FilePath.getPath(req));
         UserBean ub = (UserBean)session.getAttribute("ub");
         String user_id = ub.getUser_id();
         TimeLineBean tlb = new TimeLineBean();
@@ -29,7 +39,19 @@ public class CreateTimeLineServlet extends HttpServlet{
         OracleConnectionManager.getInstance().beginTransaction();
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         TimeLineDao dao = factory.getOraTimeLineDao();
-        dao.addTimeline(tlb);
+        String id = dao.addTimeline(tlb);
+        for (Part part : req.getParts()) {
+            String file_name = ImageName.getImageName(part);
+            System.out.println("file_name="+file_name);
+            if (file_name != null) {
+                int index = file_name.indexOf(".");
+                String extension = file_name.substring(index);
+                String imagePath = realPath + "/"+ RandomString.getString() + extension;
+                System.out.println("imagePath="+imagePath);
+                part.write(imagePath);
+                dao.addTimelinePicture(id,imagePath);
+            }
+        }
         OracleConnectionManager.getInstance().commit();
         OracleConnectionManager.getInstance().closeConnection();
 

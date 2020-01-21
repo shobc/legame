@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import bean.TimeLineBean;
 import bean.CommentBean;
+import bean.UserBean;
 import dao.OracleConnectionManager;
 import dao.AbstractDaoFactory;
 import dao.TimeLineDao;
@@ -19,12 +20,21 @@ public class CommentSearchServlet extends HttpServlet{
     public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         req.setCharacterEncoding("windows-31j");
         String timeline_id = req.getParameter("timeline_id");
+        HttpSession session = req.getSession();
+        UserBean ub = (UserBean)session.getAttribute("ub");
+        String user_id = ub.getUser_id();
+        TimeLineBean tlb = new TimeLineBean();
+        tlb.setUser_id(user_id);
+        tlb.setTimeline_id(timeline_id);
+        CommentBean cb = new CommentBean();
+        cb.setTimeline_id(timeline_id);
+        cb.setUser_id(user_id);
         OracleConnectionManager.getInstance().beginTransaction();
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         TimeLineDao timelineDao = factory.getOraTimeLineDao();
         CommentDao commentDao = factory.getOraCommentDao();
-        TimeLineBean tlb =  timelineDao.getTimeLine(timeline_id);
-        ArrayList commentList = commentDao.getComment(timeline_id);
+        tlb =  timelineDao.getTimeLine(tlb);
+        ArrayList commentList = commentDao.getComment(cb);
         OracleConnectionManager.getInstance().commit();
         OracleConnectionManager.getInstance().closeConnection();
 

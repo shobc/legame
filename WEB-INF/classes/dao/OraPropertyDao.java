@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import bean.PropertyBean;
 import bean.BalanceBean;
 
-//お金関連のクラス
+//お金関連用のDaoクラス
 public class OraPropertyDao implements PropertyDao{
-    //お金をチャージする
+//お金をチャージする
     public void addPropery(PropertyBean p){
         PreparedStatement st = null;
         try{
@@ -39,7 +39,7 @@ public class OraPropertyDao implements PropertyDao{
             }
         }
     }
-    //お金を使う
+//お金を使う
     public void employMoney(PropertyBean p){
         PreparedStatement st = null;
         try{
@@ -71,7 +71,7 @@ public class OraPropertyDao implements PropertyDao{
         }
     }
 
-    //合計残高と合計ポイントを取得する
+//合計残高と合計ポイントを取得する
     public BalanceBean getBalanceProperty(String id){
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -102,7 +102,7 @@ public class OraPropertyDao implements PropertyDao{
         }
         return bb;
     }
-    //ユーザーのIDにあたる履歴を取得する
+//ユーザーのIDにあたる履歴を取得する
     public List getAllProperty(String id){
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -136,6 +136,7 @@ public class OraPropertyDao implements PropertyDao{
         }
         return propertyList;
     }
+//QRの文字列を書き換える
     public void updateQRCode(String user_id,String randomString){
         PreparedStatement st = null;
         Connection cn = null;

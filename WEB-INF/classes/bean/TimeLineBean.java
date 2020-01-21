@@ -1,6 +1,7 @@
 package bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class TimeLineBean implements Serializable{
     private String user_id;
@@ -9,6 +10,7 @@ public class TimeLineBean implements Serializable{
     private String timeline_id;
     private String timeline_sentence;
     private String timeline_time;
+    private ArrayList timeline_picutre = new ArrayList();
     private String timeline_like_id;
 
     public void setName(String name) {
@@ -65,5 +67,17 @@ public class TimeLineBean implements Serializable{
 
     public void setTimeline_like_id(String timeline_like_id) {
         this.timeline_like_id = timeline_like_id;
+    }
+
+    public ArrayList getTimeline_picutre() {
+        return timeline_picutre;
+    }
+
+    public void setTimeline_picutre(ArrayList timeline_picutre) {
+        this.timeline_picutre = timeline_picutre;
+    }
+
+    public void add(TimeLinePictureBean tlpb){
+        timeline_picutre.add(tlpb);
     }
 }

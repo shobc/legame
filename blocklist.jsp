@@ -12,7 +12,7 @@
         <td>picture</td><td>search_id</td><td>name</td>
     </tr>
     <c:forEach var="bl" items="${blocklist}">
-        <tr><td><img src="${bl.top_picture}" height="20%" width="10%" style="border: solid;"></td>
+        <tr><td><img src="data:image;base64,${bl.top_picture}" height="20%" width="10%" style="border: solid;"></td>
             <td>${bl.name}</td>
             <td><a href="ReleaseFriendServlet?friend_id=${bl.user_id}">‰ğœ</a></td>
             <td><a href="DeleteFriendServlet?friend_id=${bl.user_id}">íœ</a></td></tr>

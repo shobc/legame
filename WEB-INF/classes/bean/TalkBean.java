@@ -1,15 +1,47 @@
 package bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
 public class TalkBean implements Serializable{
     private String user_id;
     private String chat_id;
+    private String talk_id;
     private String name;
     private String content;
     private String image;
+    private ArrayList talk_picture = new ArrayList();
     private String mess_time;
+    private String read_flag;
     private String top_picture;
 
+    public String getTalk_id() {
+        return talk_id;
+    }
+
+    public void setTalk_id(String talk_id) {
+        this.talk_id = talk_id;
+    }
+
+    public String getRead_flag() {
+        return read_flag;
+    }
+
+    public void setRead_flag(String read_flag) {
+        this.read_flag = read_flag;
+    }
+
+    public void add(TalkPictureBean tpb){
+        talk_picture.add(tpb);
+    }
+
+    public ArrayList getTalk_picture() {
+        return talk_picture;
+    }
+
+    public void setTalk_picture(ArrayList talk_picture) {
+        this.talk_picture = talk_picture;
+    }
     public String getUser_id() {
         return user_id;
     }

@@ -20,7 +20,6 @@ import dao.PropertyDao;
 public class WalletPageServlet extends HttpServlet{
     public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         req.setCharacterEncoding("windows-31j");
-
         HttpSession session = req.getSession();
         UserBean ub = (UserBean)session.getAttribute("ub");
         String user_id = ub.getUser_id();

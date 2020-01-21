@@ -93,4 +93,62 @@ public class OraUserDao implements UserDao{
             }
         }
     }
+    public boolean searchPassWord(String old_pass,String user_id){
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Connection cn = null;
+        boolean judge = false;
+        try{
+            cn = OracleConnectionManager.getInstance().getConnection();
+            String sql = "select count(*) from user_table where user_id = ? and PASSWORD = ? ";
+            st = cn.prepareStatement(sql);
+            st.setString(1,user_id);
+            st.setString(2,old_pass);
+            rs = st.executeQuery();
+            rs.next();
+
+            if(rs.getString(1).equals("0")){
+                judge = true;
+            }
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            OracleConnectionManager.getInstance().rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return judge;
+    }
+    public void UpdateUserPassWord(String new_pass,String user_id){
+        PreparedStatement st = null;
+        Connection cn = null;
+        try{
+            cn = OracleConnectionManager.getInstance().getConnection();
+            String sql = "update user_table set PASSWORD = ? where user_id = ?";
+            st = cn.prepareStatement(sql);
+            st.setString(1,new_pass);
+            st.setString(2,user_id);
+            int count = st.executeUpdate();
+            System.out.println(count+"åèèàóùÇµÇ‹ÇµÇΩ");
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            OracleConnectionManager.getInstance().rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
 }

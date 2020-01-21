@@ -27,25 +27,35 @@
             }).always(function (result) {
             });
         }
+        function profilePage(action,id){
+            $('<form/>',{action:action, method:"post"})
+                .append("<input type='hidden' name='id' value='"+id+"'>")
+                .appendTo($('body'))
+                .submit();
+        }
     </script>
     <title>タイムライン</title>
 </head>
 <body>
+<a href="HomePageServlet">home</a>
 <p><a href="createtimeline">投稿する</a></p>
     <table border="1">
-        <tr><th>名前&写真</th><th>時間</th><th>投稿内容</th><th>コメントする</th><th>いいね</th></tr>
-        <c:forEach var="tla" items="${timelineArray}">
+        <tr><th>名前&写真</th><th>時間</th><th>投稿内容</th><th>コメントする</th><th>写真</th><th>いいね</th></tr>
+        <c:forEach var="tll" items="${timelineList}">
             <tr>
-                <td><a href="${tla.user_id}">${tla.name}<img src="${tla.top_picture}"></a></td>
-                <td>${tla.timeline_time}</td>
-                <td>${tla.timeline_sentence}</td>
-                <td><a href="CommentSearchServlet?timeline_id=${tla.timeline_id}">comment</a></td>
+                <td><a onclick="profilePage('ProfilePageServlet',${tll.user_id});return false;" href="#">${tll.name}<img src="${tll.top_picture}"></a></td>
+                <td>${tll.timeline_time}</td>
+                <td>${tll.timeline_sentence}</td>
+                <td><a href="CommentSearchServlet?timeline_id=${tll.timeline_id}">comment</a></td>
+                <c:forEach var="tt" items="${tll.timeline_picutre}">
+                    <td><img src="data:image;base64,${tt.base64Image}" width="240" height="300"/></td>
+                </c:forEach>
                 <c:choose>
-                    <c:when test = "${empty tla.timeline_like_id}">
-                        <td><button id="${tla.timeline_id}" onclick="ajaxLike(${tla.timeline_id})">0</button></td>
+                    <c:when test = "${empty tll.timeline_like_id}">
+                        <td><button id="${tll.timeline_id}" onclick="ajaxLike(${tll.timeline_id})">0</button></td>
                     </c:when>
                     <c:otherwise>
-                        <td><button id="${tla.timeline_id}" onclick="ajaxLike(${tla.timeline_id})">1</button></td>
+                        <td><button id="${tll.timeline_id}" onclick="ajaxLike(${tll.timeline_id})">1</button></td>
                     </c:otherwise>
                 </c:choose>
             </tr>

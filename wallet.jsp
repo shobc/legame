@@ -7,6 +7,7 @@
     <title>wallet page</title>
 </head>
 <body>
+<a href="HomePageServlet">プロフィールに戻る</a>
 <form method="post" action="InputMoneyServlet">
     金額を入力<input type="number" name="pay" min="100" step="10"><br>
     <input type="submit" value="確定">
@@ -58,7 +59,8 @@
 
 </style>
 <center>
-<display:table name="${sessionScope.propertylist}" export="true" pagesize="10" >
+<%--<display:table name="${sessionScope.propertylist}" export="true" pagesize="10" >--%>
+<display:table name="${sessionScope.propertylist}" pagesize="10" >
     <display:column property="money" title="お金" />
     <display:column property="point" title="ポイント"  />
     <display:column property="history" title="履歴"  />

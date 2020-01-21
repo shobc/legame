@@ -5,8 +5,8 @@
     </filter>
     <filter-mapping>
         <filter-name>loginCheckFilter</filter-name>
-        <url-pattern>/profile</url-pattern>
-        <url-pattern>/ProfilePageServlet</url-pattern>
+        <url-pattern>/home</url-pattern>
+        <url-pattern>/HomePageServlet</url-pattern>
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
@@ -16,8 +16,8 @@
     </filter>
     <filter-mapping>
         <filter-name>authFilter</filter-name>
-        <url-pattern>/ProfilePageServlet</url-pattern>
-        <url-pattern>/profile</url-pattern>
+        <url-pattern>/HomePageServlet</url-pattern>
+        <url-pattern>/home</url-pattern>
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
@@ -33,6 +33,7 @@
         <servlet-name>WalletPageServlet</servlet-name>
         <servlet-class>WalletPageServlet</servlet-class>
     </servlet>
+
     <servlet-mapping>
         <servlet-name>WalletPageServlet</servlet-name>
         <url-pattern>/WalletPageServlet</url-pattern>
@@ -54,6 +55,16 @@
         <servlet-name>PayServlet</servlet-name>
         <url-pattern>/PayServlet</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CommentLikeServlet</servlet-name>
+        <servlet-class>CommentLikeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CommentLikeServlet</servlet-name>
+        <url-pattern>/CommentLikeServlet</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>LikeServlet</servlet-name>
         <servlet-class>LikeServlet</servlet-class>
@@ -191,7 +202,6 @@
         <servlet-name>RegisterChatServlet</servlet-name>
         <url-pattern>/RegisterChatServlet</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>ChatPageServlet</servlet-name>
         <servlet-class>ChatPageServlet</servlet-class>
@@ -227,14 +237,13 @@
         <url-pattern>/FriendAddServlet</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>ProfilePageServlet</servlet-name>
-        <servlet-class>ProfilePageServlet</servlet-class>
+        <servlet-name>HomePageServlet</servlet-name>
+        <servlet-class>HomePageServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ProfilePageServlet</servlet-name>
-        <url-pattern>/ProfilePageServlet</url-pattern>
+        <servlet-name>HomePageServlet</servlet-name>
+        <url-pattern>/HomePageServlet</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>InputAccountServlet</servlet-name>
         <servlet-class>InputAccountServlet</servlet-class>
@@ -243,7 +252,50 @@
         <servlet-name>InputAccountServlet</servlet-name>
         <url-pattern>/InputAccountServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ProfilePageServlet</servlet-name>
+        <servlet-class>ProfilePageServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProfilePageServlet</servlet-name>
+        <url-pattern>/ProfilePageServlet</url-pattern>
+    </servlet-mapping>
 
+
+    <servlet>
+        <servlet-name>ChangeSingleWordServlet</servlet-name>
+        <servlet-class>ChangeSingleWordServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ChangeSingleWordServlet</servlet-name>
+        <url-pattern>/ChangeSingleWordServlet</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>ChangeSearchIdServlet</servlet-name>
+        <servlet-class>ChangeSearchIdServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ChangeSearchIdServlet</servlet-name>
+        <url-pattern>/ChangeSearchIdServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ChangeNameServlet</servlet-name>
+        <servlet-class>ChangeNameServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ChangeNameServlet</servlet-name>
+        <url-pattern>/ChangeNameServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>PassWordChangeServlet</servlet-name>
+        <servlet-class>PassWordChangeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PassWordChangeServlet</servlet-name>
+        <url-pattern>/PassWordChangeServlet</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>CreateTimeLineServlet</servlet-name>
         <servlet-class>CreateTimeLineServlet</servlet-class>
@@ -313,12 +365,12 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>profile</servlet-name>
-        <jsp-file>/profile.jsp</jsp-file>
+        <servlet-name>home</servlet-name>
+        <jsp-file>/home.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
-        <servlet-name>profile</servlet-name>
-        <url-pattern>/profile</url-pattern>
+        <servlet-name>home</servlet-name>
+        <url-pattern>/home</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>registerProfile</servlet-name>
@@ -405,6 +457,7 @@
         <servlet-name>settlement</servlet-name>
         <url-pattern>/settlement</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>clear</servlet-name>
         <jsp-file>/clear.jsp</jsp-file>
@@ -446,4 +499,63 @@
         <servlet-name>comment</servlet-name>
         <url-pattern>/comment</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>profilesetting</servlet-name>
+        <jsp-file>/profilesetting.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>profilesetting</servlet-name>
+        <url-pattern>/profilesetting</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>changename</servlet-name>
+        <jsp-file>/changename.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>changename</servlet-name>
+        <url-pattern>/changename</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>changesearchid</servlet-name>
+        <jsp-file>/changesearchid.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>changesearchid</servlet-name>
+        <url-pattern>/changesearchid</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>changesingleword</servlet-name>
+        <jsp-file>/changesingleword.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>changesingleword</servlet-name>
+        <url-pattern>/changesingleword</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>profile</servlet-name>
+        <jsp-file>/profile.jsp</jsp-file>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>profile</servlet-name>
+        <url-pattern>/profile</url-pattern>
+    </servlet-mapping>
+
+
+
+
+    <servlet>
+        <servlet-name>changepassword</servlet-name>
+        <jsp-file>/changepassword.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>changepassword</servlet-name>
+        <url-pattern>/changepassword</url-pattern>
+    </servlet-mapping>
+
+
+
 </web-app>

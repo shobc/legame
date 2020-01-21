@@ -10,7 +10,7 @@
 <c:if test="${requestScope.target==null}" var="target"/>
 <h1>ƒƒOƒCƒ“</h1>
 <c:if test="${target}">
-<form action="/legame/ProfilePageServlet" method="post">
+<form action="/legame/HomePageServlet" method="post">
 </c:if>
 <c:if test="${!target}">
 <form action="/legame${requestScope.target}" method="post">

@@ -10,9 +10,9 @@
 <table>
     <tr><td>トーク</td><td>画像</td><td>名前</td></tr>
     <c:forEach var="cl" items="${chatList}">
-        <tr><td><a href="TalkPageServlet?chat_id=${cl.chat_id}">トーク</a></td><td style="width: 20%;height: 100%;"><img src="${cl.top_picture}" height="20%" width="80%" style="border: solid;"></td><td>${cl.name}</td></tr>
+        <tr><td><a href="TalkPageServlet?chat_id=${cl.chat_id}">トーク</a></td><td style="width: 20%;height: 100%;"><img src="data:image;base64,${cl.top_picture}" height="20%" width="80%" style="border: solid;"></td><td>${cl.name}</td></tr>
     </c:forEach>
 </table>
-<a href="profilePage">home</a>
+<a href="HomePageServlet">home</a>
 </body>
 </html>
