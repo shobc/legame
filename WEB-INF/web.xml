@@ -33,7 +33,6 @@
         <servlet-name>WalletPageServlet</servlet-name>
         <servlet-class>WalletPageServlet</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>WalletPageServlet</servlet-name>
         <url-pattern>/WalletPageServlet</url-pattern>
@@ -46,7 +45,6 @@
         <servlet-name>CommentAddServlet</servlet-name>
         <url-pattern>/CommentAddServlet</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>PayServlet</servlet-name>
         <servlet-class>PayServlet</servlet-class>
@@ -55,6 +53,15 @@
         <servlet-name>PayServlet</servlet-name>
         <url-pattern>/PayServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ChangeTopPictureServlet</servlet-name>
+        <servlet-class>ChangeTopPictureServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ChangeTopPictureServlet</servlet-name>
+        <url-pattern>/ChangeTopPictureServlet</url-pattern>
+    </servlet-mapping>
+
 
     <servlet>
         <servlet-name>CommentLikeServlet</servlet-name>
@@ -63,6 +70,15 @@
     <servlet-mapping>
         <servlet-name>CommentLikeServlet</servlet-name>
         <url-pattern>/CommentLikeServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeleteChatServlet</servlet-name>
+        <servlet-class>DeleteChatServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteChatServlet</servlet-name>
+        <url-pattern>/DeleteChatServlet</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -542,6 +558,15 @@
     <servlet-mapping>
         <servlet-name>profile</servlet-name>
         <url-pattern>/profile</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>changetoppicture</servlet-name>
+        <jsp-file>/changetoppicture.jsp</jsp-file>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>changetoppicture</servlet-name>
+        <url-pattern>/changetoppicture</url-pattern>
     </servlet-mapping>
 
 

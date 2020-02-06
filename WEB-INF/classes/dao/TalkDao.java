@@ -10,4 +10,5 @@ public interface TalkDao{
     String addTalk(TalkBean tb);
     void addTalkPicture(String talk_id,String imagePath);
     ArrayList getPicture(String chat_id);
+    boolean blockJudge(String chat_id);
 }

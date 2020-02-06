@@ -8,9 +8,9 @@
 <body>
 <h1>チャット一覧</h1>
 <table>
-    <tr><td>トーク</td><td>画像</td><td>名前</td></tr>
+    <tr><td>トーク</td><td>画像</td><td>名前</td><td>削除</td></tr>
     <c:forEach var="cl" items="${chatList}">
-        <tr><td><a href="TalkPageServlet?chat_id=${cl.chat_id}">トーク</a></td><td style="width: 20%;height: 100%;"><img src="data:image;base64,${cl.top_picture}" height="20%" width="80%" style="border: solid;"></td><td>${cl.name}</td></tr>
+        <tr><td><a href="TalkPageServlet?chat_id=${cl.chat_id}">トーク</a></td><td style="width: 20%;height: 100%;"><img src="data:image;base64,${cl.top_picture}" height="20%" width="80%" style="border: solid;"></td><td>${cl.name}</td><td><a href="DeleteChatServlet?chat_id=${cl.chat_id}">削除</a></td></tr>
     </c:forEach>
 </table>
 <a href="HomePageServlet">home</a>

@@ -20,4 +20,5 @@ public interface ProfileDao{
     void updateNameProfile(UserBean ub);
     //ユーザー検索IDを変更
     void updateSearchIdProfile(UserBean ub);
+    void UpdateUserTopPicture(UserBean ub);
 }

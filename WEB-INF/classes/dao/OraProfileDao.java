@@ -82,21 +82,16 @@ public class OraProfileDao implements ProfileDao{
     //新規登録してくるユーザーのプロフィールを追加する
     public void addProfile(UserBean ub){
         PreparedStatement st = null;
-        FileInputStream fip = null;
         Connection cn = null;
         try {
             cn = OracleConnectionManager.getInstance().getConnection();
             FileInputStream fis = new FileInputStream(ub.getTop_picture());
-//            File file = new File(ub.getTop_picture());
-//            System.out.println(file);
-//            fip = new FileInputStream(file);
             st = cn.prepareStatement("insert into user_information_table(user_id,search_id,nickname,single_word,top_picture) values(?,?,?,?,?)");
             st.setString(1,ub.getUser_id());
             st.setString(2,ub.getSearch_id());
             st.setString(3,ub.getName());
             st.setString(4,ub.getSingle_word());
             st.setBinaryStream(5,fis);
-//            st.setBinaryStream(5, fip,(int)file.length());
             int count = st.executeUpdate();
             System.out.println(count+"件処理しました");
         }catch(FileNotFoundException e){
@@ -136,8 +131,6 @@ public class OraProfileDao implements ProfileDao{
             String nickname = rs.getString(3);
             String single_word = rs.getString(4);
             Blob blob = rs.getBlob(5);
-//            AcquisitionImage acquisitionImage = new AcquisitionImage();
-//            String top_picture = acquisitionImage.getImagePath(user_id,search_id,blob);
             InputStream inputStream = blob.getBinaryStream();
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             byte[] buffer = new byte[4096];
@@ -272,6 +265,36 @@ public class OraProfileDao implements ProfileDao{
             st.setString(2,ub.getUser_id());
             st.executeUpdate();
             st.close();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            OracleConnectionManager.getInstance().rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
+    public void UpdateUserTopPicture(UserBean ub){
+        PreparedStatement st = null;
+        Connection cn = null;
+        try {
+            FileInputStream fis = new FileInputStream(ub.getTop_picture());
+            cn = OracleConnectionManager.getInstance().getConnection();
+            st = cn.prepareStatement("update USER_INFORMATION_TABLE set Top_Picture = ? where user_id = ?");
+            st.setBinaryStream(1,fis);
+            st.setString(2,ub.getUser_id());
+            st.executeUpdate();
+            st.close();
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            OracleConnectionManager.getInstance().rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();

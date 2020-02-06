@@ -34,4 +34,7 @@ public class ProfilePageServlet extends HttpServlet{
         RequestDispatcher dis = req.getRequestDispatcher("profile");
         dis.forward(req,res);
     }
+    public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
+        this.doPost(req,res);
+    }
 }

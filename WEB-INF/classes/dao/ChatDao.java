@@ -14,4 +14,11 @@ public interface ChatDao{
     String getChatId(ChatBean cb);
     //ƒ`ƒƒƒbƒgˆê——‚ðŽæ“¾‚·‚é
     ArrayList getChat(String user_id);
+
+    void deleteChat(String chat_id);
+
+    boolean deleteJudge(ChatBean cb);
+
+    void updateDeleteFlag(ChatBean cb);
+
 }

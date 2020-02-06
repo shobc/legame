@@ -27,10 +27,16 @@ public class OraTalkDao implements TalkDao{
         Connection cn = null;
         try{
             cn = OracleConnectionManager.getInstance().getConnection();
-            String sql="update TALK_TABLE set ALREADY_READ_FLAG = 1 where CHAT_ID = ? and user_id != ?";
+            String sql="update TALK_TABLE set ALREADY_READ_FLAG = 1 " +
+                    "where TALK_ID IN(select TALK_ID from TALK_TABLE where block_flag = 0) " +
+                    "and CHAT1_ID = ? and CHAT_ID =" +
+                    " (select CHAT_TABLE.CHAT_ID from CHAT_TABLE where USER_CHAT_ID = " +
+                    "(select USER_CHAT1_ID from CHAT_TABLE where CHAT_TABLE.CHAT_ID = ?)and USER_CHAT1_ID = " +
+                    "(select USER_CHAT_ID from CHAT_TABLE where CHAT_TABLE.CHAT_ID = ?))";
             st = cn.prepareStatement(sql);
             st.setString(1,chat_id);
-            st.setString(2,user_id);
+            st.setString(2,chat_id);
+            st.setString(3,chat_id);
             int count = st.executeUpdate();
             System.out.println(count+"Œˆ—‚µ‚Ü‚µ‚½");
         }catch(SQLException e){
@@ -55,33 +61,35 @@ public class OraTalkDao implements TalkDao{
         ResultSet rs = null;
         Connection cn = null;
         try{
-
             cn = OracleConnectionManager.getInstance().getConnection();
-            String sql = "select t.chat_id,t.user_id,t.content,u.TOP_PICTURE,u.nickname,u.top_picture,t.mess_time,talk_id,ALREADY_READ_FLAG " +
-                    "from talk_table t left join user_information_table u on t.user_id = u.user_id " +
-                    "where t.chat_id = ? ";
+            String sql = "select t.TALK_ID,t.chat_id,u.USER_ID,t.content,u.TOP_PICTURE,u.nickname,t.mess_time,ALREADY_READ_FLAG,BLOCK_FLAG from TALK_TABLE t\n" +
+                    "left join USER_INFORMATION_TABLE u on  u.USER_ID = (select CHAT_TABLE.USER_CHAT_ID from CHAT_TABLE where chat_id = t.chat_id)\n" +
+                    "where TALK_ID NOT IN(select TALK_ID from TALK_TABLE where CHAT1_ID = ? and block_flag = 1)\n" +
+                    "and t.MESS_TIME >= (select CHAT_TABLE.DELETE_TIME from CHAT_TABLE where chat_id = (select max(chat_id) from CHAT_TABLE where USER_CHAT_ID = (select USER_CHAT_ID from CHAT_TABLE where chat_id = ?)\n" +
+                    "and USER_CHAT1_ID = (select USER_CHAT1_ID from CHAT_TABLE where chat_id = ?))) and (t.CHAT_ID = ? or t.CHAT1_ID = ?)";
 
             st = cn.prepareStatement(sql);
             st.setString(1,chat_id);
+            st.setString(2,chat_id);
+            st.setString(3,chat_id);
+            st.setString(4,chat_id);
+            st.setString(5,chat_id);
             rs = st.executeQuery();
             while(rs.next()){
                 TalkBean tb = new TalkBean();
-                chat_id = rs.getString(1);
-                tb.setUser_id(rs.getString(2));
-                tb.setContent(rs.getString(3));
-                Blob blob = rs.getBlob(4);
-                tb.setName(rs.getString(5));
-                Blob blobTop_Picture = rs.getBlob(6);
+                tb.setTalk_id(rs.getString(1));
+                tb.setChat_id(rs.getString(2));
+                tb.setUser_id(rs.getString(3));
+                tb.setContent(rs.getString(4));
+                Blob blob = rs.getBlob(5);
+                tb.setName(rs.getString(6));
                 tb.setMess_time(rs.getString(7));
-                tb.setTalk_id(rs.getString(8));
-                if(rs.getInt(9)==1){
+                if(rs.getInt(8)==1){
                     tb.setRead_flag("Šù“Ç");
                 }
                 AcquisitionImage acquisitionImage = new AcquisitionImage();
                 String contentPicture = acquisitionImage.getImagePath(rs.getString(2),chat_id+1,blob);
-                String top_picture = acquisitionImage.getImagePath(rs.getString(2),chat_id,blobTop_Picture);
                 tb.setImage(contentPicture);
-                tb.setTop_picture(top_picture);
 
                 talkList.add(tb);
             }
@@ -145,19 +153,22 @@ public class OraTalkDao implements TalkDao{
         String id = null;
         try{
             cn = OracleConnectionManager.getInstance().getConnection();
-            String sql = "begin\n"
-                    +"insert into talk_table(talk_id,chat_id,user_id,content)"
-                    +" values(talk_sequesnce.nextval,?,?,?)"
-                    + "returning talk_id into ?;\n"
-                    + "end;";
+                    String sql = "begin\n" +
+                    "INSERT INTO TALK_TABLE (talk_id,chat_id,chat1_id,content,block_flag)\n" +
+                            "values(talk_sequesnce.nextval,?,(SELECT CHAT_ID FROM CHAT_TABLE\n" +
+                            "where CHAT_ID = (select CHAT_ID from CHAT_TABLE where USER_CHAT_ID = (select USER_CHAT1_ID from CHAT_TABLE where chat_id = ?) and USER_CHAT1_ID = (select USER_CHAT_ID from CHAT_TABLE where chat_id = ?))),?,?)\n" +
+                            "returning talk_id into ?;\n" +
+                    "end;";
             stat = cn.prepareCall(sql);
             stat.setString(1,tb.getChat_id());
-            stat.setString(2,tb.getUser_id());
-            stat.setString(3,tb.getContent());
-            stat.registerOutParameter(4, Types.INTEGER);
+            stat.setString(2,tb.getChat_id());
+            stat.setString(3,tb.getChat_id());
+            stat.setString(4,tb.getContent());
+            stat.setString(5,tb.getBlock_flag());
+            stat.registerOutParameter(6, Types.INTEGER);
             stat.execute();
 
-            id = stat.getString(4);
+            id = stat.getString(6);
             System.out.println(id);
         }catch(SQLException e){
             System.out.println(e.getMessage());
@@ -262,5 +273,40 @@ public class OraTalkDao implements TalkDao{
             }
         }
         return talkPictureList;
+    }
+    public boolean blockJudge(String chat_id){
+        boolean judge = false;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Connection cn = null;
+        try{
+            cn = OracleConnectionManager.getInstance().getConnection();
+            String sql = "select count(user_id) from friend_table where user_id = " +
+                    "(select CHAT_TABLE.USER_CHAT1_ID from CHAT_TABLE where chat_id = ?) " +
+                    "and friend_id = (select CHAT_TABLE.USER_CHAT_ID from CHAT_TABLE where chat_id = ?) and friend_flag = 1";
+            st = cn.prepareStatement(sql);
+            st.setString(1,chat_id);
+            st.setString(2,chat_id);
+            rs = st.executeQuery();
+            rs.next();
+            int count = rs.getInt(1);
+            if(count==1){
+                judge = true;
+            }
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            OracleConnectionManager.getInstance().rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return judge;
     }
 }

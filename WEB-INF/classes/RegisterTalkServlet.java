@@ -13,8 +13,10 @@ import javax.servlet.annotation.MultipartConfig;
 import dao.OracleConnectionManager;
 import dao.AbstractDaoFactory;
 import dao.TalkDao;
+import dao.ChatDao;
 import bean.UserBean;
 import bean.TalkBean;
+import bean.ChatBean;
 
 import function.ImageName;
 import function.RandomString;
@@ -25,6 +27,7 @@ public class RegisterTalkServlet extends HttpServlet{
         req.setCharacterEncoding("windows-31j");
         String realPath =  getServletContext().getRealPath("/WEB-INF/image");
         String chat_id = req.getParameter("chat_id");
+        System.out.println("chat_id"+chat_id);
         String content = req.getParameter("content");
         HttpSession session = req.getSession();
         UserBean ub = (UserBean)session.getAttribute("ub");
@@ -32,11 +35,25 @@ public class RegisterTalkServlet extends HttpServlet{
         tb.setChat_id(chat_id);
         tb.setUser_id(ub.getUser_id());
         tb.setContent(content);
+        ChatBean cb = new ChatBean();
+        cb.setChat_id(chat_id);
+        cb.setFriend_id(ub.getUser_id());
         OracleConnectionManager.getInstance().beginTransaction();
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         TalkDao dao = factory.getOraTalkDao();
-
+        ChatDao Cdao = factory.getOraChatDao();
+        if(Cdao.deleteJudge(cb)){
+            Cdao.updateDeleteFlag(cb);
+        }
+        String block_flag ="0";
+        System.out.println("dao.blockJudge(chat_id)"+dao.blockJudge(chat_id));
+        if(dao.blockJudge(chat_id)){
+            block_flag = "1";
+        }
+        tb.setBlock_flag(block_flag);
         String id = dao.addTalk(tb);
+
+        System.out.println("id="+id);
         for (Part part : req.getParts()){
             String file_name = ImageName.getImageName(part);
             System.out.println("file_name="+file_name);

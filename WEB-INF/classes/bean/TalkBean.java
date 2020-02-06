@@ -4,8 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class TalkBean implements Serializable{
-    private String user_id;
     private String chat_id;
+    private String chat1_id;
+    private String user_id;
     private String talk_id;
     private String name;
     private String content;
@@ -14,6 +15,15 @@ public class TalkBean implements Serializable{
     private String mess_time;
     private String read_flag;
     private String top_picture;
+    private String block_flag;
+
+    public String getChat1_id() {
+        return chat1_id;
+    }
+
+    public void setChat1_id(String chat1_id) {
+        this.chat1_id = chat1_id;
+    }
 
     public String getTalk_id() {
         return talk_id;
@@ -96,5 +106,13 @@ public class TalkBean implements Serializable{
 
     public String getTop_picture() {
         return top_picture;
+    }
+
+    public void setBlock_flag(String block_flag) {
+        this.block_flag = block_flag;
+    }
+
+    public String getBlock_flag() {
+        return block_flag;
     }
 }

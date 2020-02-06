@@ -30,6 +30,6 @@ public class BlockUserServlet extends HttpServlet{
 
         OracleConnectionManager.getInstance().commit();
         OracleConnectionManager.getInstance().closeConnection();
-        res.sendRedirect("ProfilePageServlet");
+        res.sendRedirect("HomePageServlet");
     }
 }
