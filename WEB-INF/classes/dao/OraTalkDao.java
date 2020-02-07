@@ -27,16 +27,18 @@ public class OraTalkDao implements TalkDao{
         Connection cn = null;
         try{
             cn = OracleConnectionManager.getInstance().getConnection();
-            String sql="update TALK_TABLE set ALREADY_READ_FLAG = 1 " +
-                    "where TALK_ID IN(select TALK_ID from TALK_TABLE where block_flag = 0) " +
-                    "and CHAT1_ID = ? and CHAT_ID =" +
-                    " (select CHAT_TABLE.CHAT_ID from CHAT_TABLE where USER_CHAT_ID = " +
-                    "(select USER_CHAT1_ID from CHAT_TABLE where CHAT_TABLE.CHAT_ID = ?)and USER_CHAT1_ID = " +
-                    "(select USER_CHAT_ID from CHAT_TABLE where CHAT_TABLE.CHAT_ID = ?))";
+            String sql="update TALK_TABLE set ALREADY_READ_FLAG = 1\n" +
+                    "where TALK_ID IN(select TALK_ID from TALK_TABLE where block_flag = 0)\n" +
+                    "and MESS_TIME>=(select CHAT_TABLE.DELETE_TIME from CHAT_TABLE where chat_id =?)\n" +
+                    "and CHAT1_ID = ? and CHAT_ID =\n" +
+                    "(select CHAT_TABLE.CHAT_ID from CHAT_TABLE where USER_CHAT_ID =\n" +
+                    "(select USER_CHAT1_ID from CHAT_TABLE where CHAT_TABLE.CHAT_ID = ?)\n" +
+                    "and USER_CHAT1_ID = (select USER_CHAT_ID from CHAT_TABLE where CHAT_TABLE.CHAT_ID = ?))";
             st = cn.prepareStatement(sql);
             st.setString(1,chat_id);
             st.setString(2,chat_id);
             st.setString(3,chat_id);
+            st.setString(4,chat_id);
             int count = st.executeUpdate();
             System.out.println(count+"åèèàóùÇµÇ‹ÇµÇΩ");
         }catch(SQLException e){

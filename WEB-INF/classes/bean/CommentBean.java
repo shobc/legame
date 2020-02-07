@@ -11,6 +11,8 @@ public class CommentBean implements Serializable{
     private String comment_sentence;
     private String comment_time;
     private String comment_like_id;
+    private String reply_user_id;
+    private String reply_user_name;
 
     public String getComment_id() {
         return comment_id;
@@ -74,5 +76,21 @@ public class CommentBean implements Serializable{
 
     public void setComment_like_id(String comment_like_id) {
         this.comment_like_id = comment_like_id;
+    }
+
+    public String getReply_user_id() {
+        return reply_user_id;
+    }
+
+    public void setReply_user_id(String reply_user_id) {
+        this.reply_user_id = reply_user_id;
+    }
+
+    public String getReply_user_name() {
+        return reply_user_name;
+    }
+
+    public void setReply_user_name(String reply_user_name) {
+        this.reply_user_name = reply_user_name;
     }
 }

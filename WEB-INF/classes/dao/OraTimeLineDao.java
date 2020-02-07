@@ -29,8 +29,6 @@ public class OraTimeLineDao implements TimeLineDao{
         String id = null;
         try{
             cn = OracleConnectionManager.getInstance().getConnection();
-//            String sql="insert into timeline_table(user_id,timeline_id,timeline_sentence)" +
-//                    " values(?,timeline_sequence.nextval,?)";
             String sql = "begin\n"
                     +"insert into timeline_table(user_id,timeline_id,timeline_sentence)"
                     + " values(?,timeline_sequence.nextval,?) "
@@ -44,12 +42,6 @@ public class OraTimeLineDao implements TimeLineDao{
 
             id = stat.getString(3);
             System.out.println(id);
-//            st = cn.prepareStatement(sql);
-//            st.setString(1,tb.getUser_id());
-//            System.out.println("tb.getUser_id()="+tb.getUser_id());
-//            st.setString(2,tb.getTimeline_sentence());
-//            System.out.println("tb.getTimeline_sentence()="+tb.getTimeline_sentence());
-//            st.executeUpdate();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -314,5 +306,102 @@ public class OraTimeLineDao implements TimeLineDao{
             }
         }
         return tlb;
+    }
+    public ArrayList getCommentNotice(String user_id){
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Connection cn = null;
+        ArrayList commentList = new ArrayList();
+        try{
+
+            cn = OracleConnectionManager.getInstance().getConnection();
+            String sql = "select c.timeline_id,(select USER_INFORMATION_TABLE.NICKNAME from USER_INFORMATION_TABLE where user_id = c.user_id),c.comment_time " +
+                         " from comment_table c where reply_user_id = ?";
+            st = cn.prepareStatement(sql);
+            st.setString(1,user_id);
+            rs = st.executeQuery();
+            while(rs.next()){
+                TimeLineBean tlb = new TimeLineBean();
+                String timeline_id = rs.getString(1);
+                String name = rs.getString(2);
+                String timeline_time = rs.getString(3);
+                tlb.setName(name);
+                tlb.setTimeline_id(timeline_id);
+                tlb.setTimeline_time(timeline_time);
+                commentList.add(tlb);
+            }
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            OracleConnectionManager.getInstance().rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return commentList;
+    }
+    public String getCountNotice(String user_id){
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Connection cn = null;
+        String count = null;
+        try{
+            cn = OracleConnectionManager.getInstance().getConnection();
+            String sql = "select count(TIMELINE_ID) from TIMELINE_TABLE " +
+                    "where TIMELINE_ID IN(select comment_table.timeline_id from comment_table where reply_user_id = ? and read_flag = 0)";
+            st = cn.prepareStatement(sql);
+            st.setString(1,user_id);
+            rs = st.executeQuery();
+            rs.next();
+            if(rs.getInt(1)!=0){
+                count = "new";
+            }
+
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            OracleConnectionManager.getInstance().rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return count;
+    }
+    public void updateCommentNotice(String user_id){
+        PreparedStatement st = null;
+        Connection cn = null;
+        try{
+            cn = OracleConnectionManager.getInstance().getConnection();
+            String sql="update comment_table set read_flag = 1 where user_id = ?";
+            st = cn.prepareStatement(sql);
+            st.setString(1,user_id);
+            int count = st.executeUpdate();
+            System.out.println(count+"åèèàóùÇµÇ‹ÇµÇΩ");
+            st.close();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            OracleConnectionManager.getInstance().rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
     }
 }

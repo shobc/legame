@@ -38,30 +38,39 @@ public class RegisterTalkServlet extends HttpServlet{
         ChatBean cb = new ChatBean();
         cb.setChat_id(chat_id);
         cb.setFriend_id(ub.getUser_id());
+        cb.setUser_id(ub.getUser_id());
         OracleConnectionManager.getInstance().beginTransaction();
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         TalkDao dao = factory.getOraTalkDao();
         ChatDao Cdao = factory.getOraChatDao();
+        if(Cdao.blockJudge(cb)){
+            System.out.println("111111111111111111111111111111111111");
+            if(Cdao.deleteJudge(cb)){
+                System.out.println("22222222222222222222222222222222222");
+                Cdao.updateDeleteFlag(cb);
+            }
+        }
+        cb.setFriend_id(null);
         if(Cdao.deleteJudge(cb)){
+            System.out.println("333333333333333333333333333333333");
             Cdao.updateDeleteFlag(cb);
         }
         String block_flag ="0";
-        System.out.println("dao.blockJudge(chat_id)"+dao.blockJudge(chat_id));
         if(dao.blockJudge(chat_id)){
             block_flag = "1";
         }
         tb.setBlock_flag(block_flag);
+        if(Cdao.getJudge(cb)){
+            System.out.println("if‚Ì‚È‚©2");
+            Cdao.addChat(cb);
+        }
         String id = dao.addTalk(tb);
-
-        System.out.println("id="+id);
         for (Part part : req.getParts()){
             String file_name = ImageName.getImageName(part);
-            System.out.println("file_name="+file_name);
             if (file_name != null) {
                 int index = file_name.indexOf(".");
                 String extension = file_name.substring(index);
                 String imagePath = realPath + "/"+ RandomString.getString() + extension;
-                System.out.println("imagePath="+imagePath);
                 part.write(imagePath);
                 dao.addTalkPicture(id,imagePath);
             }

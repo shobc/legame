@@ -1,4 +1,42 @@
 <web-app>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <filter>
         <filter-name>loginCheckFilter</filter-name>
         <filter-class>filter.LoginCheckFilter</filter-class>
@@ -337,6 +375,14 @@
         <servlet-name>RegisterProfileServlet</servlet-name>
         <url-pattern>/RegisterProfileServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>CommentNoticeServlet</servlet-name>
+        <servlet-class>CommentNoticeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CommentNoticeServlet</servlet-name>
+        <url-pattern>/CommentNoticeServlet</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>ReminderPassServlet</servlet-name>
@@ -581,6 +627,12 @@
         <url-pattern>/changepassword</url-pattern>
     </servlet-mapping>
 
-
-
+    <servlet>
+        <servlet-name>commentnotice</servlet-name>
+        <jsp-file>/commentnotice.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>commentnotice</servlet-name>
+        <url-pattern>/commentnotice</url-pattern>
+    </servlet-mapping>
 </web-app>

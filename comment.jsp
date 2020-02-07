@@ -8,20 +8,14 @@
     <script>
         function ajaxLike(id){
             var Id = "#"+id;
-            console.log("ajax");
-            console.log(id);
-            console.log(Id);
-            console.log($(Id).text());
             $.ajax({
                 url: "LikeServlet",
                 type: "GET",
                 data: {timeline_id :id,likeJudge:$(Id).text()}
             }).done(function (result) {
                 if($(Id).text()==="0"){
-                    console.log("LIKE");
                     $(Id).text("1");
                 }else if($(Id).text()==="1"){
-                    console.log("NOT LIKE");
                     $(Id).text("0");
                 }
             }).fail(function () {
@@ -29,23 +23,19 @@
             }).always(function (result) {
             });
         }
+        function reply(name,id) {
+            $("#comment").before("<span>@"+name+"</span><br>").before("<input type='hidden' name='reply_user_id' value="+id+">");
+        }
         function ajaxLikeComment(tid,cid){
             var Id = "#"+(tid+cid)+"comment";
-            console.log("ajax");
-            console.log(tid);
-            console.log(cid);
-            console.log(Id);
-            console.log($(Id).text());
             $.ajax({
                 url: "CommentLikeServlet",
                 type: "POST",
                 data: {timeline_id :tid,comment_id :cid,likeJudge:$(Id).text()}
             }).done(function (result) {
                 if($(Id).text()==="0"){
-                    console.log("LIKE");
                     $(Id).text("1");
                 }else if($(Id).text()==="1"){
-                    console.log("NOT LIKE");
                     $(Id).text("0");
                 }
             }).fail(function () {
@@ -81,7 +71,7 @@
 </table>
 <h1>コメント一覧</h1>
 <table border="1">
-    <tr><th>名前&写真</th><th>時間</th><th>コメント</th><th>いいね</th></tr>
+    <tr><th>名前&写真</th><th>時間</th><th>コメント</th><th>いいね</th><th>返信</th><th>返信ユーザー</th></tr>
     <c:forEach var="ca" items="${commentArray}">
         <tr>
             <td><a onclick="profilePage('ProfilePageServlet',${ca.user_id});return false;" href="#">${ca.name}<img src="${ca.top_picture}"></a></td>
@@ -95,12 +85,14 @@
                     <td><button id="${ca.timeline_id+ca.comment_id}comment" onclick="ajaxLikeComment(${ca.timeline_id},${ca.comment_id})">1</button></td>
                 </c:otherwise>
             </c:choose>
+            <td><button onclick="reply('${ca.name}',${ca.user_id})">返信</button></td>
+            <td>${ca.reply_user_name}</td>
         </tr>
     </c:forEach>
 </table>
-<form action="CommentAddServlet" method="post">
+<form action="CommentAddServlet" method="post" id="form">
     <input type="hidden" value="${tlb.timeline_id}" name="timeline_id">
-    <input type="text" name="comment"><br>
+    <input type="text" id="comment" name="comment"><br>
     <input type="submit" value="コメント">
 </form>
 </body>

@@ -27,11 +27,10 @@ public class RegisterChatServlet extends HttpServlet{
         OracleConnectionManager.getInstance().beginTransaction();
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         ChatDao dao = factory.getOraChatDao();
-
-        if(dao.getJudge(cb)){
-            System.out.println("if‚Ì‚È‚©2");
-            dao.addChat(cb);
-        }
+//        if(dao.getJudge(cb)){
+//            System.out.println("if‚Ì‚È‚©2");
+//            dao.addChat(cb);
+//        }
         cb.setUser_id(user_id);
         cb.setFriend_id(friend_id);
         if(dao.getJudge(cb)){

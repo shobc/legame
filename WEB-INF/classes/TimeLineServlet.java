@@ -29,7 +29,7 @@ public class TimeLineServlet extends HttpServlet{
 
         ArrayList timelineArray = dao.getTimeLines(user_id);
         ArrayList timelinePicList = dao.getTimelinePicture(user_id);
-
+        String timelineNotice = dao.getCountNotice(user_id);
         OracleConnectionManager.getInstance().commit();
         OracleConnectionManager.getInstance().closeConnection();
 
@@ -49,6 +49,7 @@ public class TimeLineServlet extends HttpServlet{
         }
 
         req.setAttribute("timelineList",timelineList);
+        req.setAttribute("timelineNotice",timelineNotice);
         RequestDispatcher dis = req.getRequestDispatcher("timeline");
         dis.forward(req,res);
     }

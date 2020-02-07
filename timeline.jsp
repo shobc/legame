@@ -37,6 +37,7 @@
     <title>タイムライン</title>
 </head>
 <body>
+<a href="CommentNoticeServlet">${timelineNotice}通知</a>
 <a href="HomePageServlet">home</a>
 <p><a href="createtimeline">投稿する</a></p>
     <table border="1">

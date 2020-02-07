@@ -19,6 +19,7 @@ public class CommentAddServlet extends HttpServlet{
         req.setCharacterEncoding("windows-31j");
         String comment = req.getParameter("comment");
         String timeline_id = req.getParameter("timeline_id");
+        String reply_user_id = req.getParameter("reply_user_id");
         HttpSession session = req.getSession();
         UserBean ub = (UserBean)session.getAttribute("ub");
         String user_id = ub.getUser_id();
@@ -26,6 +27,7 @@ public class CommentAddServlet extends HttpServlet{
         cb.setUser_id(user_id);
         cb.setComment_sentence(comment);
         cb.setTimeline_id(timeline_id);
+        cb.setReply_user_id(reply_user_id);
         OracleConnectionManager.getInstance().beginTransaction();
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         CommentDao dao = factory.getOraCommentDao();

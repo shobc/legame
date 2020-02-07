@@ -73,11 +73,12 @@ public class OraCommentDao implements CommentDao{
         Connection cn = null;
         try{
             cn = OracleConnectionManager.getInstance().getConnection();
-            String sql="insert into comment_table(comment_id,user_id,timeline_id,comment_sentence) values(COMMENT_SEQUENCE.nextval,?,?,?)";
+            String sql="insert into comment_table(comment_id,user_id,timeline_id,comment_sentence,reply_user_id) values(COMMENT_SEQUENCE.nextval,?,?,?,?)";
             st = cn.prepareStatement(sql);
             st.setString(1,cb.getUser_id());
             st.setString(2,cb.getTimeline_id());
             st.setString(3,cb.getComment_sentence());
+            st.setString(4,cb.getReply_user_id());
             st.executeUpdate();
             st.close();
         }catch(SQLException e){
@@ -103,7 +104,8 @@ public class OraCommentDao implements CommentDao{
         try{
 
             cn = OracleConnectionManager.getInstance().getConnection();
-            String sql = "select u.USER_ID,u.NICKNAME,u.TOP_PICTURE,c.comment_sentence,comment_time,c.timeline_id,TLT.COMMENT_ID,c.COMMENT_ID " +
+            String sql = "select u.USER_ID,u.NICKNAME,u.TOP_PICTURE,c.comment_sentence,comment_time,c.timeline_id,TLT.COMMENT_ID,c.COMMENT_ID, " +
+                    "(select NICKNAME from USER_INFORMATION_TABLE where USER_ID = c.reply_user_id) " +
                     "from (COMMENT_TABLE c left join TIMELINE_LIKE_TABLE TLT  on c.COMMENT_ID = TLT.COMMENT_ID and TLT.USER_ID =?) " +
                     "left join  USER_INFORMATION_TABLE u on u.USER_ID = c.USER_ID where c.TIMELINE_ID = ?";
             st = cn.prepareStatement(sql);
@@ -123,6 +125,7 @@ public class OraCommentDao implements CommentDao{
                 cb.setTimeline_id(rs.getString(6));
                 cb.setComment_like_id(rs.getString(7));
                 cb.setComment_id(rs.getString(8));
+                cb.setReply_user_name(rs.getString(9));
                 commentList.add(cb);
             }
         }catch(SQLException e){

@@ -21,4 +21,6 @@ public interface ChatDao{
 
     void updateDeleteFlag(ChatBean cb);
 
+    boolean blockJudge(ChatBean cb);
+
 }
