@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.Blob;
 
 //写真ファイルをBlobから作成するためのクラス
-import dao.function.AcquisitionImage;
+import dao.function.Base64Image;
 import java.util.ArrayList;
 import bean.CommentBean;
 
@@ -117,9 +117,8 @@ public class OraCommentDao implements CommentDao{
                 cb.setUser_id(rs.getString(1));
                 cb.setName(rs.getString(2));
                 Blob blob = rs.getBlob(3);
-                AcquisitionImage acquisitionImage = new AcquisitionImage();
-                String top_picture = acquisitionImage.getImagePath(rs.getString(1),"assdf",blob);
-                cb.setTop_picture(top_picture);
+                Base64Image bi = new Base64Image();
+                cb.setTop_picture(bi.getBase64(blob));
                 cb.setComment_sentence(rs.getString(4));
                 cb.setComment_time(rs.getString(5));
                 cb.setTimeline_id(rs.getString(6));

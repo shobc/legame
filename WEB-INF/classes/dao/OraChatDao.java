@@ -6,8 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Blob;
 
-//写真ファイルをBlobから作成するためのクラス
-import dao.function.AcquisitionImage;
+import dao.function.Base64Image;
 
 import bean.ChatBean;
 import java.util.ArrayList;
@@ -57,7 +56,6 @@ public class OraChatDao implements ChatDao{
         Connection cn = null;
         boolean judge = false;
         try{
-            System.out.println("cb.getFriend_id()!=null"+cb.getFriend_id());
             cn = OracleConnectionManager.getInstance().getConnection();
             if(cb.getFriend_id()!=null){
                 String sql = "select count(chat_id) from chat_table " +
@@ -81,7 +79,6 @@ public class OraChatDao implements ChatDao{
             //０だった場合チャットルームを作成する
             if(j.equals("0")){
                 judge = true;
-                System.out.println("j="+j+"judge="+judge);
             }
         }catch(SQLException e){
             System.out.println(e.getMessage());
@@ -153,9 +150,8 @@ public class OraChatDao implements ChatDao{
                 cb.setName(rs.getString(2));
                 Blob blob = rs.getBlob(3);
                 cb.setChat_id(rs.getString(4));
-                AcquisitionImage acquisitionImage = new AcquisitionImage();
-                String top_picture = acquisitionImage.getImagePath(rs.getString(2),rs.getString(1),blob);
-                cb.setTop_picture(top_picture);
+                Base64Image bi = new Base64Image();
+                cb.setTop_picture(bi.getBase64(blob));
                 chatList.add(cb);
             }
         }catch(SQLException e){
@@ -206,7 +202,6 @@ public class OraChatDao implements ChatDao{
         boolean judge = false;
         try{
             cn = OracleConnectionManager.getInstance().getConnection();
-            System.out.println("cb.getFriend_id()="+cb.getFriend_id());
            if(cb.getFriend_id()!=null){
                String sql = "select count(chat_id) from chat_table\n" +
                        "where chat_id = (select CHAT_ID from CHAT_TABLE where USER_CHAT_ID =(select USER_CHAT1_ID from CHAT_TABLE where CHAT_ID = ?) and USER_CHAT1_ID =(select USER_CHAT_ID from CHAT_TABLE where CHAT_ID = ?))  and user_chat1_id = ? and delete_flag = 1";
@@ -219,16 +214,14 @@ public class OraChatDao implements ChatDao{
                        "where chat_id = ? and user_chat_id = ? and delete_flag = 1";
                st = cn.prepareStatement(sql);
                st.setString(1,cb.getChat_id());
-               System.out.println("cb.getChat_id()"+cb.getChat_id());
                st.setString(2,cb.getUser_id());
-               System.out.println("cb.getUser_id()"+cb.getUser_id());
            }
             rs = st.executeQuery();
             rs.next();
             if(rs.getInt(1)==1){
                 judge = true;
             }
-            System.out.println("judge"+judge);
+
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -251,7 +244,6 @@ public class OraChatDao implements ChatDao{
         Connection cn = null;
         try{
             cn = OracleConnectionManager.getInstance().getConnection();
-            System.out.println("cb.getFriend_id()="+cb.getFriend_id());
             if(cb.getFriend_id()!=null){
                 String sql="update chat_table set delete_flag = 0 ,delete_time = sysdate where chat_id = (select CHAT_ID " +
                     "from CHAT_TABLE where USER_CHAT_ID =(select USER_CHAT1_ID from CHAT_TABLE where CHAT_ID = ?) " +
@@ -290,7 +282,7 @@ public class OraChatDao implements ChatDao{
         boolean judge = true;
         try{
             cn = OracleConnectionManager.getInstance().getConnection();
-            String sql = "select count(friend_table.friend_id) from friend_table where friend_flag = 0 " +
+            String sql = "select count(friend_table.friend_id) from friend_table where friend_flag = 1 " +
                          "and friend_id = ? and user_id = (select CHAT_TABLE.USER_CHAT1_ID from CHAT_TABLE where CHAT_ID = ?)";
 
             st = cn.prepareStatement(sql);
@@ -316,5 +308,38 @@ public class OraChatDao implements ChatDao{
             }
         }
         return judge;
+    }
+    public String getReceiverChatId(String chat_id){
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Connection cn = null;
+        String receiver_chat_id = null;
+        try{
+            cn = OracleConnectionManager.getInstance().getConnection();
+            String sql = "select chat_id from CHAT_TABLE where CHAT_ID = (select CHAT_ID from CHAT_TABLE \n" +
+                    "where USER_CHAT1_ID = (select USER_CHAT_ID from CHAT_TABLE where CHAT_ID = ?) \n" +
+                    "and USER_CHAT_ID = (select USER_CHAT1_ID from CHAT_TABLE where CHAT_ID = ?))";
+
+            st = cn.prepareStatement(sql);
+            st.setString(1,chat_id);
+            st.setString(2,chat_id);
+            rs = st.executeQuery();
+            rs.next();
+            receiver_chat_id = rs.getString(1);
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            OracleConnectionManager.getInstance().rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return receiver_chat_id;
     }
 }

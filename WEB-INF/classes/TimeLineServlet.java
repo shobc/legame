@@ -28,11 +28,14 @@ public class TimeLineServlet extends HttpServlet{
         TimeLineDao dao = factory.getOraTimeLineDao();
 
         ArrayList timelineArray = dao.getTimeLines(user_id);
+
         ArrayList timelinePicList = dao.getTimelinePicture(user_id);
+
         String timelineNotice = dao.getCountNotice(user_id);
+
         OracleConnectionManager.getInstance().commit();
         OracleConnectionManager.getInstance().closeConnection();
-
+        int i = 0;
         ArrayList timelineList = new ArrayList();
         Iterator it = timelineArray.iterator();
         TimeLineBean tlb= null;
@@ -46,6 +49,7 @@ public class TimeLineServlet extends HttpServlet{
                 }
             }
             timelineList.add(tlb);
+            System.out.println(i++);
         }
 
         req.setAttribute("timelineList",timelineList);

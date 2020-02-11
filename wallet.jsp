@@ -8,8 +8,8 @@
 </head>
 <body>
 <a href="HomePageServlet">プロフィールに戻る</a>
-<form method="post" action="InputMoneyServlet">
-    金額を入力<input type="number" name="pay" min="100" step="10"><br>
+<form method="post" action="QRDepositMoneyServlet">
+    金額を入力<input type="number" name="money" min="100" step="10"><br>
     <input type="submit" value="確定">
 </form>
 <p>残高${bb.moneyTotal}</p>
@@ -64,7 +64,7 @@
     <display:column property="money" title="お金" />
     <display:column property="point" title="ポイント"  />
     <display:column property="history" title="履歴"  />
-    <display:column property="historydate" title="時間"  sortable="true" />
+    <display:column property="historydate" title="時間" />
 </display:table>
 </center>
 <p><a href="QRCodeServlet">QRコードを表示</a></p>

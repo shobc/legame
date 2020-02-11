@@ -17,9 +17,6 @@ import dao.AbstractDaoFactory;
 import dao.TimeLineDao;
 import function.ImageName;
 import function.RandomString;
-//import function.FilePath;
-
-//import DB.TimeLineCreateDB;
 
 @MultipartConfig(maxFileSize=1048571121)
 public class CreateTimeLineServlet extends HttpServlet{
@@ -40,6 +37,7 @@ public class CreateTimeLineServlet extends HttpServlet{
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         TimeLineDao dao = factory.getOraTimeLineDao();
         String id = dao.addTimeline(tlb);
+        System.out.println("id="+id);
         for (Part part : req.getParts()) {
             String file_name = ImageName.getImageName(part);
             System.out.println("file_name="+file_name);

@@ -23,9 +23,14 @@
             }).always(function (result) {
             });
         }
+        var i = 0;
         function reply(name,id) {
-            $("#comment").before("<span>@"+name+"</span><br>").before("<input type='hidden' name='reply_user_id' value="+id+">");
+            if(i===0){
+                $("#comment").before("<span>@"+name+"</span><br>").before("<input type='hidden' name='reply_user_id' value="+id+">");
+                i++;
+            }
         }
+
         function ajaxLikeComment(tid,cid){
             var Id = "#"+(tid+cid)+"comment";
             $.ajax({
@@ -56,7 +61,7 @@
 <table border="1">
 <tr><th>名前&写真</th><th>時間</th><th>コメント</th><th>いいね</th></tr>
     <tr>
-        <td><a onclick="profilePage('ProfilePageServlet',${tlb.user_id});return false;" href="#">${tlb.name}<img src="${tlb.top_picture}"></a></td>
+        <td><a onclick="profilePage('ProfilePageServlet',${tlb.user_id});return false;" href="#">${tlb.name}<img src="data:image;base64,${tlb.top_picture}" height="10%"></a></td>
         <td>${tlb.timeline_time}</td>
         <td>${tlb.timeline_sentence}</td>
         <c:choose>
@@ -74,7 +79,7 @@
     <tr><th>名前&写真</th><th>時間</th><th>コメント</th><th>いいね</th><th>返信</th><th>返信ユーザー</th></tr>
     <c:forEach var="ca" items="${commentArray}">
         <tr>
-            <td><a onclick="profilePage('ProfilePageServlet',${ca.user_id});return false;" href="#">${ca.name}<img src="${ca.top_picture}"></a></td>
+            <td><a onclick="profilePage('ProfilePageServlet',${ca.user_id});return false;" href="#">${ca.name}<img src="data:image;base64,${ca.top_picture}" height="10%"></a></td>
             <td>${ca.comment_time}</td>
             <td>${ca.comment_sentence}</td>
             <c:choose>

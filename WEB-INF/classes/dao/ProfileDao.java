@@ -11,7 +11,8 @@ public interface ProfileDao{
     void addProfile(UserBean ub);
     //ログインユーザーのプロフィールを取得する
     UserBean getProfile(UserBean ub);
-    //プロフィールを変更
+    //
+    UserBean getProfile(String chat_id);
     //トップ画像を変更
     void updateTopPictureProfile(UserBean ub);
     //一言を変更
@@ -20,5 +21,9 @@ public interface ProfileDao{
     void updateNameProfile(UserBean ub);
     //ユーザー検索IDを変更
     void updateSearchIdProfile(UserBean ub);
+    //プロフィールを変更
     void UpdateUserTopPicture(UserBean ub);
+
+    void UpdateFriendQRCode(String user_id,String QRCode);
+
 }

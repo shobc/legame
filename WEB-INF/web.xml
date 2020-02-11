@@ -37,6 +37,42 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <listener>
+        <listener-class>listener.LoadListener</listener-class>
+    </listener>
     <filter>
         <filter-name>loginCheckFilter</filter-name>
         <filter-class>filter.LoginCheckFilter</filter-class>
@@ -76,6 +112,30 @@
         <url-pattern>/WalletPageServlet</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>QRDepositMoneyServlet</servlet-name>
+        <servlet-class>QRDepositMoneyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>QRDepositMoneyServlet</servlet-name>
+        <url-pattern>/QRDepositMoneyServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AjaxTimelineNoticeServlet</servlet-name>
+        <servlet-class>ajax.AjaxTimelineNoticeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AjaxTimelineNoticeServlet</servlet-name>
+        <url-pattern>/AjaxTimelineNoticeServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DepositMoneyServlet</servlet-name>
+        <servlet-class>DepositMoneyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DepositMoneyServlet</servlet-name>
+        <url-pattern>/DepositMoneyServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>CommentAddServlet</servlet-name>
         <servlet-class>CommentAddServlet</servlet-class>
     </servlet>
@@ -83,6 +143,23 @@
         <servlet-name>CommentAddServlet</servlet-name>
         <url-pattern>/CommentAddServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>FriendQRAddServlet</servlet-name>
+        <servlet-class>FriendQRAddServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FriendQRAddServlet</servlet-name>
+        <url-pattern>/FriendQRAddServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>NewFriendInfoServlet</servlet-name>
+        <servlet-class>NewFriendInfoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NewFriendInfoServlet</servlet-name>
+        <url-pattern>/NewFriendInfoServlet</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>PayServlet</servlet-name>
         <servlet-class>PayServlet</servlet-class>
@@ -108,6 +185,24 @@
     <servlet-mapping>
         <servlet-name>CommentLikeServlet</servlet-name>
         <url-pattern>/CommentLikeServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AjaxFriendAddServlet</servlet-name>
+        <servlet-class>ajax.AjaxFriendAddServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AjaxFriendAddServlet</servlet-name>
+        <url-pattern>/AjaxFriendAddServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AjaxFriendReleaseServlet</servlet-name>
+        <servlet-class>ajax.AjaxFriendReleaseServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AjaxFriendReleaseServlet</servlet-name>
+        <url-pattern>/AjaxFriendReleaseServlet</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -290,6 +385,7 @@
         <servlet-name>FriendAddServlet</servlet-name>
         <url-pattern>/FriendAddServlet</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>HomePageServlet</servlet-name>
         <servlet-class>HomePageServlet</servlet-class>
@@ -316,6 +412,17 @@
     </servlet-mapping>
 
 
+
+
+
+
+
+
+
+
+
+
+
     <servlet>
         <servlet-name>ChangeSingleWordServlet</servlet-name>
         <servlet-class>ChangeSingleWordServlet</servlet-class>
@@ -324,6 +431,14 @@
         <servlet-name>ChangeSingleWordServlet</servlet-name>
         <url-pattern>/ChangeSingleWordServlet</url-pattern>
     </servlet-mapping>
+
+
+
+
+
+
+
+
 
 
     <servlet>
@@ -392,6 +507,16 @@
         <servlet-name>ReminderPassServlet</servlet-name>
         <url-pattern>/ReminderPassServlet</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ShowFriendQRServlet</servlet-name>
+        <servlet-class>ShowFriendQRServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShowFriendQRServlet</servlet-name>
+        <url-pattern>/ShowFriendQRServlet</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>deletesession</servlet-name>
         <servlet-class>DSession</servlet-class>
@@ -459,6 +584,7 @@
         <servlet-name>registeredProfilePage</servlet-name>
         <url-pattern>/registeredProfilePage</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>friendSearch</servlet-name>
         <jsp-file>/friendSearch.jsp</jsp-file>
@@ -488,7 +614,6 @@
         <servlet-name>blocklist</servlet-name>
         <jsp-file>/blocklist.jsp</jsp-file>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>blocklist</servlet-name>
 
@@ -498,10 +623,18 @@
         <servlet-name>wallet</servlet-name>
         <jsp-file>/wallet.jsp</jsp-file>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>wallet</servlet-name>
         <url-pattern>/wallet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>depositmoney</servlet-name>
+        <jsp-file>/depositmoney.jsp</jsp-file>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>depositmoney</servlet-name>
+        <url-pattern>/depositmoney</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>qrcode</servlet-name>
@@ -627,6 +760,8 @@
         <url-pattern>/changepassword</url-pattern>
     </servlet-mapping>
 
+
+
     <servlet>
         <servlet-name>commentnotice</servlet-name>
         <jsp-file>/commentnotice.jsp</jsp-file>
@@ -634,5 +769,33 @@
     <servlet-mapping>
         <servlet-name>commentnotice</servlet-name>
         <url-pattern>/commentnotice</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>accountqr</servlet-name>
+        <jsp-file>/accountqr.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>accountqr</servlet-name>
+        <url-pattern>/accountqr</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>profileinfo</servlet-name>
+        <jsp-file>/profileinfo.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>profileinfo</servlet-name>
+        <url-pattern>/profileinfo</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>depositqr</servlet-name>
+        <jsp-file>/depositqr.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>depositqr</servlet-name>
+        <url-pattern>/depositqr</url-pattern>
     </servlet-mapping>
 </web-app>

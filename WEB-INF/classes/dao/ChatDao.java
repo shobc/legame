@@ -23,4 +23,5 @@ public interface ChatDao{
 
     boolean blockJudge(ChatBean cb);
 
+    String getReceiverChatId(String chat_id);
 }

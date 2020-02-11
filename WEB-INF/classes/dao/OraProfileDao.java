@@ -8,16 +8,11 @@ import java.sql.ResultSet;
 import java.sql.Blob;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileInputStream;
-import java.io.ByteArrayOutputStream;
-import java.util.Base64;
 
-//写真ファイルをBlobから作成するためのクラス
-import dao.function.AcquisitionImage;
-
+import dao.function.Base64Image;
 //ログインユーザーの情報を扱うためのDaoクラス
 public class OraProfileDao implements ProfileDao{
 
@@ -36,34 +31,13 @@ public class OraProfileDao implements ProfileDao{
             st.setString(2,pass);
             rs = st.executeQuery();
             rs.next();
-            String user_id = rs.getString(1);
-            String search_id = rs.getString(2);
-            String nickname = rs.getString(3);
-            String single_word = rs.getString(4);
+            ub.setUser_id(rs.getString(1));
+            ub.setSearch_id(rs.getString(2));
+            ub.setName(rs.getString(3));
+            ub.setSingle_word(rs.getString(4));
             Blob blob = rs.getBlob(5);
-//            AcquisitionImage acquisitionImage = new AcquisitionImage();
-//            String top_picture = acquisitionImage.getImagePath(user_id,search_id,blob);
-            InputStream inputStream = blob.getBinaryStream();
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            byte[] buffer = new byte[4096];
-            int bytesRead = -1;
-
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, bytesRead);
-            }
-
-            byte[] imageBytes = outputStream.toByteArray();
-            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-
-            ub.setSearch_id(search_id);
-            ub.setName(nickname);
-            ub.setSingle_word(single_word);
-            ub.setTop_picture(base64Image);
-            ub.setUser_id(user_id);
-
-        }catch(IOException e){
-            System.out.println(e.getMessage());
-            OracleConnectionManager.getInstance().rollback();
+            Base64Image bi = new Base64Image();
+            ub.setTop_picture(bi.getBase64(blob));
         }catch(SQLException e){
             System.out.println(e.getMessage());
             OracleConnectionManager.getInstance().rollback();
@@ -126,32 +100,14 @@ public class OraProfileDao implements ProfileDao{
             rs = st.executeQuery();
             rs.next();
             ub = new UserBean();
-            String user_id = rs.getString(1);
-            String search_id = rs.getString(2);
-            String nickname = rs.getString(3);
-            String single_word = rs.getString(4);
+            ub.setUser_id(rs.getString(1));
+            ub.setSearch_id(rs.getString(2));
+            ub.setName(rs.getString(3));
+            ub.setSingle_word(rs.getString(4));
             Blob blob = rs.getBlob(5);
-            InputStream inputStream = blob.getBinaryStream();
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            byte[] buffer = new byte[4096];
-            int bytesRead = -1;
+            Base64Image bi = new Base64Image();
+            ub.setTop_picture(bi.getBase64(blob));
 
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, bytesRead);
-            }
-
-            byte[] imageBytes = outputStream.toByteArray();
-            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-            ub.setSearch_id(search_id);
-            ub.setName(nickname);
-            ub.setSingle_word(single_word);
-            ub.setTop_picture(base64Image);
-            ub.setUser_id(user_id);
-
-        }catch(IOException e){
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -298,6 +254,67 @@ public class OraProfileDao implements ProfileDao{
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
+            OracleConnectionManager.getInstance().rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
+    public UserBean getProfile(String chat_id){
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Connection cn = null;
+        UserBean ub = new UserBean();
+        try{
+            cn = OracleConnectionManager.getInstance().getConnection();
+            String sql = "select user_id,nickname,single_word,top_picture from user_information_table " +
+                    "where user_id = (select CHAT_TABLE.USER_CHAT1_ID from CHAT_TABLE where CHAT_ID = ?)";
+            st = cn.prepareStatement(sql);
+            st.setString(1,chat_id);
+            rs = st.executeQuery();
+            rs.next();
+            ub.setUser_id(rs.getString(1));
+            ub.setName(rs.getString(2));
+            ub.setSingle_word(rs.getString(3));
+            Blob blob = rs.getBlob(4);
+            Base64Image bi = new Base64Image();
+            ub.setTop_picture(bi.getBase64(blob));
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            OracleConnectionManager.getInstance().rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return ub;
+    }
+    public void UpdateFriendQRCode(String user_id,String QRCode){
+        PreparedStatement st = null;
+        FileInputStream fip = null;
+        Connection cn = null;
+        try {
+            cn = OracleConnectionManager.getInstance().getConnection();
+            st = cn.prepareStatement("update USER_INFORMATION_TABLE set friend_qrcode = ? where user_id = ?");
+            st.setString(1,QRCode);
+            st.setString(2,user_id);
+            st.executeUpdate();
+            st.close();
+
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
             OracleConnectionManager.getInstance().rollback();
         }finally{
             try{

@@ -57,7 +57,7 @@ public class SendMail{
         //props‚Éİ’è‚µ‚½î•ñ‚ğg—p‚µ‚ÄAsession‚Ìì¬
         final Session session = Session.getInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("teamlearn.test@gmail.com", "gakuensai3");
+                return new PasswordAuthentication("teamlearn.test@gmail.com", "teamlearn");
             }
         });
 

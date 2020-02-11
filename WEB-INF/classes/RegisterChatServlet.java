@@ -27,10 +27,6 @@ public class RegisterChatServlet extends HttpServlet{
         OracleConnectionManager.getInstance().beginTransaction();
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         ChatDao dao = factory.getOraChatDao();
-//        if(dao.getJudge(cb)){
-//            System.out.println("if‚Ì‚È‚©2");
-//            dao.addChat(cb);
-//        }
         cb.setUser_id(user_id);
         cb.setFriend_id(friend_id);
         if(dao.getJudge(cb)){
@@ -42,5 +38,29 @@ public class RegisterChatServlet extends HttpServlet{
         OracleConnectionManager.getInstance().commit();
         OracleConnectionManager.getInstance().closeConnection();
         res.sendRedirect("TalkPageServlet?chat_id="+chat_id);
+    }
+    public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException {
+        String friend_id = req.getParameter("friend_id");
+        HttpSession session = req.getSession();
+        UserBean ub= (UserBean)session.getAttribute("ub");
+        String user_id = ub.getUser_id();
+        ChatBean cb = new ChatBean();
+        cb.setUser_id(friend_id);
+        cb.setFriend_id(user_id);
+        OracleConnectionManager.getInstance().beginTransaction();
+        AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
+        ChatDao dao = factory.getOraChatDao();
+        cb.setUser_id(user_id);
+        cb.setFriend_id(friend_id);
+        if(dao.getJudge(cb)){
+            System.out.println("if‚Ì‚È‚©");
+            dao.addChat(cb);
+        }
+
+        String chat_id = dao.getChatId(cb);
+        OracleConnectionManager.getInstance().commit();
+        OracleConnectionManager.getInstance().closeConnection();
+        RequestDispatcher dis = req.getRequestDispatcher("TalkPageServlet?chat_id="+chat_id);
+        dis.forward(req,res);
     }
 }

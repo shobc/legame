@@ -1,12 +1,9 @@
 package dao;
 
-import java.io.InputStream;
 import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileInputStream;
-import java.io.ByteArrayOutputStream;
-import java.util.Base64;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,7 +13,7 @@ import java.sql.Blob;
 import java.sql.CallableStatement;
 import java.sql.Types;
 
-import dao.function.AcquisitionImage;
+import dao.function.Base64Image;
 import bean.TimeLineBean;
 import bean.TimeLinePictureBean;
 import java.util.ArrayList;
@@ -152,38 +149,35 @@ public class OraTimeLineDao implements TimeLineDao{
         try{
 
             cn = OracleConnectionManager.getInstance().getConnection();
-            String sql = "select t.USER_ID,u.NICKNAME,u.top_picture,t.TIMELINE_ID,t.TIMELINE_SENTENCE,t.TIMELINE_TIME,TLT.TIMELLINE_ID " +
-                    "from (TIMELINE_TABLE t left join TIMELINE_LIKE_TABLE TLT  on t.TIMELINE_ID = TLT.TIMELLINE_ID and TLT.USER_ID =? and TLT.COMMENT_ID IS NULL) " +
-                    "left join USER_INFORMATION_TABLE u on t.USER_ID = u.USER_ID " +
-                    "left join FRIEND_TABLE f on u.USER_ID = f.FRIEND_ID and f.FRIEND_FLAG = 0 " +
-                    "and f.FRIEND_ID NOT IN(select FRIEND_TABLE.USER_ID from FRIEND_TABLE where FRIEND_FLAG = 1 and FRIEND_TABLE.FRIEND_ID = ?) " +
-                    "where f.USER_ID = ? or t.USER_ID = ? order by t.TIMELINE_TIME desc";
+            String sql = "select t.USER_ID,u.NICKNAME,u.top_picture,t.TIMELINE_ID,t.TIMELINE_SENTENCE,t.TIMELINE_TIME,TLT.TIMELLINE_ID\n" +
+                    "                    from (TIMELINE_TABLE t left join TIMELINE_LIKE_TABLE TLT  on t.TIMELINE_ID = TLT.TIMELLINE_ID and TLT.USER_ID = ? and TLT.COMMENT_ID IS NULL)\n" +
+                    "                    left join USER_INFORMATION_TABLE u on t.USER_ID = u.USER_ID\n" +
+                    "                    left join FRIEND_TABLE f on u.USER_ID = f.FRIEND_ID and f.FRIEND_FLAG = 0  and f.USER_ID = ?\n" +
+                    "                    where f.FRIEND_ID NOT IN(select FRIEND_TABLE.USER_ID from FRIEND_TABLE where FRIEND_FLAG = 1 and FRIEND_TABLE.FRIEND_ID = ?)\n" +
+                    "                    and t.user_id IN (select USER_ID from FRIEND_TABLE where user_id IN(select FRIEND_ID from FRIEND_TABLE where user_id = ?) and FRIEND_ID = ?)\n" +
+                    "                    and  f.USER_ID = ? or t.USER_ID = ? " +
+                    "                    order by t.TIMELINE_TIME desc";
 
             st = cn.prepareStatement(sql);
             st.setString(1,user_id);
             st.setString(2,user_id);
             st.setString(3,user_id);
             st.setString(4,user_id);
+            st.setString(5,user_id);
+            st.setString(6,user_id);
+            st.setString(7,user_id);
             rs = st.executeQuery();
             while(rs.next()){
                 TimeLineBean tlb = new TimeLineBean();
-                user_id = rs.getString(1);
-                String name = rs.getString(2);
+                tlb.setUser_id(rs.getString(1));
+                tlb.setName(rs.getString(2));
                 Blob blob = rs.getBlob(3);
-                String timeline_id = rs.getString(4);
-                String timeline_sentence = rs.getString(5);
-                String timeline_time = rs.getString(6);
-                String timeline_like_id = rs.getString(7);
-                AcquisitionImage acquisitionImage = new AcquisitionImage();
-                String top_picture = acquisitionImage.getImagePath(user_id,timeline_id,blob);
-
-                tlb.setName(name);
-                tlb.setUser_id(user_id);
-                tlb.setTimeline_id(timeline_id);
-                tlb.setTop_picture(top_picture);
-                tlb.setTimeline_sentence(timeline_sentence);
-                tlb.setTimeline_time(timeline_time);
-                tlb.setTimeline_like_id(timeline_like_id);
+                Base64Image bi = new Base64Image();
+                tlb.setTop_picture(bi.getBase64(blob));
+                tlb.setTimeline_id(rs.getString(4));
+                tlb.setTimeline_sentence(rs.getString(5));
+                tlb.setTimeline_time(rs.getString(6));
+                tlb.setTimeline_like_id(rs.getString(7));
                 timelineList.add(tlb);
             }
         }catch(SQLException e){
@@ -210,44 +204,31 @@ public class OraTimeLineDao implements TimeLineDao{
         try{
 
             cn = OracleConnectionManager.getInstance().getConnection();
-            String sql = "select tp.TIMELINE_ID,tp.TIMELINE_PICTURE from TIMELINE_PICTURE_TABLE tp " +
-                    "left join TIMELINE_TABLE t on tp.TIMELINE_ID = t.TIMELINE_ID " +
-                    "left join USER_INFORMATION_TABLE u on t.USER_ID = u.USER_ID " +
-                    "left join FRIEND_TABLE f on u.USER_ID = f.FRIEND_ID and f.FRIEND_FLAG = 0 " +
-                    "and f.FRIEND_ID NOT IN(select FRIEND_TABLE.USER_ID from FRIEND_TABLE where FRIEND_FLAG = 1 and FRIEND_TABLE.FRIEND_ID = ?)" +
-                    "where f.USER_ID = ? or t.USER_ID = ? order by t.TIMELINE_TIME desc";
+            String sql = "select tp.TIMELINE_ID,tp.TIMELINE_PICTURE from TIMELINE_PICTURE_TABLE tp\n" +
+                    "                    left join TIMELINE_TABLE t on tp.TIMELINE_ID = t.TIMELINE_ID\n" +
+                    "                    left join USER_INFORMATION_TABLE u on t.USER_ID = u.USER_ID\n" +
+                    "                    left join FRIEND_TABLE f on u.USER_ID = f.FRIEND_ID and f.FRIEND_FLAG = 0  and f.USER_ID = ?\n" +
+                    "                    and f.FRIEND_ID NOT IN(select FRIEND_TABLE.USER_ID from FRIEND_TABLE where FRIEND_FLAG = 1 and FRIEND_TABLE.FRIEND_ID = ?)\n" +
+                    "                    and t.user_id IN (select USER_ID from FRIEND_TABLE where user_id IN(select FRIEND_ID from FRIEND_TABLE where user_id = ?) and FRIEND_ID = ?)\n" +
+                    "                    where f.USER_ID = ? or t.USER_ID = ? order by t.TIMELINE_TIME desc";
 
             st = cn.prepareStatement(sql);
             st.setString(1,user_id);
             st.setString(2,user_id);
             st.setString(3,user_id);
+            st.setString(4,user_id);
+            st.setString(5,user_id);
+            st.setString(6,user_id);
             rs = st.executeQuery();
             while(rs.next()){
                 TimeLinePictureBean tlpb = new TimeLinePictureBean();
                 String timeline_id = rs.getString(1);
                 Blob blob = rs.getBlob(2);
-//                AcquisitionImage acquisitionImage = new AcquisitionImage();
-//                String top_picture = acquisitionImage.getImagePath(user_id,timeline_id,blob);
-                InputStream inputStream = blob.getBinaryStream();
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                byte[] buffer = new byte[4096];
-                int bytesRead = -1;
-
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-
-                byte[] imageBytes = outputStream.toByteArray();
-                String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-
+                Base64Image bi = new Base64Image();
+                tlpb.setBase64Image(bi.getBase64(blob));
                 tlpb.setTimeline_id(timeline_id);
-                tlpb.setBase64Image(base64Image);
                 timelinePictureList.add(tlpb);
             }
-        }catch(IOException e){
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -283,13 +264,12 @@ public class OraTimeLineDao implements TimeLineDao{
             tlb.setUser_id(rs.getString(1));
             tlb.setName(rs.getString(2));
             Blob blob = rs.getBlob(3);
+            Base64Image bi = new Base64Image();
+            tlb.setTop_picture(bi.getBase64(blob));
             tlb.setTimeline_id(rs.getString(4));
             tlb.setTimeline_sentence(rs.getString(5));
             tlb.setTimeline_time(rs.getString(6));
             tlb.setTimeline_like_id(rs.getString(7));
-            AcquisitionImage acquisitionImage = new AcquisitionImage();
-            String top_picture = acquisitionImage.getImagePath(rs.getString(1),"12",blob);
-            tlb.setTop_picture(top_picture);
 
 
         }catch(SQLException e){
@@ -384,7 +364,7 @@ public class OraTimeLineDao implements TimeLineDao{
         Connection cn = null;
         try{
             cn = OracleConnectionManager.getInstance().getConnection();
-            String sql="update comment_table set read_flag = 1 where user_id = ?";
+            String sql="update comment_table set read_flag = 1 where REPLY_USER_ID = ?";
             st = cn.prepareStatement(sql);
             st.setString(1,user_id);
             int count = st.executeUpdate();
@@ -403,5 +383,94 @@ public class OraTimeLineDao implements TimeLineDao{
                 e.printStackTrace();
             }
         }
+    }
+    public ArrayList getMyTimeLines(String user_id){
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Connection cn = null;
+        ArrayList timelineList = new ArrayList();
+        try{
+
+            cn = OracleConnectionManager.getInstance().getConnection();
+            String sql = "select t.USER_ID,u.NICKNAME,u.top_picture,t.TIMELINE_ID,t.TIMELINE_SENTENCE,t.TIMELINE_TIME,TLT.TIMELLINE_ID\n" +
+                    "                        from (TIMELINE_TABLE t left join TIMELINE_LIKE_TABLE TLT  on t.TIMELINE_ID = TLT.TIMELLINE_ID and TLT.USER_ID = ? and TLT.COMMENT_ID IS NULL)\n" +
+                    "                        left join USER_INFORMATION_TABLE u on t.USER_ID = u.USER_ID\n" +
+                    "                        where t.USER_ID = ? and u.USER_ID = ?\n" +
+                    "                        order by t.TIMELINE_TIME desc";
+            st = cn.prepareStatement(sql);
+            st.setString(1,user_id);
+            st.setString(2,user_id);
+            st.setString(3,user_id);
+            rs = st.executeQuery();
+            while(rs.next()){
+                TimeLineBean tlb = new TimeLineBean();
+                tlb.setUser_id(rs.getString(1));
+                tlb.setName(rs.getString(2));
+                Blob blob = rs.getBlob(3);
+                Base64Image bi = new Base64Image();
+                tlb.setTop_picture(bi.getBase64(blob));
+                tlb.setTimeline_id(rs.getString(4));
+                tlb.setTimeline_sentence(rs.getString(5));
+                tlb.setTimeline_time(rs.getString(6));
+                tlb.setTimeline_like_id(rs.getString(7));
+                timelineList.add(tlb);
+            }
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            OracleConnectionManager.getInstance().rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return timelineList;
+    }
+    public ArrayList getMyTimelinePicture(String user_id){
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Connection cn = null;
+        ArrayList timelinePictureList = new ArrayList();
+        try{
+
+            cn = OracleConnectionManager.getInstance().getConnection();
+            String sql = "select tp.TIMELINE_ID,tp.TIMELINE_PICTURE from TIMELINE_PICTURE_TABLE tp\n" +
+                    "left join TIMELINE_TABLE t on tp.TIMELINE_ID = t.TIMELINE_ID\n" +
+                    "left join USER_INFORMATION_TABLE u on t.USER_ID = u.USER_ID\n" +
+                    "where t.USER_ID = ? or t.USER_ID = ? order by t.TIMELINE_TIME desc";
+
+            st = cn.prepareStatement(sql);
+            st.setString(1,user_id);
+            st.setString(2,user_id);
+            rs = st.executeQuery();
+            while(rs.next()){
+                TimeLinePictureBean tlpb = new TimeLinePictureBean();
+                String timeline_id = rs.getString(1);
+                Blob blob = rs.getBlob(2);
+                Base64Image bi = new Base64Image();
+                tlpb.setBase64Image(bi.getBase64(blob));
+                tlpb.setTimeline_id(timeline_id);
+                timelinePictureList.add(tlpb);
+            }
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            OracleConnectionManager.getInstance().rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return timelinePictureList;
     }
 }

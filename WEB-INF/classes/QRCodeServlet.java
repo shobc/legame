@@ -21,7 +21,7 @@ public class QRCodeServlet extends HttpServlet{
         PathHolder.pathName = getServletContext().getRealPath("/");
         UserBean ub = (UserBean)session.getAttribute("ub");
         String user_id = ub.getUser_id();
-        CreateQRCode value = CreateQRCode.getQRCode(user_id);
+        CreateQRCode value = CreateQRCode.getQRCode("PayServlet?RandomString=");
 
         OracleConnectionManager.getInstance().beginTransaction();
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
@@ -32,7 +32,7 @@ public class QRCodeServlet extends HttpServlet{
         OracleConnectionManager.getInstance().commit();
         OracleConnectionManager.getInstance().closeConnection();
 
-        req.setAttribute("picURI",ub.getUser_id()+value.filePathImage);
+        req.setAttribute("picURI",value.filePathImage);
         RequestDispatcher dis = req.getRequestDispatcher("qrcode");
         dis.forward(req,res);
     }

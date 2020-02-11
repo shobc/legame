@@ -10,13 +10,10 @@ import java.sql.Types;
 import java.sql.CallableStatement;
 import java.io.IOException;
 import java.io.FileInputStream;
-import java.util.Base64;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-
 import java.sql.CallableStatement;
 import java.sql.Types;
-import dao.function.AcquisitionImage;
+
+import dao.function.Base64Image;
 import bean.TalkBean;
 import bean.TalkPictureBean;
 import java.util.ArrayList;
@@ -84,15 +81,13 @@ public class OraTalkDao implements TalkDao{
                 tb.setUser_id(rs.getString(3));
                 tb.setContent(rs.getString(4));
                 Blob blob = rs.getBlob(5);
+                Base64Image bi = new Base64Image();
+                tb.setImage(bi.getBase64(blob));
                 tb.setName(rs.getString(6));
                 tb.setMess_time(rs.getString(7));
                 if(rs.getInt(8)==1){
                     tb.setRead_flag("Šù“Ç");
                 }
-                AcquisitionImage acquisitionImage = new AcquisitionImage();
-                String contentPicture = acquisitionImage.getImagePath(rs.getString(2),chat_id+1,blob);
-                tb.setImage(contentPicture);
-
                 talkList.add(tb);
             }
         }catch(SQLException e){
@@ -238,28 +233,12 @@ public class OraTalkDao implements TalkDao{
             rs = st.executeQuery();
             while(rs.next()){
                 TalkPictureBean tpb = new TalkPictureBean();
-                String talk_id = rs.getString(1);
+                tpb.setTalk_id(rs.getString(1));
                 Blob blob = rs.getBlob(2);
-                InputStream inputStream = blob.getBinaryStream();
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                byte[] buffer = new byte[4096];
-                int bytesRead = -1;
-
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-
-                byte[] imageBytes = outputStream.toByteArray();
-                String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-
-                tpb.setTalk_id(talk_id);
-                tpb.setBase64Image(base64Image);
+                Base64Image bi  = new Base64Image();
+                tpb.setBase64Image(bi.getBase64(blob));
                 talkPictureList.add(tpb);
             }
-        }catch(IOException e){
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();

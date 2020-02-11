@@ -19,10 +19,10 @@ import org.apache.commons.lang.RandomStringUtils;
 public class CreateQRCode{
     public static String randomString;
     public static String filePathImage;
-    public static CreateQRCode getQRCode(String user_id){
+    public static CreateQRCode getQRCode(String URL){
         CreateQRCode createQRCode = new CreateQRCode();
-        randomString = RandomStringUtils.randomAlphanumeric(30);
-        filePathImage = RandomStringUtils.randomAlphanumeric(10);
+        randomString = RandomString.getString(30);
+        filePathImage = RandomString.getString(10);
         try{
             System.out.println(randomString);
             //QRコード生成時のエンコーディング
@@ -30,7 +30,7 @@ public class CreateQRCode{
             //サイズ(ピクセル)
             int size = 500;
             //画像ファイルの保存先
-            String filePath =PathHolder.pathName+"QRImage/"+user_id+filePathImage+".png";
+            String filePath =PathHolder.pathName+"QRImage/"+filePathImage+".png";
             System.out.println("filePath"+filePath);
 
             //生成処理
@@ -43,7 +43,7 @@ public class CreateQRCode{
             hints.put(EncodeHintType.MARGIN, 0);
             QRCodeWriter writer = new QRCodeWriter();
 //            BitMatrix bitMatrix = writer.encode(randomString, BarcodeFormat.QR_CODE, size, size, hints);
-            BitMatrix bitMatrix = writer.encode("http://172.19.3.29:8080/legame/PayServlet?RandomString="+randomString, BarcodeFormat.QR_CODE, size, size, hints);
+            BitMatrix bitMatrix = writer.encode("http://192.168.100.103:8080/legame/"+URL+randomString, BarcodeFormat.QR_CODE, size, size, hints);
             BufferedImage image = MatrixToImageWriter.toBufferedImage(bitMatrix);
 
             //ファイルへの保存処理

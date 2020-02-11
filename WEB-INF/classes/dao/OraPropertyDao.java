@@ -20,7 +20,7 @@ public class OraPropertyDao implements PropertyDao{
         try{
             Connection cn = null;
             cn = OracleConnectionManager.getInstance().getConnection();
-            String sql="insert into property_table(user_id,money,history) values(?,?,'チャージしました')";
+            String sql="insert into property_table(property_id,user_id,money,history) values(PROPERTY_SEQUESNCE.nextval,?,?,'チャージしました')";
             st = cn.prepareStatement(sql);
             st.setString(1,p.getUser_id());
             st.setInt(2,p.getMoney());

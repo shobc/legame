@@ -6,13 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Blob;
 import java.io.FileInputStream;
-import java.io.ByteArrayOutputStream;
-import java.util.Base64;
-import java.io.InputStream;
 import java.io.IOException;
 
-//写真ファイルをBlobから作成するためのクラス
-import dao.function.AcquisitionImage;
+import dao.function.Base64Image;
 import bean.FriendBean;
 import java.util.ArrayList;
 
@@ -83,25 +79,10 @@ public class OraFriendDao implements FriendDao{
                 fb.setSingle_word(rs.getString(3));
                 Blob blob = rs.getBlob(4);
                 fb.setUser_id(rs.getString(5));
-                InputStream inputStream = blob.getBinaryStream();
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                byte[] buffer = new byte[4096];
-                int bytesRead = -1;
-
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-
-                byte[] imageBytes = outputStream.toByteArray();
-                String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-
-                fb.setTop_picture(base64Image);
+                Base64Image bi = new Base64Image();
+                fb.setTop_picture(bi.getBase64(blob));
                 newFriendList.add(fb);
             }
-        }catch(IOException e){
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -191,24 +172,11 @@ public class OraFriendDao implements FriendDao{
                 fb.setName(rs.getString(1));
                 fb.setUser_id(rs.getString(2));
                 Blob blob = rs.getBlob(3);
-                InputStream inputStream = blob.getBinaryStream();
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                byte[] buffer = new byte[4096];
-                int bytesRead = -1;
+                Base64Image bi = new Base64Image();
+                fb.setTop_picture(bi.getBase64(blob));
 
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-
-                byte[] imageBytes = outputStream.toByteArray();
-                String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-                fb.setTop_picture(base64Image);
                 blockFriendList.add(fb);
             }
-        }catch(IOException e){
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -284,10 +252,10 @@ public class OraFriendDao implements FriendDao{
         Connection cn = null;
         try{
             cn = OracleConnectionManager.getInstance().getConnection();
-            String sql = "select search_id,nickname,single_word,top_picture,user_id from " +
-                    "user_information_table where user_id " +
-                    "not in(select friend_id from FRIEND_TABLE where USER_ID = ? and FRIEND_FLAG = 1 or FRIEND_FLAG = 0) " +
-                    "and SEARCH_ID  = ?";
+            String sql = "select search_id,nickname,single_word,top_picture,user_id from\n" +
+                    "    user_information_table where user_id\n" +
+                    "    not in(select FRIEND_ID from FRIEND_TABLE where USER_ID = ? and (FRIEND_FLAG = 1 or FRIEND_FLAG = 0))\n" +
+                    "    and SEARCH_ID  = ?";
             st = cn.prepareStatement(sql);
             st.setString(1,fb.getUser_id());
             st.setString(2,fb.getSearch_id());
@@ -299,23 +267,10 @@ public class OraFriendDao implements FriendDao{
             fb.setSingle_word(rs.getString(3));
             Blob blob = rs.getBlob(4);
             fb.setUser_id(rs.getString(5));
-            InputStream inputStream = blob.getBinaryStream();
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            byte[] buffer = new byte[4096];
-            int bytesRead = -1;
 
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, bytesRead);
-            }
+            Base64Image bi = new Base64Image();
+            fb.setTop_picture(bi.getBase64(blob));
 
-            byte[] imageBytes = outputStream.toByteArray();
-            String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-            fb.setTop_picture(base64Image);
-
-        }catch(IOException e){
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -353,24 +308,11 @@ public class OraFriendDao implements FriendDao{
                 fb.setSingle_word(rs.getString(2));
                 Blob blob = rs.getBlob(3);
                 fb.setUser_id(rs.getString(4));
-                InputStream inputStream = blob.getBinaryStream();
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                byte[] buffer = new byte[4096];
-                int bytesRead = -1;
 
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-
-                byte[] imageBytes = outputStream.toByteArray();
-                String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-                fb.setTop_picture(base64Image);
+                Base64Image bi = new Base64Image();
+                fb.setTop_picture(bi.getBase64(blob));
                 friendList.add(fb);
             }
-        }catch(IOException e){
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -386,5 +328,204 @@ public class OraFriendDao implements FriendDao{
             }
         }
         return friendList;
+    }
+    public FriendBean getFriendQRUser_id(String QRCode){
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Connection cn = null;
+        FriendBean fb = new FriendBean();
+        try{
+            cn = OracleConnectionManager.getInstance().getConnection();
+            String sql = "select nickname,single_word,top_picture,user_id from\n" +
+                    "    user_information_table user_information_table where friend_qrcode = ?";
+            st = cn.prepareStatement(sql);
+            st.setString(1,QRCode);
+            rs = st.executeQuery();
+            rs.next();
+            fb = new FriendBean();
+            fb.setName(rs.getString(1));
+            fb.setSingle_word(rs.getString(2));
+            Blob blob = rs.getBlob(3);
+            fb.setUser_id(rs.getString(4));
+            Base64Image bi = new Base64Image();
+            fb.setTop_picture(bi.getBase64(blob));
+
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            OracleConnectionManager.getInstance().rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return fb;
+    }
+    public FriendBean getFriendInfo(String friend_id){
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Connection cn = null;
+        FriendBean fb = new FriendBean();
+        try{
+            cn = OracleConnectionManager.getInstance().getConnection();
+            String sql = "select nickname,single_word,top_picture,user_id from\n" +
+                    "    user_information_table user_information_table where user_id = ?";
+            st = cn.prepareStatement(sql);
+            st.setString(1,friend_id);
+            rs = st.executeQuery();
+            rs.next();
+            fb = new FriendBean();
+            fb.setName(rs.getString(1));
+            fb.setSingle_word(rs.getString(2));
+            Blob blob = rs.getBlob(3);
+            fb.setUser_id(rs.getString(4));
+            Base64Image bi = new Base64Image();
+            fb.setTop_picture(bi.getBase64(blob));
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            OracleConnectionManager.getInstance().rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return fb;
+    }
+    public boolean getFriendAddJudge(String chat_id){
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Connection cn = null;
+        boolean judge = false;
+        try{
+            cn = OracleConnectionManager.getInstance().getConnection();
+            String sql = "select count(*) from FRIEND_TABLE " +
+                    "where USER_ID =(select USER_CHAT_ID from CHAT_TABLE where CHAT_ID = ?) " +
+                    "and FRIEND_ID=(select USER_CHAT1_ID from CHAT_TABLE where CHAT_ID = ?) ";
+            st = cn.prepareStatement(sql);
+            st.setString(1,chat_id);
+            st.setString(2,chat_id);
+            rs = st.executeQuery();
+            rs.next();
+            if(rs.getInt(1)==0){
+                judge = true;
+            }
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            OracleConnectionManager.getInstance().rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return judge;
+    }
+    public boolean getFriendDeleteOrBlockJudge(String chat_id){
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Connection cn = null;
+        boolean judge = false;
+        try{
+            cn = OracleConnectionManager.getInstance().getConnection();
+            String sql = "select count(*) from FRIEND_TABLE " +
+                    "where USER_ID =(select USER_CHAT_ID from CHAT_TABLE where CHAT_ID = ?) " +
+                    "and FRIEND_ID=(select USER_CHAT1_ID from CHAT_TABLE where CHAT_ID = ?)\n" +
+                    " and (FRIEND_FLAG = 1 or DELETE_FLAG = 1) ";
+            st = cn.prepareStatement(sql);
+            st.setString(1,chat_id);
+            st.setString(2,chat_id);
+            rs = st.executeQuery();
+            rs.next();
+            if(rs.getInt(1)==1){
+                judge = true;
+            }
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            OracleConnectionManager.getInstance().rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return judge;
+    }
+    public void addFriend(String chat_id){
+        PreparedStatement st = null;
+        Connection cn = null;
+        try{
+            cn = OracleConnectionManager.getInstance().getConnection();
+            String sql="insert into friend_table(user_id ,friend_id)\n" +
+                    "     values((select USER_CHAT_ID from CHAT_TABLE where chat_id = ?)" +
+                    ",(select USER_CHAT1_ID from CHAT_TABLE where chat_id = ?))";
+            st = cn.prepareStatement(sql);
+            st.setString(1,chat_id);
+            st.setString(2,chat_id);
+            int count = st.executeUpdate();
+            st.close();
+            System.out.println(count+"件処理しました");
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            OracleConnectionManager.getInstance().rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
+    public void releaseFriend(String chat_id){
+        PreparedStatement st = null;
+        Connection cn = null;
+        try{
+            cn = OracleConnectionManager.getInstance().getConnection();
+            String sql="update FRIEND_TABLE set FRIEND_FLAG = 0 ,DELETE_FLAG = 0 \n" +
+                    "where USER_ID = (select USER_CHAT_ID from CHAT_TABLE where chat_id = ?) \n" +
+                    "and FRIEND_ID = (select USER_CHAT1_ID from CHAT_TABLE where chat_id = ?)";
+            st = cn.prepareStatement(sql);
+            st.setString(1,chat_id);
+            st.setString(2,chat_id);
+            int count = st.executeUpdate();
+            st.close();
+            System.out.println(count+"件処理しました");
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            OracleConnectionManager.getInstance().rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
     }
 }

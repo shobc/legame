@@ -24,4 +24,17 @@ public interface FriendDao{
     FriendBean getSearchFriend(FriendBean fb);
     //—F’BƒŠƒXƒg‚ðŽæ“¾‚·‚é
     ArrayList getFriend(String user_id);
+
+    FriendBean getFriendQRUser_id(String QRCode);
+
+    FriendBean getFriendInfo(String friend_id);
+
+    boolean getFriendAddJudge(String chat_id);
+
+    boolean getFriendDeleteOrBlockJudge(String chat_id);
+
+    void addFriend(String chat_id);
+
+    void releaseFriend(String chat_id);
+
 }
