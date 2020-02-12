@@ -19,7 +19,7 @@ public class OraFriendDao implements FriendDao{
         PreparedStatement st = null;
         ResultSet rs = null;
         Connection cn = null;
-        String count = "";
+        String count = null;
         try{
             cn = OracleConnectionManager.getInstance().getConnection();
             String sql = "select count(*) from friend_table " +
@@ -35,8 +35,8 @@ public class OraFriendDao implements FriendDao{
             rs.next();
 
             //0à»äOÇï¯ÇØÇí ímÇ∆ÇµÇƒï\é¶Ç∑ÇÈ
-            if(!rs.getString(1).equals("0")){
-                count = rs.getString(1);
+            if(rs.getInt(1)!=0){
+                count = "new";
             }
         }catch(SQLException e){
             System.out.println(e.getMessage());
@@ -516,6 +516,33 @@ public class OraFriendDao implements FriendDao{
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
+            OracleConnectionManager.getInstance().rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
+    public void noFriendBlock(FriendBean fb){
+        PreparedStatement st = null;
+        Connection cn = null;
+        try{
+            cn = OracleConnectionManager.getInstance().getConnection();
+            String sql="insert into friend_table(user_id ,friend_id,friend_flag)\n" +
+                    "     values(?,?,1)";
+            st = cn.prepareStatement(sql);
+            st.setString(1,fb.getUser_id());
+            st.setString(2,fb.getFriend_id());
+            int count = st.executeUpdate();
+            st.close();
+            System.out.println(count+"åèèàóùÇµÇ‹ÇµÇΩ");
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
             OracleConnectionManager.getInstance().rollback();
         }finally{
             try{

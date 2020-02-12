@@ -1,35 +1,33 @@
-package ajax;
-
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
 
-import bean.UserBean;
 import dao.OracleConnectionManager;
 import dao.AbstractDaoFactory;
-import dao.TimeLineDao;
+import dao.FriendDao;
+import bean.UserBean;
+import bean.FriendBean;
 
-public class AjaxTimelineNoticeServlet extends HttpServlet{
-    public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
+public class NoFriendBlockServlet extends HttpServlet{
+    public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
+        String friend_id = req.getParameter("friend_id");
         HttpSession session = req.getSession();
         UserBean ub = (UserBean)session.getAttribute("ub");
         String user_id = ub.getUser_id();
+        FriendBean fb = new FriendBean();
+        fb.setUser_id(user_id);
+        fb.setFriend_id(friend_id);
         OracleConnectionManager.getInstance().beginTransaction();
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
-        TimeLineDao dao = factory.getOraTimeLineDao();
-        String timelineNotice = dao.getCountNotice(user_id);
+        FriendDao dao = factory.getOraFriendDao();
+        dao.noFriendBlock(fb);
         OracleConnectionManager.getInstance().commit();
         OracleConnectionManager.getInstance().closeConnection();
-        PrintWriter out = res.getWriter();
-        out.print(timelineNotice);
-    }
-    public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
-        this.doPost(req,res);
+        res.sendRedirect("NewFriendListServlet");
     }
 }

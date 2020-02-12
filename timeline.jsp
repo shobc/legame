@@ -6,15 +6,21 @@
     <script src="js/jquery-3.4.1.min.js"></script>
     <script>
         function ajaxLike(id){
+            console.log($('#'+id).text());
+            var Id = '#'+id;
             $.ajax({
-                url: "LikeServlet",
-                type: "GET",
+                url: 'LikeServlet',
+                type: 'GET',
                 data: {timeline_id :id,likeJudge:$(Id).text()}
             }).done(function (result) {
                 if($(Id).text()==="0"){
                     $(Id).text("1");
+                    var count = parseInt($("#c"+id).text());
+                    $("#c"+id).text(count+1);
                 }else if($(Id).text()==="1"){
                     $(Id).text("0");
+                    var count = parseInt($("#c"+id).text());
+                    $("#c"+id).text(count-1);
                 }
             }).fail(function () {
                 alert("ì«Ç›çûÇ›é∏îs");
@@ -28,9 +34,9 @@
                 type: "GET",
                 data: {}
             }).done(function (result) {
-                if(result!="null"){
-                    if($("#notice").length!=0){
-                        if(noticeFlag===0){
+                if(noticeFlag===0){
+                    if(result=='new'){
+                        if($("#notice").text()!=''){
                             $("#notice").append(result);
                             noticeFlag++;
                         }
@@ -71,10 +77,10 @@
                 </c:forEach>
                 <c:choose>
                     <c:when test = "${empty tll.timeline_like_id}">
-                        <td><button id="${tll.timeline_id}" onclick="ajaxLike(${tll.timeline_id})">0</button></td>
+                        <td><span  id="c${tll.timeline_id}">${tll.like_count}</span><button id="${tll.timeline_id}" onclick="ajaxLike(${tll.timeline_id})">0</button></td>
                     </c:when>
                     <c:otherwise>
-                        <td><button id="${tll.timeline_id}" onclick="ajaxLike(${tll.timeline_id})">1</button></td>
+                        <td><span  id="c${tll.timeline_id}">${tll.like_count}</span><button id="${tll.timeline_id}" onclick="ajaxLike(${tll.timeline_id})">1</button></td>
                     </c:otherwise>
                 </c:choose>
             </tr>

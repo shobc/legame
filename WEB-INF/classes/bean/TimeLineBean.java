@@ -12,6 +12,7 @@ public class TimeLineBean implements Serializable{
     private String timeline_time;
     private ArrayList timeline_picutre = new ArrayList();
     private String timeline_like_id;
+    private String like_count;
 
     public void setName(String name) {
         this.name = name;
@@ -79,5 +80,13 @@ public class TimeLineBean implements Serializable{
 
     public void add(TimeLinePictureBean tlpb){
         timeline_picutre.add(tlpb);
+    }
+
+    public String getLike_count() {
+        return like_count;
+    }
+
+    public void setLike_count(String like_count) {
+        this.like_count = like_count;
     }
 }

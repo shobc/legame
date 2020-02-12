@@ -59,7 +59,7 @@
 <body>
 <h1>選択されたタイムライン</h1>
 <table border="1">
-<tr><th>名前&写真</th><th>時間</th><th>コメント</th><th>いいね</th></tr>
+<tr><th>名前&写真</th><th>時間</th><th>コメント</th><th>いいね</th><th>削除</th></tr>
     <tr>
         <td><a onclick="profilePage('ProfilePageServlet',${tlb.user_id});return false;" href="#">${tlb.name}<img src="data:image;base64,${tlb.top_picture}" height="10%"></a></td>
         <td>${tlb.timeline_time}</td>
@@ -72,6 +72,9 @@
                 <td><button id="${tlb.timeline_id}" onclick="ajaxLike(${tlb.timeline_id})">1</button></td>
             </c:otherwise>
         </c:choose>
+        <c:if test="${tlb.user_id==sessionScope.ub.user_id}">
+            <td><a href="TimeLineDeleteServlet?timeline_id=${tlb.timeline_id}">削除</a></td>
+        </c:if>
     </tr>
 </table>
 <h1>コメント一覧</h1>

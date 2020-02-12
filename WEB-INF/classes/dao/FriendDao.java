@@ -37,4 +37,5 @@ public interface FriendDao{
 
     void releaseFriend(String chat_id);
 
+    void noFriendBlock(FriendBean fb);
 }

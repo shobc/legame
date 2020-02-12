@@ -149,14 +149,14 @@ public class OraTimeLineDao implements TimeLineDao{
         try{
 
             cn = OracleConnectionManager.getInstance().getConnection();
-            String sql = "select t.USER_ID,u.NICKNAME,u.top_picture,t.TIMELINE_ID,t.TIMELINE_SENTENCE,t.TIMELINE_TIME,TLT.TIMELLINE_ID\n" +
-                    "                    from (TIMELINE_TABLE t left join TIMELINE_LIKE_TABLE TLT  on t.TIMELINE_ID = TLT.TIMELLINE_ID and TLT.USER_ID = ? and TLT.COMMENT_ID IS NULL)\n" +
-                    "                    left join USER_INFORMATION_TABLE u on t.USER_ID = u.USER_ID\n" +
-                    "                    left join FRIEND_TABLE f on u.USER_ID = f.FRIEND_ID and f.FRIEND_FLAG = 0  and f.USER_ID = ?\n" +
-                    "                    where f.FRIEND_ID NOT IN(select FRIEND_TABLE.USER_ID from FRIEND_TABLE where FRIEND_FLAG = 1 and FRIEND_TABLE.FRIEND_ID = ?)\n" +
-                    "                    and t.user_id IN (select USER_ID from FRIEND_TABLE where user_id IN(select FRIEND_ID from FRIEND_TABLE where user_id = ?) and FRIEND_ID = ?)\n" +
-                    "                    and  f.USER_ID = ? or t.USER_ID = ? " +
-                    "                    order by t.TIMELINE_TIME desc";
+            String sql = "select t.USER_ID,u.NICKNAME,u.top_picture,t.TIMELINE_ID,t.TIMELINE_SENTENCE,t.TIMELINE_TIME,TLT.TIMELLINE_ID,(select count(*) from TIMELINE_LIKE_TABLE where TIMELLINE_ID = t.TIMELINE_ID and COMMENT_ID IS NULL)\n" +
+                    "                        from (TIMELINE_TABLE t left join TIMELINE_LIKE_TABLE TLT  on t.TIMELINE_ID = TLT.TIMELLINE_ID and TLT.USER_ID = ? and TLT.COMMENT_ID IS NULL)\n" +
+                    "                       left join USER_INFORMATION_TABLE u on t.USER_ID = u.USER_ID\n" +
+                    "                       left join FRIEND_TABLE f on u.USER_ID = f.FRIEND_ID and f.FRIEND_FLAG = 0  and f.USER_ID = ?\n" +
+                    "                       where f.FRIEND_ID NOT IN(select FRIEND_TABLE.USER_ID from FRIEND_TABLE where FRIEND_FLAG = 1 and FRIEND_TABLE.FRIEND_ID = ?)\n" +
+                    "                       and t.user_id IN (select USER_ID from FRIEND_TABLE where user_id IN(select FRIEND_ID from FRIEND_TABLE where user_id = ?) and FRIEND_ID = ?)\n" +
+                    "                       and  f.USER_ID = ? or t.USER_ID = ?\n" +
+                    "                        order by t.TIMELINE_TIME desc";
 
             st = cn.prepareStatement(sql);
             st.setString(1,user_id);
@@ -178,6 +178,8 @@ public class OraTimeLineDao implements TimeLineDao{
                 tlb.setTimeline_sentence(rs.getString(5));
                 tlb.setTimeline_time(rs.getString(6));
                 tlb.setTimeline_like_id(rs.getString(7));
+                System.out.println("rs.getString(8)"+rs.getString(8));
+                tlb.setLike_count(rs.getString(8));
                 timelineList.add(tlb);
             }
         }catch(SQLException e){
@@ -384,7 +386,7 @@ public class OraTimeLineDao implements TimeLineDao{
             }
         }
     }
-    public ArrayList getMyTimeLines(String user_id){
+    public ArrayList getMyTimeLines(String user_id,String friend_id){
         PreparedStatement st = null;
         ResultSet rs = null;
         Connection cn = null;
@@ -393,14 +395,17 @@ public class OraTimeLineDao implements TimeLineDao{
 
             cn = OracleConnectionManager.getInstance().getConnection();
             String sql = "select t.USER_ID,u.NICKNAME,u.top_picture,t.TIMELINE_ID,t.TIMELINE_SENTENCE,t.TIMELINE_TIME,TLT.TIMELLINE_ID\n" +
-                    "                        from (TIMELINE_TABLE t left join TIMELINE_LIKE_TABLE TLT  on t.TIMELINE_ID = TLT.TIMELLINE_ID and TLT.USER_ID = ? and TLT.COMMENT_ID IS NULL)\n" +
-                    "                        left join USER_INFORMATION_TABLE u on t.USER_ID = u.USER_ID\n" +
-                    "                        where t.USER_ID = ? and u.USER_ID = ?\n" +
-                    "                        order by t.TIMELINE_TIME desc";
+                    "from (TIMELINE_TABLE t left join TIMELINE_LIKE_TABLE TLT  on t.TIMELINE_ID = TLT.TIMELLINE_ID and TLT.USER_ID = ? and TLT.COMMENT_ID IS NULL)\n" +
+                    "left join USER_INFORMATION_TABLE u on t.USER_ID = u.user_id\n" +
+                    "where t.USER_ID = (select FRIEND_TABLE.FRIEND_ID from FRIEND_TABLE where user_id = ? and FRIEND_ID = ? and FRIEND_FLAG = 0)\n" +
+                    "  and u.USER_ID = (select FRIEND_TABLE.FRIEND_ID from FRIEND_TABLE where user_id = ? and FRIEND_ID = ? and FRIEND_FLAG = 0)\n" +
+                    "order by t.TIMELINE_TIME desc";
             st = cn.prepareStatement(sql);
-            st.setString(1,user_id);
+            st.setString(1,friend_id);
             st.setString(2,user_id);
-            st.setString(3,user_id);
+            st.setString(3,friend_id);
+            st.setString(4,user_id);
+            st.setString(5,friend_id);
             rs = st.executeQuery();
             while(rs.next()){
                 TimeLineBean tlb = new TimeLineBean();
@@ -431,7 +436,7 @@ public class OraTimeLineDao implements TimeLineDao{
         }
         return timelineList;
     }
-    public ArrayList getMyTimelinePicture(String user_id){
+    public ArrayList getMyTimelinePicture(String user_id,String friend_id){
         PreparedStatement st = null;
         ResultSet rs = null;
         Connection cn = null;
@@ -442,11 +447,15 @@ public class OraTimeLineDao implements TimeLineDao{
             String sql = "select tp.TIMELINE_ID,tp.TIMELINE_PICTURE from TIMELINE_PICTURE_TABLE tp\n" +
                     "left join TIMELINE_TABLE t on tp.TIMELINE_ID = t.TIMELINE_ID\n" +
                     "left join USER_INFORMATION_TABLE u on t.USER_ID = u.USER_ID\n" +
-                    "where t.USER_ID = ? or t.USER_ID = ? order by t.TIMELINE_TIME desc";
+                    "where t.USER_ID = (select FRIEND_TABLE.FRIEND_ID from FRIEND_TABLE where user_id = ? and FRIEND_ID = ? and FRIEND_FLAG = 0)\n" +
+                    "and t.USER_ID = (select FRIEND_TABLE.FRIEND_ID from FRIEND_TABLE where user_id = ? and FRIEND_ID = ? and FRIEND_FLAG = 0)\n" +
+                    "order by t.TIMELINE_TIME desc";
 
             st = cn.prepareStatement(sql);
             st.setString(1,user_id);
-            st.setString(2,user_id);
+            st.setString(2,friend_id);
+            st.setString(3,user_id);
+            st.setString(4,friend_id);
             rs = st.executeQuery();
             while(rs.next()){
                 TimeLinePictureBean tlpb = new TimeLinePictureBean();
@@ -472,5 +481,30 @@ public class OraTimeLineDao implements TimeLineDao{
             }
         }
         return timelinePictureList;
+    }
+    public void deleteTimeLine(String timeline_id){
+        PreparedStatement st = null;
+        Connection cn = null;
+        try{
+            cn = OracleConnectionManager.getInstance().getConnection();
+            String sql="delete timeline_table where timeline_id = ?";
+            st = cn.prepareStatement(sql);
+            st.setString(1,timeline_id);
+            int count = st.executeUpdate();
+            System.out.println(count+"åèèàóùÇµÇ‹ÇµÇΩ");
+            st.close();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            OracleConnectionManager.getInstance().rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
     }
 }

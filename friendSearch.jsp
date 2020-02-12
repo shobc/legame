@@ -30,13 +30,14 @@
 <p>友達かも</p>
     <table>
         <tr>
-            <td>picture</td><td>name</td><td>詳細</td><td>追加</td>
+            <td>picture</td><td>name</td><td>詳細</td><td>追加</td><td>ブロック</td>
         </tr>
         <c:forEach var="nfl" items="${newFrinedList}">
             <tr><td><img src="data:image;base64,${nfl.top_picture}" height="20%" width="10%" style="border: solid;"></td>
             <td>${nfl.name}</td>
             <td><a href="NewFriendInfoServlet?friend_id=${nfl.user_id}">詳細</a></td>
-            <td><a href="FriendAddServlet?friend_id=${nfl.user_id}">追加</a></td></tr>
+            <td><a href="FriendAddServlet?friend_id=${nfl.user_id}">追加</a></td>
+            <td><a href="NoFriendBlockServlet?friend_id=${nfl.user_id}">ブロック</a></td></tr>
         </c:forEach>
     </table>
 </body>

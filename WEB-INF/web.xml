@@ -70,6 +70,15 @@
 
 
 
+
+
+
+
+
+
+
+
+
     <listener>
         <listener-class>listener.LoadListener</listener-class>
     </listener>
@@ -128,12 +137,56 @@
         <url-pattern>/AjaxTimelineNoticeServlet</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>AjaxFriendNoticeServlet</servlet-name>
+        <servlet-class>ajax.AjaxFriendNoticeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AjaxFriendNoticeServlet</servlet-name>
+        <url-pattern>/AjaxFriendNoticeServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AjaxFriendAddServlet</servlet-name>
+        <servlet-class>ajax.AjaxFriendAddServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AjaxFriendAddServlet</servlet-name>
+        <url-pattern>/AjaxFriendAddServlet</url-pattern>
+    </servlet-mapping>
+
+
+
+
+    <servlet>
+        <servlet-name>AjaxFriendReleaseServlet</servlet-name>
+        <servlet-class>ajax.AjaxFriendReleaseServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AjaxFriendReleaseServlet</servlet-name>
+        <url-pattern>/AjaxFriendReleaseServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>DepositMoneyServlet</servlet-name>
         <servlet-class>DepositMoneyServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DepositMoneyServlet</servlet-name>
         <url-pattern>/DepositMoneyServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>TimeLineDeleteServlet</servlet-name>
+        <servlet-class>TimeLineDeleteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TimeLineDeleteServlet</servlet-name>
+        <url-pattern>/TimeLineDeleteServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>NoFriendBlockServlet</servlet-name>
+        <servlet-class>NoFriendBlockServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NoFriendBlockServlet</servlet-name>
+        <url-pattern>/NoFriendBlockServlet</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>CommentAddServlet</servlet-name>
@@ -185,24 +238,6 @@
     <servlet-mapping>
         <servlet-name>CommentLikeServlet</servlet-name>
         <url-pattern>/CommentLikeServlet</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>AjaxFriendAddServlet</servlet-name>
-        <servlet-class>ajax.AjaxFriendAddServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AjaxFriendAddServlet</servlet-name>
-        <url-pattern>/AjaxFriendAddServlet</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>AjaxFriendReleaseServlet</servlet-name>
-        <servlet-class>ajax.AjaxFriendReleaseServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AjaxFriendReleaseServlet</servlet-name>
-        <url-pattern>/AjaxFriendReleaseServlet</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -747,6 +782,7 @@
         <servlet-name>changetoppicture</servlet-name>
         <url-pattern>/changetoppicture</url-pattern>
     </servlet-mapping>
+
 
 
 

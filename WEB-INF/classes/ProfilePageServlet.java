@@ -7,6 +7,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.OracleConnectionManager;
 import dao.AbstractDaoFactory;
@@ -20,19 +21,19 @@ public class ProfilePageServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         req.setCharacterEncoding("windows-31j");
         String user_id = req.getParameter("id");
-        System.out.println("user_id="+user_id);
 
         UserBean ub = new UserBean();
         ub.setUser_id(user_id);
-
+        HttpSession session = req.getSession();
+        UserBean uub = (UserBean)session.getAttribute("ub");
         OracleConnectionManager.getInstance().beginTransaction();
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         ProfileDao dao = factory.getOraProfileDao();
         TimeLineDao Tdao = factory.getOraTimeLineDao();
 
         ub = dao.getProfile(ub);
-        ArrayList timelineArray = Tdao.getMyTimeLines(user_id);
-        ArrayList timelinePicList = Tdao.getMyTimelinePicture(user_id);
+        ArrayList timelineArray = Tdao.getMyTimeLines(uub.getUser_id(),user_id);
+        ArrayList timelinePicList = Tdao.getMyTimelinePicture(uub.getUser_id(),user_id);
 
         OracleConnectionManager.getInstance().commit();
         OracleConnectionManager.getInstance().closeConnection();

@@ -34,6 +34,7 @@ public class WebSocketEndPoint {
     @OnOpen
     public void onOpen(Session session, EndpointConfig config){
         sessionMap.put(session.getId(),session);
+        session.setMaxTextMessageBufferSize(200000);
         this.httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
         receiver_chat_id = (String)httpSession.getAttribute("receiver_chat_id");
         sender_chat_id = (String)httpSession.getAttribute("sender_chat_id");

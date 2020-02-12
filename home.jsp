@@ -12,11 +12,35 @@
                 .appendTo($('body'))
                 .submit();
         }
+        var noticeFlag = 0;
+        function FriendNotice(){
+            $.ajax({
+                url: "AjaxFriendNoticeServlet",
+                type: "GET",
+                data: {}
+            }).done(function (result) {
+                if(noticeFlag===0){
+                    if(result=='new'){
+                        if($("#notice").text()!='new'){
+                            $("#notice").append(result);
+                            noticeFlag++;
+                        }
+                    }
+                }
+            }).fail(function () {
+                alert("読み込み失敗");
+            }).always(function (result) {
+            });
+        }
+        setInterval(FriendNotice, 1000);
     </script>
 </head>
 <body>
 <p><a href="deletesession">ログアウト</a></p>
-<p>通知${noticeCount}<a href="NewFriendListServlet">友達検索</a></p>
+<div id="noticeOuter">
+    <p id="notice">${noticeCount}</p>
+    <a href="NewFriendListServlet">友達検索</a>
+</div>
 <p><a href="profilesetting">プロフィール設定</a></p>
 <h1>profile</h1>
 <table>
