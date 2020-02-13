@@ -8,5 +8,5 @@ public interface UserDao{
     String getUserId(LoginUserBean lub);
     boolean searchPassWord(String old_pass,String user_id);
     void UpdateUserPassWord(String new_pass,String user_id);
-
+    void deleteUserAcount(String user_id);
 }

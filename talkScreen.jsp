@@ -46,9 +46,26 @@
                 showFlag--;
             }
         }
+        var showImageFlag = 0;
+        function sdImageContact() {
+            if(showFlag===0){
+                $('#imageSend').css("display","block");
+                $('#sendMessage').css("display","none");
+                $('#sendPicture').text("テキスト");
+                showFlag++;
+            }else if(showFlag===1){
+                $('#imageSend').css("display","none");
+                $('#sendMessage').css("display","block");
+                $('#sendPicture').text("写真");
+                showFlag--;
+            }
+        }
     </script>
     <style>
         #contact{
+            display: none;
+        }
+        #imageSend{
             display: none;
         }
     </style>
@@ -65,12 +82,16 @@ ${friendJudge}
             <td>${tl.mess_time}</td>
             <td>${tl.content}</td>
             <td>${tl.read_flag}</td>
-            <c:forEach var="tt" items="${tl.talk_picture}">
-                <td><img src="data:image;base64,${tt.base64Image}" width="30%" height="10%"/></td>
-            </c:forEach>
         </tr>
     </c:forEach>
 </table>
+<div id="imageSend">
+    <img id="preview" width="10%" height="10%">
+    <input type="file" id="myImage" accept="image/*">
+    <input onclick='wsSendMessage();' value='Echo' type='button'>
+</div>
+<button id="sendPicture" onclick="sdImageContact()">写真</button>
+
 <div id="sendMessage">
     ${inputText}
 </div>
@@ -103,11 +124,16 @@ ${friendJudge}
     var i=1;
     function wsSendMessage(){
         webSocket.send(message.value);
+        $("#preview").attr('src','');
+        var str = message.value;
+        if(message.value.length>=2000){
+            str = "<img src='"+message.value+"' height='100px' width='100px'>";
+        }
         $("#table").append("<tr id='#a"+i+"'><td>${sessionScope.ub.name}</td> "+
             "<td><img src='data:image;base64,${sessionScope.ub.top_picture}' style='height: 100px;width: 100px;'></td>'" +
             "<td>"+getDate()+"</td>" +
-            "<td>"+message.value+"</td>" +
-            "<td>${sessionScope.read}</td></tr>");
+            "<td>"+str+"</td>" +
+            "<td></td></tr>");
             message.value = "";
             $('html, body').animate({
                 scrollTop: $(document).height()
@@ -127,10 +153,14 @@ ${friendJudge}
         webSocket.close();
     }
     function wsGetMessage(message){
+        var str = message.data;
+        if(message.data.length>=2000){
+            str = "<img src='"+message.data+"' height='10%' width='10%'>";
+        }
         $("#table").append("<tr><td>${requestScope.yub.name}</td>" +
             "<td><img src='data:image;base64,${requestScope.yub.top_picture}' style='height: 100px;width: 100px;'></td>" +
             "<td>"+getDate()+"</td>" +
-            "<td>"+message.data+"</td>" +
+            "<td>"+str+"</td>" +
             "<td></td></tr>");
         $('html, body').animate({
             scrollTop: $(document).height()
@@ -154,6 +184,20 @@ ${friendJudge}
         console.log(y + '年' + m + '月' + d + '日' + h + '時' + mi + '分');
         return y + '年' + m + '月' + d + '日' + h + '時' + mi + '分';
     }
+
+
+
+    $('#myImage').on('change', function (e) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $("#preview").attr('src', e.target.result);
+            console.log(e.target.result);
+            message.value=e.target.result;
+            $("#myImage").val("");
+        };
+        reader.readAsDataURL(e.target.files[0]);
+    });
+
 </script>
 </body>
 </html>

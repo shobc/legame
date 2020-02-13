@@ -37,6 +37,7 @@
 </head>
 <body>
 <p><a href="deletesession">ログアウト</a></p>
+<p><a href="DeleteUserAccountServlet">アカウントを削除</a></p>
 <div id="noticeOuter">
     <p id="notice">${noticeCount}</p>
     <a href="NewFriendListServlet">友達検索</a>
@@ -45,7 +46,7 @@
 <h1>profile</h1>
 <table>
     <tr><td>id</td><td>name</td><td>comment</td><td>picture</td></tr>
-    <tr><td> ${sessionScope.ub.search_id}</td><td> ${sessionScope.ub.name}</td><td> ${sessionScope.ub.single_word}</td><td><a onclick="profilePage('ProfilePageServlet',${sessionScope.ub.user_id});return false;" href="#"><img src="data:image;base64,${sessionScope.ub.top_picture}" height="20%" width="10%" style="border: solid;"></a></td></tr>
+    <tr><td> ${sessionScope.ub.search_id}</td><td> ${sessionScope.ub.name}</td><td> ${sessionScope.ub.single_word}</td><td><a onclick="profilePage('ProfileMyPageServlet',${sessionScope.ub.user_id});return false;" href="#"><img src="data:image;base64,${sessionScope.ub.top_picture}" height="20%" width="10%" style="border: solid;"></a></td></tr>
 </table>
 </video>
 <h1>友達リスト</h1>

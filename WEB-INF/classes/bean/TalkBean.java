@@ -11,7 +11,7 @@ public class TalkBean implements Serializable{
     private String name;
     private String content;
     private String image;
-    private ArrayList talk_picture = new ArrayList();
+//    private ArrayList talk_picture = new ArrayList();
     private String mess_time;
     private String read_flag;
     private String top_picture;
@@ -41,17 +41,18 @@ public class TalkBean implements Serializable{
         this.read_flag = read_flag;
     }
 
-    public void add(TalkPictureBean tpb){
-        talk_picture.add(tpb);
-    }
+//    public void add(TalkPictureBean tpb){
+//        talk_picture.add(tpb);
+//    }
+//
+//    public ArrayList getTalk_picture() {
+//        return talk_picture;
+//    }
+//
+//    public void setTalk_picture(ArrayList talk_picture) {
+//        this.talk_picture = talk_picture;
+//    }
 
-    public ArrayList getTalk_picture() {
-        return talk_picture;
-    }
-
-    public void setTalk_picture(ArrayList talk_picture) {
-        this.talk_picture = talk_picture;
-    }
     public String getUser_id() {
         return user_id;
     }

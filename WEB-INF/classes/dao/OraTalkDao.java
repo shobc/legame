@@ -61,7 +61,7 @@ public class OraTalkDao implements TalkDao{
         Connection cn = null;
         try{
             cn = OracleConnectionManager.getInstance().getConnection();
-            String sql = "select t.TALK_ID,t.chat_id,u.USER_ID,t.content,u.TOP_PICTURE,u.nickname,t.mess_time,ALREADY_READ_FLAG,BLOCK_FLAG from TALK_TABLE t\n" +
+            String sql = "select t.TALK_ID,t.chat_id,u.USER_ID,t.content,u.TOP_PICTURE,u.nickname,t.mess_time,ALREADY_READ_FLAG,BLOCK_FLAG,t.talk_picture from TALK_TABLE t\n" +
                     "left join USER_INFORMATION_TABLE u on  u.USER_ID = (select CHAT_TABLE.USER_CHAT_ID from CHAT_TABLE where chat_id = t.chat_id)\n" +
                     "where TALK_ID NOT IN(select TALK_ID from TALK_TABLE where CHAT1_ID = ? and block_flag = 1)\n" +
                     "and t.MESS_TIME >= (select CHAT_TABLE.DELETE_TIME from CHAT_TABLE where chat_id = (select max(chat_id) from CHAT_TABLE where USER_CHAT_ID = (select USER_CHAT_ID from CHAT_TABLE where chat_id = ?)\n" +
@@ -79,7 +79,13 @@ public class OraTalkDao implements TalkDao{
                 tb.setTalk_id(rs.getString(1));
                 tb.setChat_id(rs.getString(2));
                 tb.setUser_id(rs.getString(3));
-                tb.setContent(rs.getString(4));
+                if(rs.getString(4)!=null){
+                    tb.setContent(""+rs.getString(4)+"");
+                }else{
+                    Blob blob = rs.getBlob(10);
+                    Base64Image bi = new Base64Image();
+                    tb.setContent("<img src='data:image;base64,"+bi.getBase64(blob)+"' height='10%' width='10%'");
+                }
                 Blob blob = rs.getBlob(5);
                 Base64Image bi = new Base64Image();
                 tb.setImage(bi.getBase64(blob));
@@ -144,64 +150,23 @@ public class OraTalkDao implements TalkDao{
         }
         return judge;
     }
-    public String addTalk(TalkBean tb){
-        CallableStatement stat = null;
+    public void addTalk(TalkBean tb){
+        PreparedStatement st = null;
         Connection cn = null;
-        String id = null;
         try{
             cn = OracleConnectionManager.getInstance().getConnection();
-                    String sql = "begin\n" +
-                    "INSERT INTO TALK_TABLE (talk_id,chat_id,chat1_id,content,block_flag)\n" +
+                    String sql = "INSERT INTO TALK_TABLE (talk_id,chat_id,chat1_id,content,block_flag)\n" +
                             "values(talk_sequesnce.nextval,?,(SELECT CHAT_ID FROM CHAT_TABLE\n" +
-                            "where CHAT_ID = (select CHAT_ID from CHAT_TABLE where USER_CHAT_ID = (select USER_CHAT1_ID from CHAT_TABLE where chat_id = ?) and USER_CHAT1_ID = (select USER_CHAT_ID from CHAT_TABLE where chat_id = ?))),?,?)\n" +
-                            "returning talk_id into ?;\n" +
-                    "end;";
-            stat = cn.prepareCall(sql);
-            stat.setString(1,tb.getChat_id());
-            stat.setString(2,tb.getChat_id());
-            stat.setString(3,tb.getChat_id());
-            stat.setString(4,tb.getContent());
-            stat.setString(5,tb.getBlock_flag());
-            stat.registerOutParameter(6, Types.INTEGER);
-            stat.execute();
-
-            id = stat.getString(6);
-            System.out.println(id);
-        }catch(SQLException e){
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
-        }finally{
-            try{
-                if(stat != null){
-                    stat.close();
-                }
-            }catch (SQLException e){
-                System.out.println(e.getMessage());
-                e.printStackTrace();
-            }
-        }
-        return id;
-    }
-    public void addTalkPicture(String talk_id,String imagePath){
-        PreparedStatement st = null;
-        Connection cn = null;
-        String id = null;
-        try{
-            FileInputStream fis = new FileInputStream(imagePath);
-            cn = OracleConnectionManager.getInstance().getConnection();
-            String sql="insert into talk_picture_table(talk_id,talk_picture)" +
-                    " values(?,?)";
-            System.out.println(sql);
+                            "where CHAT_ID = (select CHAT_ID from CHAT_TABLE where USER_CHAT_ID = (select USER_CHAT1_ID from CHAT_TABLE where chat_id = ?)\n" +
+                            "and USER_CHAT1_ID = (select USER_CHAT_ID from CHAT_TABLE where chat_id = ?))),?,?)";
             st = cn.prepareStatement(sql);
-            st.setString(1,talk_id);
-            st.setBinaryStream(2,fis);
-            int count = st.executeUpdate();
+            st.setString(1,tb.getChat_id());
+            st.setString(2,tb.getChat_id());
+            st.setString(3,tb.getChat_id());
+            st.setString(4,tb.getContent());
+            st.setString(5,tb.getBlock_flag());
+            int count =st.executeUpdate();
             System.out.println(count+"Œˆ—‚µ‚Ü‚µ‚½");
-        }catch(IOException e){
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -217,44 +182,78 @@ public class OraTalkDao implements TalkDao{
             }
         }
     }
-    public ArrayList getPicture(String chat_id){
-        PreparedStatement st = null;
-        ResultSet rs = null;
-        Connection cn = null;
-        ArrayList talkPictureList = new ArrayList();
-        try{
-
-            cn = OracleConnectionManager.getInstance().getConnection();
-            String sql = "select t.TALK_ID,t.TALK_PICTURE from TALK_PICTURE_TABLE t" +
-                    " left join TALK_TABLE TT on t.TALK_ID = TT.TALK_ID where CHAT_ID = ?";
-
-            st = cn.prepareStatement(sql);
-            st.setString(1,chat_id);
-            rs = st.executeQuery();
-            while(rs.next()){
-                TalkPictureBean tpb = new TalkPictureBean();
-                tpb.setTalk_id(rs.getString(1));
-                Blob blob = rs.getBlob(2);
-                Base64Image bi  = new Base64Image();
-                tpb.setBase64Image(bi.getBase64(blob));
-                talkPictureList.add(tpb);
-            }
-        }catch(SQLException e){
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
-        }finally{
-            try{
-                if(st != null){
-                    st.close();
-                }
-            }catch (SQLException e){
-                System.out.println(e.getMessage());
-                e.printStackTrace();
-            }
-        }
-        return talkPictureList;
-    }
+//    public void addTalkPicture(String talk_id,String imagePath){
+//        PreparedStatement st = null;
+//        Connection cn = null;
+//        String id = null;
+//        try{
+//            FileInputStream fis = new FileInputStream(imagePath);
+//            cn = OracleConnectionManager.getInstance().getConnection();
+//            String sql="insert into talk_picture_table(talk_id,talk_picture)" +
+//                    " values(?,?)";
+//            System.out.println(sql);
+//            st = cn.prepareStatement(sql);
+//            st.setString(1,talk_id);
+//            st.setBinaryStream(2,fis);
+//            int count = st.executeUpdate();
+//            System.out.println(count+"Œˆ—‚µ‚Ü‚µ‚½");
+//        }catch(IOException e){
+//            System.out.println(e.getMessage());
+//            e.printStackTrace();
+//            OracleConnectionManager.getInstance().rollback();
+//        }catch(SQLException e){
+//            System.out.println(e.getMessage());
+//            e.printStackTrace();
+//            OracleConnectionManager.getInstance().rollback();
+//        }finally{
+//            try{
+//                if(st != null){
+//                    st.close();
+//                }
+//            }catch (SQLException e){
+//                System.out.println(e.getMessage());
+//                e.printStackTrace();
+//            }
+//        }
+//    }
+//    public ArrayList getPicture(String chat_id){
+//        PreparedStatement st = null;
+//        ResultSet rs = null;
+//        Connection cn = null;
+//        ArrayList talkPictureList = new ArrayList();
+//        try{
+//
+//            cn = OracleConnectionManager.getInstance().getConnection();
+//            String sql = "select t.TALK_ID,t.TALK_PICTURE from TALK_PICTURE_TABLE t" +
+//                    " left join TALK_TABLE TT on t.TALK_ID = TT.TALK_ID where CHAT_ID = ?";
+//
+//            st = cn.prepareStatement(sql);
+//            st.setString(1,chat_id);
+//            rs = st.executeQuery();
+//            while(rs.next()){
+//                TalkPictureBean tpb = new TalkPictureBean();
+//                tpb.setTalk_id(rs.getString(1));
+//                Blob blob = rs.getBlob(2);
+//                Base64Image bi  = new Base64Image();
+//                tpb.setBase64Image(bi.getBase64(blob));
+//                talkPictureList.add(tpb);
+//            }
+//        }catch(SQLException e){
+//            System.out.println(e.getMessage());
+//            e.printStackTrace();
+//            OracleConnectionManager.getInstance().rollback();
+//        }finally{
+//            try{
+//                if(st != null){
+//                    st.close();
+//                }
+//            }catch (SQLException e){
+//                System.out.println(e.getMessage());
+//                e.printStackTrace();
+//            }
+//        }
+//        return talkPictureList;
+//    }
     public boolean blockJudge(String chat_id){
         boolean judge = false;
         PreparedStatement st = null;
@@ -289,5 +288,44 @@ public class OraTalkDao implements TalkDao{
             }
         }
         return judge;
+    }
+//    public void addTalkPicture(String chat_id,String imagePath){
+    public void addTalkPicture(TalkBean tb){
+        PreparedStatement st = null;
+        Connection cn = null;
+        try{
+            FileInputStream fis = new FileInputStream(tb.getContent());
+            cn = OracleConnectionManager.getInstance().getConnection();
+            String sql = "INSERT INTO TALK_TABLE (talk_id,chat_id,chat1_id,talk_picture,block_flag)\n" +
+                    "values(talk_sequesnce.nextval,?,(SELECT CHAT_ID FROM CHAT_TABLE\n" +
+                    "where CHAT_ID = (select CHAT_ID from CHAT_TABLE where USER_CHAT_ID = (select USER_CHAT1_ID from CHAT_TABLE where chat_id = ?)\n" +
+                    "and USER_CHAT1_ID = (select USER_CHAT_ID from CHAT_TABLE where chat_id = ?))),?,?)";
+            st = cn.prepareStatement(sql);
+            st.setString(1,tb.getChat_id());
+            st.setString(2,tb.getChat_id());
+            st.setString(3,tb.getChat_id());
+            st.setBinaryStream(4,fis);
+//            st.setString(4,tb.getContent());
+            st.setString(5,tb.getBlock_flag());
+            int count =st.executeUpdate();
+            System.out.println(count+"Œˆ—‚µ‚Ü‚µ‚½");
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            OracleConnectionManager.getInstance().rollback();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            OracleConnectionManager.getInstance().rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
     }
 }

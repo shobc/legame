@@ -48,28 +48,12 @@ public class TalkPageServlet extends HttpServlet{
             session.setAttribute("receiver_chat_id",Cdao.getReceiverChatId(chat_id));
         }
         dao.addRead_flag(chat_id,user_id);
-        ArrayList talkArray = dao.getTalk(chat_id);
+        ArrayList talkList = dao.getTalk(chat_id);
         boolean judge = dao.getBlockJudge(chat_id,user_id);
-        ArrayList pictureList = dao.getPicture(chat_id);
         req.setAttribute("yub",Pdao.getProfile(chat_id));
         ArrayList frieadList = Fdao.getFriend(user_id);
         OracleConnectionManager.getInstance().commit();
         OracleConnectionManager.getInstance().closeConnection();
-
-        ArrayList talkList = new ArrayList();
-        Iterator it = talkArray.iterator();
-        TalkBean tb= null;
-        while(it.hasNext()){
-            tb = (TalkBean)it.next();
-            Iterator itr = pictureList.iterator();
-            while(itr.hasNext()){
-                TalkPictureBean tpb = (TalkPictureBean)itr.next();
-                if(tb.getTalk_id().equals(tpb.getTalk_id())){
-                    tb.add(tpb);
-                }
-            }
-            talkList.add(tb);
-        }
         String inputText = "<input id='message' type='text'>\n" +
                 "<input onclick='wsSendMessage();' value='Echo' type='button'>";
         if(judge){

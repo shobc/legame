@@ -13,6 +13,7 @@ public class CommentBean implements Serializable{
     private String comment_like_id;
     private String reply_user_id;
     private String reply_user_name;
+    private String comment_like_count;
 
     public String getComment_id() {
         return comment_id;
@@ -92,5 +93,13 @@ public class CommentBean implements Serializable{
 
     public void setReply_user_name(String reply_user_name) {
         this.reply_user_name = reply_user_name;
+    }
+
+    public String getComment_like_count() {
+        return comment_like_count;
+    }
+
+    public void setComment_like_count(String comment_like_count) {
+        this.comment_like_count = comment_like_count;
     }
 }

@@ -32,8 +32,8 @@ public class ProfilePageServlet extends HttpServlet{
         TimeLineDao Tdao = factory.getOraTimeLineDao();
 
         ub = dao.getProfile(ub);
-        ArrayList timelineArray = Tdao.getMyTimeLines(uub.getUser_id(),user_id);
-        ArrayList timelinePicList = Tdao.getMyTimelinePicture(uub.getUser_id(),user_id);
+        ArrayList timelineArray = Tdao.getFriendTimeLines(uub.getUser_id(),user_id);
+        ArrayList timelinePicList = Tdao.getFriendTimelinePicture(uub.getUser_id(),user_id);
 
         OracleConnectionManager.getInstance().commit();
         OracleConnectionManager.getInstance().closeConnection();

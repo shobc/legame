@@ -7,6 +7,8 @@ public class ChatBean implements Serializable{
     private String chat_id;
     private String name;
     private String top_picture;
+    private String content;
+    private String not_read_count;
 
     public String getUser_id() {
         return user_id;
@@ -46,5 +48,21 @@ public class ChatBean implements Serializable{
 
     public void setFriend_id(String friend_id) {
         this.friend_id = friend_id;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public String getNot_read_count() {
+        return not_read_count;
+    }
+
+    public void setNot_read_count(String not_read_count) {
+        this.not_read_count = not_read_count;
     }
 }

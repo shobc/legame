@@ -36,7 +36,7 @@
             }).done(function (result) {
                 if(noticeFlag===0){
                     if(result=='new'){
-                        if($("#notice").text()!=''){
+                        if($("#notice").text()!='new'){
                             $("#notice").append(result);
                             noticeFlag++;
                         }
@@ -68,7 +68,14 @@
         <tr><th>名前&写真</th><th>時間</th><th>投稿内容</th><th>コメントする</th><th>写真</th><th>いいね</th></tr>
         <c:forEach var="tll" items="${timelineList}">
             <tr>
-                <td><a onclick="profilePage('ProfilePageServlet',${tll.user_id});return false;" href="#">${tll.name}<img src="data:image;base64,${tll.top_picture}" height="10%" width="100%"></a></td>
+                <c:choose>
+                    <c:when test = "${tll.user_id==sessionScope.ub.user_id}">
+                        <td><a onclick="profilePage('ProfileMyPageServlet',${tll.user_id});return false;" href="#">${tll.name}<img src="data:image;base64,${tll.top_picture}" height="10%"></a></td>
+                    </c:when>
+                    <c:otherwise>
+                        <td><a onclick="profilePage('ProfilePageServlet',${tll.user_id});return false;" href="#">${tll.name}<img src="data:image;base64,${tll.top_picture}" height="10%"></a></td>
+                    </c:otherwise>
+                </c:choose>
                 <td>${tll.timeline_time}</td>
                 <td>${tll.timeline_sentence}</td>
                 <td><a href="CommentSearchServlet?timeline_id=${tll.timeline_id}">comment</a></td>

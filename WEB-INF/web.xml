@@ -79,6 +79,19 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
     <listener>
         <listener-class>listener.LoadListener</listener-class>
     </listener>
@@ -458,6 +471,9 @@
 
 
 
+
+
+
     <servlet>
         <servlet-name>ChangeSingleWordServlet</servlet-name>
         <servlet-class>ChangeSingleWordServlet</servlet-class>
@@ -465,6 +481,14 @@
     <servlet-mapping>
         <servlet-name>ChangeSingleWordServlet</servlet-name>
         <url-pattern>/ChangeSingleWordServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DeleteUserAccountServlet</servlet-name>
+        <servlet-class>DeleteUserAccountServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteUserAccountServlet</servlet-name>
+        <url-pattern>/DeleteUserAccountServlet</url-pattern>
     </servlet-mapping>
 
 
@@ -532,6 +556,14 @@
     <servlet-mapping>
         <servlet-name>CommentNoticeServlet</servlet-name>
         <url-pattern>/CommentNoticeServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ProfileMyPageServlet</servlet-name>
+        <servlet-class>ProfileMyPageServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProfileMyPageServlet</servlet-name>
+        <url-pattern>/ProfileMyPageServlet</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -787,6 +819,32 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <servlet>
         <servlet-name>changepassword</servlet-name>
         <jsp-file>/changepassword.jsp</jsp-file>
@@ -833,5 +891,13 @@
     <servlet-mapping>
         <servlet-name>depositqr</servlet-name>
         <url-pattern>/depositqr</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>deletedaccount</servlet-name>
+        <jsp-file>/deletedaccount.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>deletedaccount</servlet-name>
+        <url-pattern>/deletedaccount</url-pattern>
     </servlet-mapping>
 </web-app>

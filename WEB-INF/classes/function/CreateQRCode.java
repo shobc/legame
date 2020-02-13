@@ -43,7 +43,7 @@ public class CreateQRCode{
             hints.put(EncodeHintType.MARGIN, 0);
             QRCodeWriter writer = new QRCodeWriter();
 //            BitMatrix bitMatrix = writer.encode(randomString, BarcodeFormat.QR_CODE, size, size, hints);
-            BitMatrix bitMatrix = writer.encode("http://192.168.100.103:8080/legame/"+URL+randomString, BarcodeFormat.QR_CODE, size, size, hints);
+            BitMatrix bitMatrix = writer.encode("http://172.19.1.152:8080/legame/"+URL+randomString, BarcodeFormat.QR_CODE, size, size, hints);
             BufferedImage image = MatrixToImageWriter.toBufferedImage(bitMatrix);
 
             //ÉtÉ@ÉCÉãÇ÷ÇÃï€ë∂èàóù

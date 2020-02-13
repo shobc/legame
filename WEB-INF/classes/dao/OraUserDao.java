@@ -151,4 +151,28 @@ public class OraUserDao implements UserDao{
             }
         }
     }
+    public void deleteUserAcount(String user_id){
+        PreparedStatement st = null;
+        Connection cn = null;
+        try{
+            cn = OracleConnectionManager.getInstance().getConnection();
+            String sql = "delete user_table where user_id = ?";
+            st = cn.prepareStatement(sql);
+            st.setString(1,user_id);
+            int count = st.executeUpdate();
+            System.out.println(count+"åèèàóùÇµÇ‹ÇµÇΩ");
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            OracleConnectionManager.getInstance().rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
 }
