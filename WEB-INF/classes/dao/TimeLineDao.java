@@ -11,6 +11,7 @@ public interface TimeLineDao{
     ArrayList getTimeLines(String user_id);
     ArrayList getTimelinePicture(String user_id);
     TimeLineBean getTimeLine(TimeLineBean tb);
+    ArrayList getOneTimelinePicture(String timeline_id);
     String getCountNotice(String user_id);
     ArrayList getCommentNotice(String user_id);
     void updateCommentNotice(String user_id);

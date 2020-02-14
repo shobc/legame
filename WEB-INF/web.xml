@@ -1,97 +1,6 @@
 <web-app>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <listener>
         <listener-class>listener.LoadListener</listener-class>
     </listener>
@@ -165,10 +74,6 @@
         <servlet-name>AjaxFriendAddServlet</servlet-name>
         <url-pattern>/AjaxFriendAddServlet</url-pattern>
     </servlet-mapping>
-
-
-
-
     <servlet>
         <servlet-name>AjaxFriendReleaseServlet</servlet-name>
         <servlet-class>ajax.AjaxFriendReleaseServlet</servlet-class>
@@ -177,6 +82,7 @@
         <servlet-name>AjaxFriendReleaseServlet</servlet-name>
         <url-pattern>/AjaxFriendReleaseServlet</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>DepositMoneyServlet</servlet-name>
         <servlet-class>DepositMoneyServlet</servlet-class>
@@ -184,6 +90,15 @@
     <servlet-mapping>
         <servlet-name>DepositMoneyServlet</servlet-name>
         <url-pattern>/DepositMoneyServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AccessAppServlet</servlet-name>
+        <servlet-class>AccessAppServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AccessAppServlet</servlet-name>
+        <url-pattern>/AccessAppServlet</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>TimeLineDeleteServlet</servlet-name>
@@ -346,7 +261,6 @@
         <servlet-name>BlockUserListServlet</servlet-name>
         <url-pattern>/BlockUserListServlet</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>ReleaseFriendServlet</servlet-name>
         <servlet-class>ReleaseFriendServlet</servlet-class>
@@ -355,7 +269,6 @@
         <servlet-name>ReleaseFriendServlet</servlet-name>
         <url-pattern>/ReleaseFriendServlet</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>NewFriendListServlet</servlet-name>
         <servlet-class>NewFriendListServlet</servlet-class>
@@ -364,7 +277,6 @@
         <servlet-name>NewFriendListServlet</servlet-name>
         <url-pattern>/NewFriendListServlet</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>BlockUserServlet</servlet-name>
         <servlet-class>BlockUserServlet</servlet-class>
@@ -373,7 +285,6 @@
         <servlet-name>BlockUserServlet</servlet-name>
         <url-pattern>/BlockUserServlet</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>AuthAccountServlet</servlet-name>
         <servlet-class>AuthAccountServlet</servlet-class>
@@ -382,7 +293,6 @@
         <servlet-name>AuthAccountServlet</servlet-name>
         <url-pattern>/AuthAccountServlet</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>TalkPageServlet</servlet-name>
         <servlet-class>TalkPageServlet</servlet-class>
@@ -411,7 +321,6 @@
         <servlet-name>loginPage</servlet-name>
         <servlet-class>LoginPageServlet</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>loginPage</servlet-name>
         <url-pattern>/loginPage</url-pattern>
@@ -424,7 +333,6 @@
         <servlet-name>FriendSearchServlet</servlet-name>
         <url-pattern>/FriendSearchServlet</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>FriendAddServlet</servlet-name>
         <servlet-class>FriendAddServlet</servlet-class>
@@ -433,7 +341,6 @@
         <servlet-name>FriendAddServlet</servlet-name>
         <url-pattern>/FriendAddServlet</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>HomePageServlet</servlet-name>
         <servlet-class>HomePageServlet</servlet-class>
@@ -458,22 +365,6 @@
         <servlet-name>ProfilePageServlet</servlet-name>
         <url-pattern>/ProfilePageServlet</url-pattern>
     </servlet-mapping>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <servlet>
         <servlet-name>ChangeSingleWordServlet</servlet-name>
         <servlet-class>ChangeSingleWordServlet</servlet-class>
@@ -490,16 +381,6 @@
         <servlet-name>DeleteUserAccountServlet</servlet-name>
         <url-pattern>/DeleteUserAccountServlet</url-pattern>
     </servlet-mapping>
-
-
-
-
-
-
-
-
-
-
     <servlet>
         <servlet-name>ChangeSearchIdServlet</servlet-name>
         <servlet-class>ChangeSearchIdServlet</servlet-class>
@@ -540,7 +421,6 @@
         <servlet-name>TimeLineServlet</servlet-name>
         <url-pattern>/TimeLineServlet</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>RegisterProfileServlet</servlet-name>
         <servlet-class>RegisterProfileServlet</servlet-class>
@@ -565,7 +445,6 @@
         <servlet-name>ProfileMyPageServlet</servlet-name>
         <url-pattern>/ProfileMyPageServlet</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>ReminderPassServlet</servlet-name>
         <servlet-class>ReminderPassServlet</servlet-class>
@@ -574,7 +453,6 @@
         <servlet-name>ReminderPassServlet</servlet-name>
         <url-pattern>/ReminderPassServlet</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>ShowFriendQRServlet</servlet-name>
         <servlet-class>ShowFriendQRServlet</servlet-class>
@@ -583,7 +461,6 @@
         <servlet-name>ShowFriendQRServlet</servlet-name>
         <url-pattern>/ShowFriendQRServlet</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>deletesession</servlet-name>
         <servlet-class>DSession</servlet-class>
@@ -592,7 +469,6 @@
         <servlet-name>deletesession</servlet-name>
         <url-pattern>/deletesession</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>mailConfirmation</servlet-name>
         <jsp-file>/mailConfirmation.jsp</jsp-file>
@@ -617,7 +493,6 @@
         <servlet-name>chang</servlet-name>
         <url-pattern>/chang</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>home</servlet-name>
         <jsp-file>/home.jsp</jsp-file>
@@ -642,7 +517,6 @@
         <servlet-name>registerAccount</servlet-name>
         <url-pattern>/registerAccount</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>registeredProfilePage</servlet-name>
         <jsp-file>/registeredProfilePage.jsp</jsp-file>
@@ -651,7 +525,6 @@
         <servlet-name>registeredProfilePage</servlet-name>
         <url-pattern>/registeredProfilePage</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>friendSearch</servlet-name>
         <jsp-file>/friendSearch.jsp</jsp-file>
@@ -676,14 +549,12 @@
         <servlet-name>talkScreen</servlet-name>
         <url-pattern>/talkScreen</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>blocklist</servlet-name>
         <jsp-file>/blocklist.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>blocklist</servlet-name>
-
         <url-pattern>/blocklist</url-pattern>
     </servlet-mapping>
     <servlet>
@@ -698,7 +569,6 @@
         <servlet-name>depositmoney</servlet-name>
         <jsp-file>/depositmoney.jsp</jsp-file>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>depositmoney</servlet-name>
         <url-pattern>/depositmoney</url-pattern>
@@ -719,7 +589,6 @@
         <servlet-name>settlement</servlet-name>
         <url-pattern>/settlement</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>clear</servlet-name>
         <jsp-file>/clear.jsp</jsp-file>
@@ -741,7 +610,6 @@
         <jsp-file>/timeline.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
-
         <servlet-name>timeline</servlet-name>
         <url-pattern>/timeline</url-pattern>
     </servlet-mapping>
@@ -761,7 +629,6 @@
         <servlet-name>comment</servlet-name>
         <url-pattern>/comment</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>profilesetting</servlet-name>
         <jsp-file>/profilesetting.jsp</jsp-file>
@@ -770,7 +637,6 @@
         <servlet-name>profilesetting</servlet-name>
         <url-pattern>/profilesetting</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>changename</servlet-name>
         <jsp-file>/changename.jsp</jsp-file>
@@ -787,7 +653,6 @@
         <servlet-name>changesearchid</servlet-name>
         <url-pattern>/changesearchid</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>changesingleword</servlet-name>
         <jsp-file>/changesingleword.jsp</jsp-file>
@@ -800,7 +665,6 @@
         <servlet-name>profile</servlet-name>
         <jsp-file>/profile.jsp</jsp-file>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>profile</servlet-name>
         <url-pattern>/profile</url-pattern>
@@ -809,42 +673,10 @@
         <servlet-name>changetoppicture</servlet-name>
         <jsp-file>/changetoppicture.jsp</jsp-file>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>changetoppicture</servlet-name>
         <url-pattern>/changetoppicture</url-pattern>
     </servlet-mapping>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <servlet>
         <servlet-name>changepassword</servlet-name>
         <jsp-file>/changepassword.jsp</jsp-file>
@@ -853,9 +685,6 @@
         <servlet-name>changepassword</servlet-name>
         <url-pattern>/changepassword</url-pattern>
     </servlet-mapping>
-
-
-
     <servlet>
         <servlet-name>commentnotice</servlet-name>
         <jsp-file>/commentnotice.jsp</jsp-file>
@@ -864,8 +693,6 @@
         <servlet-name>commentnotice</servlet-name>
         <url-pattern>/commentnotice</url-pattern>
     </servlet-mapping>
-
-
     <servlet>
         <servlet-name>accountqr</servlet-name>
         <jsp-file>/accountqr.jsp</jsp-file>
@@ -874,7 +701,6 @@
         <servlet-name>accountqr</servlet-name>
         <url-pattern>/accountqr</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>profileinfo</servlet-name>
         <jsp-file>/profileinfo.jsp</jsp-file>
@@ -883,7 +709,6 @@
         <servlet-name>profileinfo</servlet-name>
         <url-pattern>/profileinfo</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>depositqr</servlet-name>
         <jsp-file>/depositqr.jsp</jsp-file>
@@ -899,5 +724,13 @@
     <servlet-mapping>
         <servlet-name>deletedaccount</servlet-name>
         <url-pattern>/deletedaccount</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>app</servlet-name>
+        <jsp-file>/app.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>app</servlet-name>
+        <url-pattern>/app</url-pattern>
     </servlet-mapping>
 </web-app>

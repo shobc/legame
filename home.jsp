@@ -60,7 +60,7 @@
         </c:forEach>
     </table>
 <a href="ChatPageServlet">チャット画面</a>
-<a href="app.jsp">app</a>
+<a href="AccessAppServlet">app</a>
 <a href="TimeLineServlet">タイムライン</a>
 </body>
 </html>

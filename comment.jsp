@@ -79,6 +79,9 @@
         </c:choose>
         <td>${tlb.timeline_time}</td>
         <td>${tlb.timeline_sentence}</td>
+        <c:forEach var="tt" items="${tlb.timeline_picutre}">
+            <td><img src="data:image;base64,${tt.base64Image}" width="100%" height="10%"/></td>
+        </c:forEach>
         <c:choose>
             <c:when test = "${empty tlb.timeline_like_id}">
                 <td><span  id="c${tlb.timeline_id}">${tlb.like_count}</span><button id="${tlb.timeline_id}" onclick="ajaxLike(${tlb.timeline_id})">0</button></td>

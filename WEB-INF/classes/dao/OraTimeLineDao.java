@@ -150,7 +150,7 @@ public class OraTimeLineDao implements TimeLineDao{
 
             cn = OracleConnectionManager.getInstance().getConnection();
             String sql = "select t.USER_ID,u.NICKNAME,u.top_picture,t.TIMELINE_ID,t.TIMELINE_SENTENCE,t.TIMELINE_TIME,(select TIMELLINE_ID from timeline_like_table where user_id = ? and  TIMELLINE_ID = t.TIMELINE_ID and COMMENT_ID IS NULL),\n" +
-                    "       (select count(*) from TIMELINE_LIKE_TABLE where timeline_id = t.TIMELINE_ID and COMMENT_ID IS NULL)\n" +
+                    "       (select count(*) from TIMELINE_LIKE_TABLE where TIMELLINE_ID = t.TIMELINE_ID and COMMENT_ID IS NULL)\n" +
                     "from (TIMELINE_TABLE t left join TIMELINE_LIKE_TABLE TLT  on t.TIMELINE_ID = TLT.TIMELLINE_ID and TLT.USER_ID = ? and TLT.COMMENT_ID IS NULL)\n" +
                     "         left join USER_INFORMATION_TABLE u on t.USER_ID = u.USER_ID\n" +
                     "         left join FRIEND_TABLE f on u.USER_ID = f.FRIEND_ID and f.FRIEND_FLAG = 0  and f.USER_ID = ?\n" +
@@ -249,6 +249,42 @@ public class OraTimeLineDao implements TimeLineDao{
         }
         return timelinePictureList;
     }
+    public ArrayList getOneTimelinePicture(String timeline_id){
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Connection cn = null;
+        ArrayList timelinePictureList = new ArrayList();
+        try{
+            cn = OracleConnectionManager.getInstance().getConnection();
+            String sql = "select TIMELINE_ID,TIMELINE_PICTURE from TIMELINE_PICTURE_TABLE where timeline_id = ?";
+            st = cn.prepareStatement(sql);
+            st.setString(1,timeline_id);
+            rs = st.executeQuery();
+            while(rs.next()){
+                TimeLinePictureBean tlpb = new TimeLinePictureBean();
+                timeline_id = rs.getString(1);
+                Blob blob = rs.getBlob(2);
+                Base64Image bi = new Base64Image();
+                tlpb.setBase64Image(bi.getBase64(blob));
+                tlpb.setTimeline_id(timeline_id);
+                timelinePictureList.add(tlpb);
+            }
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            OracleConnectionManager.getInstance().rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return timelinePictureList;
+    }
 
     public TimeLineBean getTimeLine(TimeLineBean tlb){
         PreparedStatement st = null;
@@ -258,7 +294,7 @@ public class OraTimeLineDao implements TimeLineDao{
             cn = OracleConnectionManager.getInstance().getConnection();
             String sql = "select t.USER_ID,u.NICKNAME,u.top_picture,t.TIMELINE_ID,t.TIMELINE_SENTENCE,t.TIMELINE_TIME,\n" +
                     "(select TIMELLINE_ID from timeline_like_table where user_id = ? and  TIMELLINE_ID = t.TIMELINE_ID and COMMENT_ID IS NULL),\n" +
-                    "(select count(*) from TIMELINE_LIKE_TABLE where timeline_id = t.TIMELINE_ID and COMMENT_ID IS NULL)\n" +
+                    "(select count(*) from TIMELINE_LIKE_TABLE where TIMELLINE_ID = t.TIMELINE_ID and COMMENT_ID IS NULL)\n" +
                     "from (TIMELINE_TABLE t left join TIMELINE_LIKE_TABLE TLT  on t.TIMELINE_ID = TLT.TIMELLINE_ID and TLT.USER_ID = ? and TLT.COMMENT_ID IS NULL)\n" +
                     "left join USER_INFORMATION_TABLE u on t.USER_ID = u.USER_ID\n" +
                     "left join FRIEND_TABLE f on u.USER_ID = f.FRIEND_ID where t.TIMELINE_id = ?";
@@ -401,7 +437,7 @@ public class OraTimeLineDao implements TimeLineDao{
 
             cn = OracleConnectionManager.getInstance().getConnection();
             String sql = "select t.USER_ID,u.NICKNAME,u.top_picture,t.TIMELINE_ID,t.TIMELINE_SENTENCE,t.TIMELINE_TIME,(select TIMELLINE_ID from timeline_like_table where user_id = ? and  TIMELLINE_ID = t.TIMELINE_ID and COMMENT_ID IS NULL)\n" +
-                    "                    ,(select count(*) from TIMELINE_LIKE_TABLE where timeline_id = t.TIMELINE_ID and COMMENT_ID IS NULL) \n" +
+                    "                    ,(select count(*) from TIMELINE_LIKE_TABLE where TIMELLINE_ID = t.TIMELINE_ID and COMMENT_ID IS NULL) \n" +
                     "                    from (TIMELINE_TABLE t left join TIMELINE_LIKE_TABLE TLT  on t.TIMELINE_ID = TLT.TIMELLINE_ID and TLT.USER_ID = ? and TLT.COMMENT_ID IS NULL)\n" +
                     "                    left join USER_INFORMATION_TABLE u on t.USER_ID = u.user_id\n" +
                     "                    where t.USER_ID = (select FRIEND_TABLE.FRIEND_ID from FRIEND_TABLE where user_id = ? and FRIEND_ID = ? and FRIEND_FLAG = 0)\n" +
@@ -523,7 +559,7 @@ public class OraTimeLineDao implements TimeLineDao{
         try{
 
             cn = OracleConnectionManager.getInstance().getConnection();
-            String sql = "select t.USER_ID,u.NICKNAME,u.top_picture,t.TIMELINE_ID,t.TIMELINE_SENTENCE,t.TIMELINE_TIME,(select TIMELLINE_ID from timeline_like_table where user_id = ? and  TIMELLINE_ID = t.TIMELINE_ID  and COMMENT_ID IS NULL),(select count(*) from TIMELINE_LIKE_TABLE where timeline_id = t.TIMELINE_ID and COMMENT_ID IS NULL)\n" +
+            String sql = "select t.USER_ID,u.NICKNAME,u.top_picture,t.TIMELINE_ID,t.TIMELINE_SENTENCE,t.TIMELINE_TIME,(select TIMELLINE_ID from timeline_like_table where user_id = ? and  TIMELLINE_ID = t.TIMELINE_ID  and COMMENT_ID IS NULL),(select count(*) from TIMELINE_LIKE_TABLE where TIMELLINE_ID = t.TIMELINE_ID and COMMENT_ID IS NULL)\n" +
                     "from (TIMELINE_TABLE t left join TIMELINE_LIKE_TABLE TLT  on t.TIMELINE_ID = TLT.TIMELLINE_ID and TLT.USER_ID = ? and TLT.COMMENT_ID IS NULL)\n" +
                     "left join USER_INFORMATION_TABLE u  on t.USER_ID = u.USER_ID\n" +
                     "where t.USER_ID = ? and u.USER_ID = ? order by t.TIMELINE_TIME desc";
