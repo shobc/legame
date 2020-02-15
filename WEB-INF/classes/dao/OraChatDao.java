@@ -354,4 +354,37 @@ public class OraChatDao implements ChatDao{
         }
         return receiver_chat_id;
     }
+    public void reportFriend(ChatBean cb){
+        PreparedStatement st = null;
+        Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
+        try{
+            cn = oc.getConnection();
+            String sql="update chat_table set report_flag = 1 where user_chat_id = ? and user_chat1_id = ?";
+            st = cn.prepareStatement(sql);
+            st.setString(1,cb.getUser_id());
+            System.out.println("cb.getUser_id()"+cb.getUser_id());
+            st.setString(2,cb.getFriend_id());
+            System.out.println("cb.getFriend_id()"+cb.getFriend_id());
+
+            int count = st.executeUpdate();
+            System.out.println(count+"åèèàóùÇµÇ‹ÇµÇΩ");
+            st.close();
+            oc.commit();
+            oc.closeConnection();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            oc.rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
 }

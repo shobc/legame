@@ -63,6 +63,17 @@
                 .appendTo($('body'))
                 .submit();
         }
+        function ajaxReportTimeLine(id){
+            $.ajax({
+                url: "AjaxReportTimeLineServlet",
+                type: "GET",
+                data: {timeline_id :id}
+            }).done(function (result) {
+            }).fail(function () {
+                alert("ì«Ç›çûÇ›é∏îs");
+            }).always(function (result) {
+            });
+        }
     </script>
 </head>
 <body>
@@ -92,6 +103,9 @@
         </c:choose>
         <c:if test="${tlb.user_id==sessionScope.ub.user_id}">
             <td><a href="TimeLineDeleteServlet?timeline_id=${tlb.timeline_id}">çÌèú</a></td>
+        </c:if>
+        <c:if test="${tlb.user_id!=sessionScope.ub.user_id}">
+            <td><button onclick="ajaxReportTimeLine(${tlb.timeline_id})">í ïÒ</button></td>
         </c:if>
 
     </tr>

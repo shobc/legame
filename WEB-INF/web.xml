@@ -1,9 +1,8 @@
 <web-app>
-
-
     <listener>
         <listener-class>listener.LoadListener</listener-class>
     </listener>
+
     <filter>
         <filter-name>loginCheckFilter</filter-name>
         <filter-class>filter.LoginCheckFilter</filter-class>
@@ -81,6 +80,22 @@
     <servlet-mapping>
         <servlet-name>AjaxFriendReleaseServlet</servlet-name>
         <url-pattern>/AjaxFriendReleaseServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AjaxReportFriendServlet</servlet-name>
+        <servlet-class>ajax.AjaxReportFriendServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AjaxReportFriendServlet</servlet-name>
+        <url-pattern>/AjaxReportFriendServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AjaxReportTimeLineServlet</servlet-name>
+        <servlet-class>ajax.AjaxReportTimeLineServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AjaxReportTimeLineServlet</servlet-name>
+        <url-pattern>/AjaxReportTimeLineServlet</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -732,5 +747,164 @@
     <servlet-mapping>
         <servlet-name>app</servlet-name>
         <url-pattern>/app</url-pattern>
+    </servlet-mapping>
+
+<!--    管理者ページ-->
+    <filter>
+        <filter-name>adminLoginCheckFilter</filter-name>
+        <filter-class>admin.filter.AdminLoginCheckFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>adminLoginCheckFilter</filter-name>
+        <url-pattern>/admin/UserListServlet</url-pattern>
+        <url-pattern>/admin/AdminHomePageServlet</url-pattern>
+        <url-pattern>/admin/ReportTimeLineServlet</url-pattern>
+        <url-pattern>/admin/DeleteTimeLineServlet</url-pattern>
+        <url-pattern>/admin/ReportChatListServlet</url-pattern>
+        <url-pattern>/admin/TalkPageServlet</url-pattern>
+        <url-pattern>/admin/ReleaseUserServlet</url-pattern>
+        <url-pattern>/admin/SearchUserServlet</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+    <filter>
+        <filter-name>adminAuthFilter</filter-name>
+        <filter-class>admin.filter.AdminAuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>adminAuthFilter</filter-name>
+        <url-pattern>/admin/UserListServlet</url-pattern>
+        <url-pattern>/admin/AdminHomePageServlet</url-pattern>
+        <url-pattern>/admin/ReportTimeLineServlet</url-pattern>
+        <url-pattern>/admin/DeleteTimeLineServlet</url-pattern>
+        <url-pattern>/admin/ReportChatListServlet</url-pattern>
+        <url-pattern>/admin/TalkPageServlet</url-pattern>
+        <url-pattern>/admin/ReleaseUserServlet</url-pattern>
+        <url-pattern>/admin/SearchUserServlet</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+    <servlet>
+        <servlet-name>AdminHomePageServlet</servlet-name>
+        <servlet-class>admin.AdminHomePageServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminHomePageServlet</servlet-name>
+        <url-pattern>/admin/AdminHomePageServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AdminTalkPageServlet</servlet-name>
+        <servlet-class>admin.TalkPageServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminTalkPageServlet</servlet-name>
+        <url-pattern>/admin/TalkPageServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminLogoutServlet</servlet-name>
+        <servlet-class>admin.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminLogoutServlet</servlet-name>
+        <url-pattern>/admin/LogoutServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ReportTimeLineServlet</servlet-name>
+        <servlet-class>admin.ReportTimeLineServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReportTimeLineServlet</servlet-name>
+        <url-pattern>/admin/ReportTimeLineServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DeleteTimeLineServlet</servlet-name>
+        <servlet-class>admin.DeleteTimeLineServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteTimeLineServlet</servlet-name>
+        <url-pattern>/admin/DeleteTimeLineServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ReportChatListServlet</servlet-name>
+        <servlet-class>admin.ReportChatListServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReportChatListServlet</servlet-name>
+        <url-pattern>/admin/ReportChatListServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ReleaseUserServlet</servlet-name>
+        <servlet-class>admin.ReleaseUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReleaseUserServlet</servlet-name>
+        <url-pattern>/admin/ReleaseUserServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>UserListServlet</servlet-name>
+        <servlet-class>admin.UserListServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserListServlet</servlet-name>
+        <url-pattern>/admin/UserListServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>StopUserServlet</servlet-name>
+        <servlet-class>admin.StopUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>StopUserServlet</servlet-name>
+        <url-pattern>/admin/StopUserServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>SearchUserServlet</servlet-name>
+        <servlet-class>admin.SearchUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SearchUserServlet</servlet-name>
+        <url-pattern>/admin/SearchUserServlet</url-pattern>
+    </servlet-mapping>
+<!--JSP-->
+    <servlet>
+        <servlet-name>adminLogin</servlet-name>
+        <jsp-file>/WEB-INF/jsp/admin/login.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>adminLogin</servlet-name>
+        <url-pattern>/admin/login</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>adminHome</servlet-name>
+        <jsp-file>/WEB-INF/jsp/admin/home.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>adminHome</servlet-name>
+        <url-pattern>/admin/home</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>adminChat</servlet-name>
+        <jsp-file>/WEB-INF/jsp/admin/chat.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>adminChat</servlet-name>
+        <url-pattern>/admin/chat</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>adminTalk</servlet-name>
+        <jsp-file>/WEB-INF/jsp/admin/talk.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>adminTalk</servlet-name>
+        <url-pattern>/admin/talk</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>adminUser</servlet-name>
+        <jsp-file>/WEB-INF/jsp/admin/user.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>adminUser</servlet-name>
+        <url-pattern>/admin/user</url-pattern>
     </servlet-mapping>
 </web-app>

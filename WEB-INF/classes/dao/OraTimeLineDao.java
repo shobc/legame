@@ -643,4 +643,103 @@ public class OraTimeLineDao implements TimeLineDao{
         }
         return timelinePictureList;
     }
+    public boolean reportJudgeTimeLine(TimeLineBean tb){
+        PreparedStatement st = null;
+        Connection cn = null;
+        ResultSet rs = null;
+        OracleConnecter oc = new OracleConnecter();
+        boolean judge = true;
+        try{
+            cn = oc.getConnection();
+            String sql="select count(*) from TIMELINE_REPORT_TABLE where USER_ID = ? and TIMELINE_ID = ?";
+            st = cn.prepareStatement(sql);
+            st.setString(1,tb.getUser_id());
+            st.setString(2,tb.getTimeline_id());
+
+            rs= st.executeQuery();
+            rs.next();
+            if(rs.getInt(1)==1){
+                judge = false;
+            }
+            st.close();
+            oc.closeConnection();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            oc.rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return judge;
+    }
+    public void addReportTimeLine(TimeLineBean tb){
+        PreparedStatement st = null;
+        Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
+        try{
+            cn = oc.getConnection();
+            String sql="insert into TIMELINE_REPORT_TABLE values(?,?)";
+            st = cn.prepareStatement(sql);
+            st.setString(1,tb.getTimeline_id());
+            st.setString(2,tb.getUser_id());
+
+            int count = st.executeUpdate();
+            System.out.println(count+"åèèàóùÇµÇ‹ÇµÇΩ");
+            st.close();
+            oc.commit();
+            oc.closeConnection();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            oc.rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
+    public int getReportCountTimeLine(String timeline_id){
+        PreparedStatement st = null;
+        Connection cn = null;
+        ResultSet rs = null;
+        OracleConnecter oc = new OracleConnecter();
+        int count = 0;
+        try{
+            cn = oc.getConnection();
+            String sql="select count(*) from TIMELINE_REPORT_TABLE where TIMELINE_ID = ?";
+            st = cn.prepareStatement(sql);
+            st.setString(1,timeline_id);
+
+            rs= st.executeQuery();
+            rs.next();
+            count = rs.getInt(1);
+            oc.closeConnection();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            oc.rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return count;
+    }
 }

@@ -60,6 +60,17 @@
                 showFlag--;
             }
         }
+        function ajaxReportFriend(id){
+            $.ajax({
+                url: "AjaxReportFriendServlet",
+                type: "GET",
+                data: {friend_id :id}
+            }).done(function (result) {
+            }).fail(function () {
+                alert("読み込み失敗");
+            }).always(function (result) {
+            });
+        }
     </script>
     <style>
         #contact{
@@ -72,7 +83,8 @@
 </head>
 <body>
 ${friendJudge}
-<h1><a href="ChatPageServlet" onclick="wsCloseConnection();">チャット一覧ページに戻る</a>トーク一覧</h1>
+<h1><a href="ChatPageServlet" onclick="wsCloseConnection();">チャット一覧ページに戻る</a>トーク</h1>
+<button onclick="ajaxReportFriend(${requestScope.yub.user_id})">通報</button>
 <table border="1" id="table">
     <tr><td>名前</td><td>画像</td><td>時間</td><td>内容</td><td>既読</td></tr>
     <c:forEach var="tl" items="${talkList}">
