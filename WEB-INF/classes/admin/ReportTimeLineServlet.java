@@ -36,6 +36,7 @@ public class ReportTimeLineServlet extends HttpServlet{
             timelineList.add(tlb);
         }
         req.setAttribute("timelineList",timelineList);
+        req.setAttribute("caption","’Ê•ñ‚³‚ê‚½ƒ^ƒCƒ€ƒ‰ƒCƒ“");
         RequestDispatcher dis = req.getRequestDispatcher("/admin/home");
         dis.forward(req,res);
     }

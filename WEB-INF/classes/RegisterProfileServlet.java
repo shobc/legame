@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.io.File;
 import java.io.InputStream;
 
 import javax.servlet.ServletException;
@@ -12,19 +11,15 @@ import javax.servlet.http.Part;
 import javax.servlet.annotation.MultipartConfig;
 
 import function.ProfileImageName;
-
-
 import dao.OracleConnectionManager;
 import dao.AbstractDaoFactory;
 import dao.ProfileDao;
-
 import function.PathHolder;
 import bean.UserBean;
 
 @MultipartConfig(maxFileSize=1048571121)
 public class RegisterProfileServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
-        PathHolder.pathName = getServletContext().getRealPath("/");
         req.setCharacterEncoding("windows-31j");
         String user_id = req.getParameter("user_id");
         String name = req.getParameter("name");
@@ -35,11 +30,10 @@ public class RegisterProfileServlet extends HttpServlet{
         String file_name = ProfileImageName.getProfileImageName(part);
         String pathPic = null;
         if(file_name.equals("")){
-            pathPic = realPath+ "pic/noimage.jpg";
-            file_name = "noimage.png";
+            pathPic = realPath+ "WEB-INF/image/noimage.jpg";
         }else{
-            part.write(realPath+ "pic/" + file_name);
-            pathPic = realPath+ "pic/" + file_name;
+            pathPic = realPath+ "WEB-INF/image/" + file_name;
+            part.write(pathPic);
         }
         UserBean ub = new UserBean();
         ub.setUser_id(user_id);
@@ -56,19 +50,6 @@ public class RegisterProfileServlet extends HttpServlet{
 
         OracleConnectionManager.getInstance().commit();
         OracleConnectionManager.getInstance().closeConnection();
-        File file = new File(pathPic);
-
-        if(!pathPic.equals(realPath+"pic/noimage.jpg")){
-            if (file.exists()){
-                if (file.delete()){
-                    System.out.println("ファイルを削除しました");
-                }else{
-                    System.out.println("ファイルの削除に失敗しました");
-                }
-            }else{
-                System.out.println("ファイルが見つかりません");
-            }
-        }
 
         RequestDispatcher dis = req.getRequestDispatcher("registeredProfilePage");
         dis.forward(req,res);

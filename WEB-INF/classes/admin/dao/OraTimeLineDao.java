@@ -244,4 +244,38 @@ public class OraTimeLineDao implements TimeLineDao{
             }
         }
     }
+    public boolean deleteTimeLineJudge(String timeline_id){
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Connection cn = null;
+        boolean judge = true;
+        AdminOracleConnecter aoc = new AdminOracleConnecter();
+        try{
+
+            cn = aoc.getConnection();
+            String sql = "select count(*) from timeline_table where timeline_id = ?";
+            st = cn.prepareStatement(sql);
+            st.setString(1,timeline_id);
+            rs = st.executeQuery();
+            rs.next();
+            if(rs.getInt(1)==0){
+                judge = false;
+            }
+            aoc.closeConnection();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            aoc.rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return judge;
+    }
 }

@@ -36,7 +36,8 @@ public class AdminHomePageServlet extends HttpServlet{
             timelineList.add(tlb);
         }
         req.setAttribute("timelineList",timelineList);
-        RequestDispatcher dis = req.getRequestDispatcher("/admin/home");
+        req.setAttribute("caption","全てのタイムライン");
+        RequestDispatcher dis = req.getRequestDispatcher("home");
         dis.forward(req,res);
     }
     public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{

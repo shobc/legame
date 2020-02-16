@@ -21,10 +21,10 @@ public class OraTalkDao implements TalkDao{
         AdminOracleConnecter aoc = new AdminOracleConnecter();
         try{
             cn = aoc.getConnection();
-            String sql = "select u.SEARCH_ID,t.content,t.mess_time,u.TOP_PICTURE,t.talk_picture from TALK_TABLE t\n" +
-                    "left join USER_INFORMATION_TABLE u " +
-                    "on u.USER_ID = (select CHAT_TABLE.USER_CHAT_ID from CHAT_TABLE where chat_id = t.chat_id)\n" +
-                    "where t.CHAT1_ID = ?";
+            String sql = "select u.SEARCH_ID,t.content,TO_CHAR(t.mess_time, 'MM/DD HH24:MI'),TO_CHAR(t.mess_time,'HH24\"Žž\"MI\"•ª\"'),u.TOP_PICTURE,t.talk_picture from TALK_TABLE t\n" +
+                    "                    left join USER_INFORMATION_TABLE u\n" +
+                    "                    on u.USER_ID = (select CHAT_TABLE.USER_CHAT_ID from CHAT_TABLE where chat_id = t.chat_id)\n" +
+                    "                    where t.CHAT1_ID = ?";
             st = cn.prepareStatement(sql);
             st.setString(1,chat_id);
             rs = st.executeQuery();
@@ -34,12 +34,13 @@ public class OraTalkDao implements TalkDao{
                 if(rs.getString(2)!=null){
                     tb.setContent(""+rs.getString(2)+"");
                 }else{
-                    Blob blob = rs.getBlob(5);
+                    Blob blob = rs.getBlob(6);
                     Base64Image bi = new Base64Image();
                     tb.setContent("<img src='data:image;base64,"+bi.getBase64(blob)+"' height='10%' width='10%'");
                 }
-                tb.setMess_time(rs.getString(3));
-                Blob blob = rs.getBlob(4);
+                tb.setDate(rs.getString(3));
+                tb.setTime(rs.getString(4));
+                Blob blob = rs.getBlob(5);
                 Base64Image bi = new Base64Image();
                 tb.setTop_picture(bi.getBase64(blob));
                 talkList.add(tb);

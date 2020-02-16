@@ -1,0 +1,129 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    background-color: rgba(247, 251, 255, 0.25);
+}
+li{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+}
+
+#caption{
+    text-align: center;
+    font-size: 25px;
+}
+#nav-open {
+    display: inline-block;
+    width: 30px;
+    height: 22px;
+    vertical-align: middle;
+    margin: 10px;
+}
+#hamburger{
+    position: fixed;
+    z-index: 9999;
+}
+/*ハンバーガーアイコンをCSSだけで表現*/
+#nav-open span, #nav-open span:before, #nav-open span:after {
+    position: absolute;
+    transition: all 0.4s;
+    height: 3px;/*線の太さ*/
+    width: 25px;/*長さ*/
+    border-radius: 3px;
+    background: black;
+    display: block;
+    content: '';
+    cursor: pointer;
+    z-index: 9998;/*最前面*/
+}
+
+#nav-open span:before {
+    bottom: -8px;
+}
+
+#nav-open span:after {
+    bottom: -16px;
+}
+
+/*中身*/
+#nav-content {
+    background-color: white;
+    display: none;
+    position: fixed;
+    width: 50%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    /*transition: .2s ease-in-out;*/
+}
+
+#nav-content.open {
+    display: block;
+    opacity: 1;
+    overflow: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9998;
+    width: 200px;
+    height: 100%;
+    border-right: solid 1px black;
+    box-shadow: 0 0 2px;
+}
+
+.hamburger-top {
+    /*height: 140px;!*×ボタンと被らないように*!*/
+    margin-top: 140px;
+}
+
+.category {
+    text-align: center;
+    margin-top: 2rem;
+    border-left: pink;
+    border-right: pink;
+}
+
+.category-title {
+    padding: 0.5rem;
+}
+
+.category-title a {
+    color: #000000;
+    border-bottom: solid 1px black;
+}
+
+.category-title a:hover{
+    color:#7f7f7f;
+    border-bottom: solid 0 #7f7f7f;
+}
+
+
+/*三本線を動かす*/
+#nav-open.active span {
+    -webkit-transform: translateY(8px) rotate(-45deg);
+    transform: translateY(8px) rotate(-45deg);
+}
+
+#nav-open.active span:before {
+    -webkit-transform: translateY(-8px) rotate(45deg);/*打ち消す*/
+    transform: translateY(-8px) rotate(45deg);/*打ち消す*/
+    opacity: 0;
+}
+
+#nav-open.active span:after {
+    -webkit-transform: translateY(-16px) rotate(45deg);
+    transform: translateY(-16px) rotate(90deg);
+}
+
+#noContent{
+    text-align: center;
+}
+
+.image{
+    margin: 10px;
+    text-align: center;
+}

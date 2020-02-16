@@ -104,7 +104,6 @@ public class WebSocketEndPoint {
                 String str = message.substring(message.indexOf(TEN) + TEN.length());
                 String extension = message.substring(message.indexOf("/")+1,message.indexOf(";"));
                 System.out.println(str.length());
-                System.out.println("base64");
                 Base64Decode bd = new Base64Decode();
                 tb.setContent(bd.getFilePath(str,extension));
                 dao.addTalkPicture(tb);
@@ -113,12 +112,10 @@ public class WebSocketEndPoint {
             }
         }else{
             Session session = sessionMap.get(id);
-            dao.addRead_flag(sender_chat_id,user_id);
             if(message.length()>=2000){
                 String str = message.substring(message.indexOf(TEN) + TEN.length());
                 String extension = message.substring(message.indexOf("/")+1,message.indexOf(";"));
                 System.out.println(str.length());
-                System.out.println("base64");
                 Base64Decode bd = new Base64Decode();
                 tb.setContent(bd.getFilePath(str,extension));
                 dao.addTalkPicture(tb);
@@ -133,6 +130,8 @@ public class WebSocketEndPoint {
                 }
             }
             read = "Šù“Ç";
+            dao.addRead_flag(sender_chat_id,user_id);
+            dao.addRead_flag(receiver_chat_id,user_id);
         }
         OracleConnectionManager.getInstance().commit();
         OracleConnectionManager.getInstance().closeConnection();

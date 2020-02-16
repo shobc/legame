@@ -21,17 +21,19 @@ public class DeleteTimeLineServlet extends HttpServlet{
         String timeline_id = req.getParameter("timeline_id");
         AdminAbstractDaoFactory factory = AdminAbstractDaoFactory.getFactory();
         TimeLineDao dao = factory.getTimeLineDao();
-        AdminChatDao Cdao = factory.getAdminChatDao();
-        String user_id = dao.getUser_id(timeline_id);
-        dao.DeleteTimeLine(timeline_id);
-        if(Cdao.getJudge(1,user_id)){
-            Cdao.addChat(1,user_id);
+        if(dao.deleteTimeLineJudge(timeline_id)){
+            AdminChatDao Cdao = factory.getAdminChatDao();
+            String user_id = dao.getUser_id(timeline_id);
+            dao.DeleteTimeLine(timeline_id);
+            if(Cdao.getJudge(1,user_id)){
+                Cdao.addChat(1,user_id);
+            }
+            if(Cdao.getJudge(0,user_id)){
+                Cdao.addChat(0,user_id);
+            }
+            TalkDao Tdao = factory.getTalkDao();
+            Tdao.sendMessage(user_id);
         }
-        if(Cdao.getJudge(0,user_id)){
-            Cdao.addChat(0,user_id);
-        }
-        TalkDao Tdao = factory.getTalkDao();
-        Tdao.sendMessage(user_id);
 
         res.sendRedirect(CutURL.getPath(req.getHeader("REFERER")));
     }

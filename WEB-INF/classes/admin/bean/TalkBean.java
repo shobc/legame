@@ -7,7 +7,8 @@ public class TalkBean implements Serializable{
     private String search_id;
     private String top_picture;
     private String content;
-    private String mess_time;
+    private String date;
+    private String time;
 
 
     public String getSearch_id() {
@@ -26,14 +27,6 @@ public class TalkBean implements Serializable{
         this.content = content;
     }
 
-    public String getMess_time() {
-        return mess_time;
-    }
-
-    public void setMess_time(String mess_time) {
-        this.mess_time = mess_time;
-    }
-
     public void setTop_picture(String top_picture) {
         this.top_picture = top_picture;
     }
@@ -42,4 +35,19 @@ public class TalkBean implements Serializable{
         return top_picture;
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 }

@@ -24,10 +24,7 @@ public class CreateTimeLineServlet extends HttpServlet{
         req.setCharacterEncoding("Windows-31J");
         String realPath =  getServletContext().getRealPath("/WEB-INF/image");
         String timeline_sentence = req.getParameter("timeline_sentence");
-
-//        Part part = req.getPart("timelineImage");
         HttpSession session = req.getSession();
-//        System.out.println(FilePath.getPath(req));
         UserBean ub = (UserBean)session.getAttribute("ub");
         String user_id = ub.getUser_id();
         TimeLineBean tlb = new TimeLineBean();
@@ -41,7 +38,7 @@ public class CreateTimeLineServlet extends HttpServlet{
         for (Part part : req.getParts()) {
             String file_name = ImageName.getImageName(part);
             System.out.println("file_name="+file_name);
-            if (file_name != null) {
+            if (file_name != null&&!file_name.equals("")) {
                 int index = file_name.indexOf(".");
                 String extension = file_name.substring(index);
                 String imagePath = realPath + "/"+ RandomString.getString() + extension;

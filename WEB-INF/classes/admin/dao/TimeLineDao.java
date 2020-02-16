@@ -9,4 +9,5 @@ public interface TimeLineDao{
     ArrayList getReportTimelinePicture();
     String getUser_id(String timeline_id);
     void DeleteTimeLine(String timeline_id);
+    boolean deleteTimeLineJudge(String timeline_id);
 }

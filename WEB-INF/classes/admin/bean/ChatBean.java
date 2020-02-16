@@ -6,6 +6,7 @@ public class ChatBean implements Serializable{
     private String chat_id;
     private String name;
     private String top_picture;
+    private String last_talk;
 
     public String getChat_id() {
         return chat_id;
@@ -29,5 +30,13 @@ public class ChatBean implements Serializable{
 
     public String getTop_picture() {
         return top_picture;
+    }
+
+    public String getLast_talk() {
+        return last_talk;
+    }
+
+    public void setLast_talk(String last_talk) {
+        this.last_talk = last_talk;
     }
 }
