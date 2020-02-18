@@ -4,6 +4,7 @@
 <%@ taglib uri="http://displaytag.sf.net" prefix="display" %>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>wallet page</title>
 </head>
 <body>
@@ -15,21 +16,25 @@
 <p>残高${bb.moneyTotal}</p>
 <p>ポイント${bb.pointTotal}</p>
 <style>
+    td{
+        font-size: 12px;
+    }
     ul {
         list-style: none;
     }
     li {
         display: inline;
-        margin-left: 10px;
+        /*margin-left: 10px;*/
     }
     .pagination {
+        text-align: center;
         display: inline-block;
     }
 
     .pagination a {
         color: black;
         float: left;
-        padding: 8px 16px;
+        padding: 2px 8px;
         text-decoration: none;
         border: 1px solid #ddd;
     }

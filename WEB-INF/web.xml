@@ -930,4 +930,12 @@
         <servlet-name>adminUser</servlet-name>
         <url-pattern>/admin/user</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>adminResultDevice</servlet-name>
+        <jsp-file>/WEB-INF/jsp/admin/resultDevice.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>adminResultDevice</servlet-name>
+        <url-pattern>/admin/resultDevice</url-pattern>
+    </servlet-mapping>
 </web-app>

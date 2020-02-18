@@ -77,14 +77,14 @@ a{
 
 .hamburger-top {
     /*height: 140px;!*Å~É{É^ÉìÇ∆îÌÇÁÇ»Ç¢ÇÊÇ§Ç…*!*/
-    margin-top: 140px;
+    margin-top: 100px;
 }
 
 .category {
-    text-align: center;
+    /*text-align: center;*/
     margin-top: 2rem;
-    border-left: pink;
-    border-right: pink;
+    /*border-left: pink;*/
+    /*border-right: pink;*/
 }
 
 .category-title {
@@ -93,7 +93,7 @@ a{
 
 .category-title a {
     color: #000000;
-    border-bottom: solid 1px black;
+    /*border-bottom: solid 1px black;*/
 }
 
 .category-title a:hover{
@@ -126,4 +126,19 @@ a{
 .image{
     margin: 10px;
     text-align: center;
+}
+
+.user{
+    /*margin-top: 100px;*/
+}
+.logout{
+    margin-top: 150px;
+    /*float:right;*/
+    text-align: center;
+}
+
+#logoutImage{
+    position: relative;
+    bottom: 2px;
+    right:2.5px;
 }

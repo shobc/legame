@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>ƒ`ƒƒƒbƒgˆê——</title>
-    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="/legame/js/jquery-3.4.1.min.js"></script>
     <script>
         function sendPost(action,parameter,id){
             $('<form/>',{action:action, method:"post"})

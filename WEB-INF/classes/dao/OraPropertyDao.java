@@ -110,7 +110,7 @@ public class OraPropertyDao implements PropertyDao{
         try{
             Connection cn = null;
             cn = OracleConnectionManager.getInstance().getConnection();
-            String sql = "select money, point, history, history_date from PROPERTY_TABLE where user_id = ? order by history_date desc";
+            String sql = "select money, point, history, TO_CHAR(history_date,'YYYY/MM/DD') from PROPERTY_TABLE where user_id = ? order by history_date desc";
             st = cn.prepareStatement(sql);
             st.setString(1,id);
             rs = st.executeQuery();

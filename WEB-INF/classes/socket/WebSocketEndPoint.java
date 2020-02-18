@@ -10,6 +10,8 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 import function.ChatFactory;
+import function.BinaryToBufferedImage;
+import function.Base64Decode;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -101,11 +103,9 @@ public class WebSocketEndPoint {
         if(id==null||id.equals("null")){
             System.out.println("データベースに入れるだけ");
             if(message.length()>=2000){
-                String str = message.substring(message.indexOf(TEN) + TEN.length());
-                String extension = message.substring(message.indexOf("/")+1,message.indexOf(";"));
-                System.out.println(str.length());
                 Base64Decode bd = new Base64Decode();
-                tb.setContent(bd.getFilePath(str,extension));
+                bd.setImagePath(message);
+                tb.setContent(bd.getFilePath("WEB-INF/talkImage/"));
                 dao.addTalkPicture(tb);
             }else{
                 dao.addTalk(tb);
@@ -113,11 +113,9 @@ public class WebSocketEndPoint {
         }else{
             Session session = sessionMap.get(id);
             if(message.length()>=2000){
-                String str = message.substring(message.indexOf(TEN) + TEN.length());
-                String extension = message.substring(message.indexOf("/")+1,message.indexOf(";"));
-                System.out.println(str.length());
                 Base64Decode bd = new Base64Decode();
-                tb.setContent(bd.getFilePath(str,extension));
+                bd.setImagePath(message);
+                tb.setContent(bd.getFilePath("WEB-INF/talkImage/"));
                 dao.addTalkPicture(tb);
                 if(block_flag.equals("0")){
                     session.getBasicRemote().sendText(message);

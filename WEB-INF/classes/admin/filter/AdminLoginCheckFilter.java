@@ -37,7 +37,6 @@ public class AdminLoginCheckFilter  extends HttpServlet implements Filter{
             AdminUserDao dao = factory.getAdminUserDao();
             if(dao.getAdminUserJudge(aub)){
                 aub = dao.getAdminUser(aub);
-                System.out.println("1");
                 session.setAttribute("adminToken","OK");
                 session.setAttribute("aub",aub);
             }else{

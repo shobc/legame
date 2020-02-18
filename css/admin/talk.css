@@ -6,7 +6,7 @@
     display: flex;
     margin-top: 10px;
     align-items: center;
-    height: 20%;
+    /*height: 20%;*/
 }
 .footer{
     background: white;
@@ -21,18 +21,17 @@
 }
 .image{
     display: inline;
-    /*margin: 10px;*/
-    /*height: 400px;*/
 }
 .chatting {
     position: relative;
-    top: -20px;
+    top: -10px;
     right: 105px;
     width: 100%;
+    height: 30px;
 }
 
 .says {
-    width: 300px;
+    width: 400px;
     display: inline-block;
     position: relative;
     margin: 5px 0 0 0;
@@ -59,17 +58,24 @@
 
 .profile{
     width: 200px;
+    align-self: flex-end;
 }
 .talk{
     position: relative;
     top: 100px;
-    /*margin-top: 300px;*/
 }
 
 
 .top_picture{
+    position: relative;
+    bottom: 0;
     width: 50px;
     height: 50px;
     border-radius: 50%;
     border: solid 1px rgba(0, 0, 0, 0.05);
+}
+
+.date{
+    position: relative;
+    bottom: 0;
 }

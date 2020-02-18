@@ -1,5 +1,5 @@
 import java.io.IOException;
-import java.io.InputStream;
+//import java.io.InputStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.RequestDispatcher;
@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
-import javax.servlet.annotation.MultipartConfig;
+import function.BinaryToBufferedImage;
+import function.Base64Decode;
 
 import function.ProfileImageName;
 import dao.OracleConnectionManager;
@@ -17,7 +17,6 @@ import dao.ProfileDao;
 import function.PathHolder;
 import bean.UserBean;
 
-@MultipartConfig(maxFileSize=1048571121)
 public class RegisterProfileServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         req.setCharacterEncoding("windows-31j");
@@ -25,22 +24,16 @@ public class RegisterProfileServlet extends HttpServlet{
         String name = req.getParameter("name");
         String id = req.getParameter("id");
         String comment = req.getParameter("comment");
-        Part part = req.getPart("profileImage");
-        String realPath = PathHolder.pathName;
-        String file_name = ProfileImageName.getProfileImageName(part);
-        String pathPic = null;
-        if(file_name.equals("")){
-            pathPic = realPath+ "WEB-INF/image/noimage.jpg";
-        }else{
-            pathPic = realPath+ "WEB-INF/image/" + file_name;
-            part.write(pathPic);
-        }
+        String base64Image = req.getParameter("base64Image");
+
+        Base64Decode bd = new Base64Decode();
+        bd.setImagePath(base64Image);
         UserBean ub = new UserBean();
         ub.setUser_id(user_id);
         ub.setSearch_id(id);
         ub.setSingle_word(comment);
         ub.setName(name);
-        ub.setTop_picture(pathPic);
+        ub.setTop_picture(bd.getFilePath("WEB-INF/image/"));
 
         OracleConnectionManager.getInstance().beginTransaction();
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
@@ -53,5 +46,8 @@ public class RegisterProfileServlet extends HttpServlet{
 
         RequestDispatcher dis = req.getRequestDispatcher("registeredProfilePage");
         dis.forward(req,res);
+    }
+    public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
+        this.doPost(req,res);
     }
 }

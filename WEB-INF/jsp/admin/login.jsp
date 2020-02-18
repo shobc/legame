@@ -6,6 +6,7 @@
     <title>管理者ログインページ</title>
     <script src="<c:url value='/js/jquery-3.4.1.min.js' />"></script>
     <script src="<c:url value='/js/admin/login.js' />"></script>
+    <script src="<c:url value='/js/admin/deviceJudge.js' />"></script>
     <link rel="stylesheet" href="<c:url value='/css/admin/login.css' />">
     <link rel="icon" href="<c:url value='/image/legame.ico' />" type="image/vnd.microsoft.icon">
 </head>

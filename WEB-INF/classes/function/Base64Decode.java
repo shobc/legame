@@ -1,4 +1,4 @@
-package socket;
+package function;
 
 import java.io.FileOutputStream;
 import java.io.FileInputStream;
@@ -12,8 +12,11 @@ import java.awt.image.BufferedImage;
 
 
 public class Base64Decode{
-    public String getFilePath(String base64,String extension){
-        String filePath = PathHolder.pathName+"WEB-INF/talkImage/"+RandomString.getString(30)+"."+extension;
+    private String base64;
+    private String extension;
+    private static final String TEN =",";
+    public String getFilePath(String path){
+        String filePath = PathHolder.pathName+path+RandomString.getString(30)+"."+extension;
         try{
             byte[] imageBinary =  Base64.getDecoder().decode(base64);
             OutputStream out=new FileOutputStream(filePath);
@@ -24,5 +27,9 @@ public class Base64Decode{
             e.printStackTrace();
         }
         return filePath;
+    }
+    public void setImagePath(String message){
+        base64 = message.substring(message.indexOf(TEN) + TEN.length());
+        extension = message.substring(message.indexOf("/")+1,message.indexOf(";"));
     }
 }

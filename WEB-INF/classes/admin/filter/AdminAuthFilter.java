@@ -18,13 +18,10 @@ public class AdminAuthFilter extends HttpServlet implements Filter{
     public void doFilter(ServletRequest req,ServletResponse res, FilterChain chain)throws IOException,ServletException{
         HttpSession session = ((HttpServletRequest)req).getSession();
         String flag = (String)session.getAttribute("adminToken");
-        System.out.println("2");
         if(flag==null){
-            System.out.println("3");
             RequestDispatcher dis = req.getRequestDispatcher("/admin/login");
             dis.forward(req,res);
         }else{
-            System.out.println("4");
             chain.doFilter(req,res);
         }
     }

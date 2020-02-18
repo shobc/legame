@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="<c:url value='/css/bootstrap.min.css' />">
     <link rel="stylesheet" href="<c:url value='/css/admin/talk.css' />">
     <script src="<c:url value='/js/jquery-3.4.1.min.js' />"></script>
+    <script src="<c:url value='/js/admin/deviceJudge.js' />"></script>
     <script src="<c:url value='/js/admin/talk.js' />"></script>
     <link rel="icon" href="<c:url value='/image/legame.ico' />" type="image/vnd.microsoft.icon">
     <title>通報されたチャットに対してのトーク</title>
