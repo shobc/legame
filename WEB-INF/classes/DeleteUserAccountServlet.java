@@ -27,7 +27,7 @@ public class DeleteUserAccountServlet extends HttpServlet{
         OracleConnectionManager.getInstance().commit();
         OracleConnectionManager.getInstance().closeConnection();
         session.invalidate();
-        res.sendRedirect("deletedaccount");
+        res.sendRedirect("deleted-account");
     }
     public void doGet (HttpServletRequest req, HttpServletResponse res)throws IOException, ServletException {
         this.doPost(req,res);

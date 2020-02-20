@@ -1,0 +1,116 @@
+.text{
+    background-color: #ffffff;
+    font-size: 30px;
+    width: 95%;
+    border: none;
+    outline: none;
+    padding-bottom: 8px;
+
+    box-sizing: border-box; /*横幅の解釈をpadding, borderまで*/
+}
+
+#form{
+    margin-top: 10px;
+}
+.header{
+    width: 100%;
+}
+
+#caption{
+    text-align: center;
+}
+.back{
+    position: relative;
+    top:-125px;
+}
+
+.btn-border , #btn-border {
+    margin-top:300px;
+    display: inline-block;
+    text-align: center;
+    font-size: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0 16px;
+    border-radius: 4px;
+    transition: .4s;
+    width: 95%;
+    border: 2px solid #63b858;
+    background-color: #63b858;
+    color: #FFF;
+}
+#btn-border{
+    margin-top: 200px;
+}
+.changeBtn, #changeBtn{
+    font-family: "Yu Gothic", YuGothic, Verdana, 'Hiragino Kaku Gothic ProN','Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', 'メイリオ', Meiryo, sans-serif;
+    text-align: center;
+    margin-top: 0;
+}
+
+.text_underline{
+    position: relative; /*.text_underline::beforeの親要素*/
+    width: 95%;
+    left: 2%;
+    border-top: 1px solid #c2c2c2;
+}
+
+.text_underline::before,
+.text_underline::after{
+    position: absolute;
+    bottom: 0; /*中央配置*/
+    width: 0; /*アニメーションで0pxから50%に*/
+    height: 3px; /*高さ*/
+    content: '';
+    background-color: #9eebaf; /*アニメーションの色*/
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+}
+/*中央から右へのアニメーション*/
+.text_underline::before{
+    left: 50%; /*中央配置*/
+}
+/*中央から左へのアニメーション*/
+.text_underline::after{
+    right: 50%; /*中央配置*/
+}
+/*実際に上で設定したアニメーションが移動する位置*/
+.text:focus + .text_underline::before,
+.text:focus + .text_underline::after{
+    width: 50%;
+}
+
+.upload-img-btn {
+    margin: 22px auto;
+    padding: 15px;
+    border-radius: 4px;
+    text-align: center;
+    display: block;
+    background-color: #f1f1f1;
+    color: rgba(5, 210, 5, 0.79);
+    cursor: pointer;
+}
+#profileImage{
+    display: none;
+}
+
+.imageChange{
+    display: none;
+}
+
+.top_picture{
+    position: relative;
+    bottom: 0;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: solid 1px rgba(0, 0, 0, 0.05);
+}
+
+.image{
+    display: flex;
+    justify-content: center;
+}
+.l_input{
+    padding-left: 10px;
+}

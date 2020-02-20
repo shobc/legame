@@ -6,4 +6,4 @@ $(function () {
         window.location.href = "resultDevice";
     } else {
     }
-})
+});

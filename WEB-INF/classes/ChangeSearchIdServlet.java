@@ -29,6 +29,6 @@ public class ChangeSearchIdServlet extends HttpServlet{
 
         OracleConnectionManager.getInstance().commit();
         OracleConnectionManager.getInstance().closeConnection();
-        res.sendRedirect("profilesetting");
+        res.sendRedirect("profile-setting");
     }
 }

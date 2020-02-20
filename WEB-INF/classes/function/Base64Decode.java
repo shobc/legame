@@ -32,4 +32,8 @@ public class Base64Decode{
         base64 = message.substring(message.indexOf(TEN) + TEN.length());
         extension = message.substring(message.indexOf("/")+1,message.indexOf(";"));
     }
+
+    public String getBase64() {
+        return base64;
+    }
 }

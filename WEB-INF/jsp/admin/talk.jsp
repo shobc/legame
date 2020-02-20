@@ -16,7 +16,7 @@
 <div class="footer">
     <a class="back" href="ReportChatListServlet">–ß‚é</a>
     <div class="image">
-        <img src="<c:url value='/image/log.PNG' />" height="100%" width="30%">
+        <img src="<c:url value='/image/logo.PNG' />" height="100%" width="30%">
     </div>
 </div>
 

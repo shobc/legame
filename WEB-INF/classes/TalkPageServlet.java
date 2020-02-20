@@ -64,7 +64,7 @@ public class TalkPageServlet extends HttpServlet{
         req.setAttribute("inputText",inputText);
         req.setAttribute("friendJudge",friendJudge);
         req.setAttribute("frieadList",frieadList);
-        RequestDispatcher dis = req.getRequestDispatcher("talkScreen");
+        RequestDispatcher dis = req.getRequestDispatcher("talk");
         dis.forward(req,res);
     }
     public void doGet (HttpServletRequest req, HttpServletResponse res)throws IOException, ServletException {

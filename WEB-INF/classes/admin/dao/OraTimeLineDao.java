@@ -33,6 +33,7 @@ public class OraTimeLineDao implements TimeLineDao{
                 tlb.setTimeline_id(rs.getString(1));
                 tlb.setName(rs.getString(2));
                 Blob blob = rs.getBlob(3);
+                System.out.println("blob"+blob);
                 Base64Image bi = new Base64Image();
                 tlb.setTop_picture(bi.getBase64(blob));
                 tlb.setTimeline_sentence(rs.getString(4));

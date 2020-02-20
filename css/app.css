@@ -1,0 +1,79 @@
+/*.caption{*/
+/*    text-align: center;*/
+/*    font-size: 20px;*/
+/*    margin: 15px 15px 0 15px;*/
+/*}*/
+
+.container{
+    display: flex;
+    justify-content: flex-start;
+    padding: 15px 15px 15px 15px;
+    border-bottom: solid 0.5px #525457;
+    border-radius: 1px;
+    background-color: #fefefe;
+}
+.news{
+    width: 300px;
+    display: inline-block;
+    text-align: center;
+}
+.newsList{
+    margin-top:15px;
+}
+.apps{
+    display: flex;
+    justify-content: space-between;
+    padding: 100px 0 0 0;
+}
+.app{
+    /*margin: 5px 0 5px 5px;*/
+    width: 50%;
+    padding: 10px 10px 10px 10px;
+    /*border: solid 0.5px #525457;*/
+    /*border-radius: 1px;*/
+    background-color: #fefefe;
+    text-align: center;
+    /*box-shadow: 0 0 0 2px rgba(0,0,0,0.4);*/
+}
+.news_title{
+    font-size: 35px;
+    text-align: center;
+}
+.slide-wrap {
+    border-top: solid 0.5px black;
+    border-bottom: solid 0.2px black;
+    /*background-color: #b3b3b3;*/
+    display: flex;
+    margin: 0 auto;
+    max-width: 1080px;
+    width: 100%;
+}
+.slide-box {
+    padding: 10px;
+    /*margin-right: 0.5%;*/
+    width: 30px;
+    text-align: center;
+    font-size: 16px;
+}
+/* サムネイルとタイトルのスタイル調整 */
+.slide-box a {
+    background-color: #fff;
+    color: #222;
+    display: block;
+    text-decoration: none;
+}
+.slide-box p {
+    font-weight: bold;
+    padding: 10px;
+}
+@media screen and (max-width: 375px) {
+    /* スマホではスライダーで表示 */
+    .slide-wrap {
+        overflow-x: scroll;
+        -webkit-overflow-scrolling: touch;
+        overflow-scrolling: touch;
+    }
+    .slide-box {
+        flex: 0 0 20%;
+    }
+}

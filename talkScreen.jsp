@@ -83,7 +83,7 @@
 </head>
 <body>
 ${friendJudge}
-<h1><a href="ChatPageServlet" onclick="wsCloseConnection();">チャット一覧ページに戻る</a>トーク</h1>
+<h1><a href="TalkListPageServlet" onclick="wsCloseConnection();">チャット一覧ページに戻る</a>トーク</h1>
 <button onclick="ajaxReportFriend(${requestScope.yub.user_id})">通報</button>
 <table border="1" id="table">
     <tr><td>名前</td><td>画像</td><td>時間</td><td>内容</td><td>既読</td></tr>

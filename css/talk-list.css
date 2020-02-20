@@ -1,0 +1,28 @@
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px 0 10px;
+    border-bottom: solid 0.5px #525457;
+    border-radius: 1px;
+    background-color: #fefefe;
+}
+
+.top_picture{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: solid 1px rgba(0, 0, 0, 0.05);
+}
+
+.talk_list {
+    padding: 57px 0 0 0;
+    width: 100%;
+}
+
+.user{
+    width: 300px;
+}
+.delete{
+    color: #007bff;
+}

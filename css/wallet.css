@@ -1,0 +1,136 @@
+body{
+ margin: 0;
+}
+.titleStart{
+    position: fixed;
+    width: 100%;
+    /*padding: 5px;*/
+    /*border-bottom: 0.5px solid black;*/
+    box-shadow: 0 0 2px;
+    margin:0;
+    background-color: #f8f8f8;
+    display: block;
+    height: 56px;
+    z-index: 9999;
+}
+.titleStart h2{
+    text-align: center;
+    position: relative;
+    top:-7px;
+}
+
+.back{
+    position: relative;
+    top:-67px;
+    left: 10px;
+}
+
+.pay{
+    padding:80px 0 0 0;
+    margin-left: 20px;
+}
+.money{
+    font-size: 30px;
+}
+table{
+    width: 100%;
+}
+th{
+    text-align: left;
+}
+td{
+    height: 40px;
+    font-size: 15px;
+    text-align: right;
+    border-bottom: solid 1px #e3e3e3;
+}
+ul {
+    list-style: none;
+}
+li {
+    display: inline;
+}
+.container{
+    text-align: center;
+    margin-bottom: 20px;
+}
+.pagination {
+    margin-right: 45px;
+    display: inline-block;
+    /*width: 360px;*/
+}
+.pagination a {
+    color: black;
+    float: left;
+    padding: 2px 6px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    font-size: 20px;
+}
+
+.pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
+.pagination a:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.pagination a:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+#main{
+    color:white;
+    background-color: #ccc;
+}
+.page{
+    float:right;
+}
+.history{
+    width: 120px;
+}
+.point{
+    width: 30px;
+}
+.historydate{
+    width: 100px;
+}
+
+.cp_iptxt {
+    position: relative;
+    width: 80%;
+    margin: 20px 3%;
+}
+.cp_iptxt input[type='number'] {
+    font: 15px/24px sans-serif;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.3em;
+    transition: 0.3s;
+    letter-spacing: 1px;
+    color: #aaaaaa;
+    border: none;
+    border-bottom: 2px solid #1b2538;
+    background: transparent;
+}
+.ef input[type='number']:focus {
+    border-bottom: 2px solid #21da43;
+    outline: none;
+}
+
+.pay_input{
+    display: flex;
+    align-items: center;
+}
+
+.submit_box{
+    background-color: white;
+    border: solid 1px black;
+    padding: 10px;
+}

@@ -18,7 +18,7 @@ ${param.head}
     <div id="nav-open"><span></span></div>
 </div>
 <div class="image">
-    <img src="<c:url value='/image/log.PNG' />" height="10%" width="30%">
+    <img src="<c:url value='/image/logo.PNG' />" height="10%" width="30%">
 </div>
 <p id="caption">${param.caption}</p>
 <div id="nav-content">

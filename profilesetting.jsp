@@ -10,12 +10,10 @@
 <a href="HomePageServlet">home</a>
 <h1>プロフィール設定</h1>
 <table>
-    <tr><td>name:</td><td><a href="changename">${sessionScope.ub.name}</a></td></tr>
-    <tr><td>search_id:</td><td><a href="changesearchid">${sessionScope.ub.search_id}</a></td></tr>
-    <tr><td>single_word:</td><td><a href="changesingleword">${sessionScope.ub.single_word}</a></td></tr>
-    <tr><td>top_picture:</td><td><a href="changetoppicture"><img src="data:image;base64,${sessionScope.ub.top_picture}" style="height: 200px;width: 200px;"></a></td></tr>
-    <tr><td><a href="changepassword">パスワード変更</a></td></tr>
+    <tr><td>name:</td><td><a href="change-name">${sessionScope.ub.name}</a></td></tr>
+    <tr><td>search_id:</td><td><a href="change-searchId">${sessionScope.ub.search_id}</a></td></tr>
+    <tr><td>single_word:</td><td><a href="change-singleWord">${sessionScope.ub.single_word}</a></td></tr>
+    <tr><td>top_picture:</td><td><a href="change-top-picture"><img src="data:image;base64,${sessionScope.ub.top_picture}" style="height: 200px;width: 200px;"></a></td></tr>
 </table>
-${pageContext.request.servletPath}
 </body>
 </html>

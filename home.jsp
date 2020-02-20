@@ -40,9 +40,11 @@
 <p><a href="DeleteUserAccountServlet">アカウントを削除</a></p>
 <div id="noticeOuter">
     <p id="notice">${noticeCount}</p>
-    <a href="NewFriendListServlet">友達検索</a>
+    <a href="NewFriendListServlet">友達検索</a><br>
+    <a href="change-password">パスワード変更</a>
+
 </div>
-<p><a href="profilesetting">プロフィール設定</a></p>
+<p><a href="profile-setting">プロフィール設定</a></p>
 <h1>profile</h1>
 <table>
     <tr><td>id</td><td>name</td><td>comment</td><td>picture</td></tr>
@@ -59,7 +61,7 @@
             <td>${fl.single_word}</td>
         </c:forEach>
     </table>
-<a href="ChatPageServlet">チャット画面</a>
+<a href="TalkListPageServlet">チャット画面</a>
 <a href="AccessAppServlet">app</a>
 <a href="TimeLineServlet">タイムライン</a>
 </body>

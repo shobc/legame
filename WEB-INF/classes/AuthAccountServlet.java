@@ -31,7 +31,7 @@ public class AuthAccountServlet extends HttpServlet{
             OracleConnectionManager.getInstance().closeConnection();
             req.setAttribute("user_id",user_id);
             sc.removeAttribute(RandomCode);
-            RequestDispatcher dis = req.getRequestDispatcher("registerProfile");
+            RequestDispatcher dis = req.getRequestDispatcher("register-profile");
             dis.forward(req,res);
         }else{
             //—áŠO‚ð“ü‚ê‚é

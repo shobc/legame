@@ -14,7 +14,7 @@ import dao.ChatDao;
 
 import bean.UserBean;
 
-public class ChatPageServlet extends HttpServlet{
+public class TalkListPageServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         HttpSession session = req.getSession();
         UserBean ub = (UserBean)session.getAttribute("ub");
@@ -31,7 +31,7 @@ public class ChatPageServlet extends HttpServlet{
 
         req.setAttribute("chatList",chatList);
 
-        RequestDispatcher dis = req.getRequestDispatcher("chatList");
+        RequestDispatcher dis = req.getRequestDispatcher("talk-list");
         dis.forward(req,res);
     }
     public void doGet (HttpServletRequest req, HttpServletResponse res)throws IOException, ServletException {

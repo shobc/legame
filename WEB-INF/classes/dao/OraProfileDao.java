@@ -245,7 +245,8 @@ public class OraProfileDao implements ProfileDao{
             st = cn.prepareStatement("update USER_INFORMATION_TABLE set Top_Picture = ? where user_id = ?");
             st.setBinaryStream(1,fis);
             st.setString(2,ub.getUser_id());
-            st.executeUpdate();
+            int count = st.executeUpdate();
+            System.out.println(count+"åèèàóùÇµÇ‹ÇµÇΩ");
             st.close();
         }catch(IOException e){
             System.out.println(e.getMessage());

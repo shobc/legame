@@ -1,0 +1,31 @@
+.caption{
+    margin-top:-15px;
+    text-align: center;
+}
+
+.textStart{
+    margin-top: 3%;
+}
+.upload-img-btn {
+    margin: 22px auto;
+    padding: 15px;
+    border-radius: 4px;
+    /*max-width: 120px;*/
+    text-align: center;
+    display: block;
+    background-color: #f1f1f1;
+    color: rgba(5, 210, 5, 0.79);
+    cursor: pointer;
+}
+#profileImage{
+    display:none;
+}
+
+#btn{
+    display: none;
+}
+.registerStart{
+    font-family: "Yu Gothic", YuGothic, Verdana, 'Hiragino Kaku Gothic ProN','Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', 'メイリオ', Meiryo, sans-serif;
+    text-align: center;
+    margin-top: 15%;
+}
