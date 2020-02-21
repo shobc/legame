@@ -542,12 +542,12 @@
         <url-pattern>/registered-profile</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>friendSearch</servlet-name>
-        <jsp-file>/friendSearch.jsp</jsp-file>
+        <servlet-name>search-friend</servlet-name>
+        <jsp-file>/WEB-INF/jsp/search-friend.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
-        <servlet-name>friendSearch</servlet-name>
-        <url-pattern>/friendSearch</url-pattern>
+        <servlet-name>search-friend</servlet-name>
+        <url-pattern>/search-friend</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>talk-list</servlet-name>
@@ -566,12 +566,12 @@
         <url-pattern>/talk</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>blocklist</servlet-name>
-        <jsp-file>/blocklist.jsp</jsp-file>
+        <servlet-name>block-list</servlet-name>
+        <jsp-file>/WEB-INF/jsp/block-list.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
-        <servlet-name>blocklist</servlet-name>
-        <url-pattern>/blocklist</url-pattern>
+        <servlet-name>block-list</servlet-name>
+        <url-pattern>/block-list</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>wallet</servlet-name>
@@ -581,9 +581,6 @@
         <servlet-name>wallet</servlet-name>
         <url-pattern>/wallet</url-pattern>
     </servlet-mapping>
-
-
-
 
 
     <servlet>
@@ -644,7 +641,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>comment</servlet-name>
-        <jsp-file>/comment.jsp</jsp-file>
+        <jsp-file>/WEB-INF/jsp/comment.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>comment</servlet-name>
@@ -665,18 +662,12 @@
 
     <servlet>
         <servlet-name>change-password</servlet-name>
-        <jsp-file>/change-password.jsp</jsp-file>
+        <jsp-file>/WEB-INF/jsp/change-password.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>change-password</servlet-name>
         <url-pattern>/change-password</url-pattern>
     </servlet-mapping>
-
-
-
-
-
-
     <servlet>
         <servlet-name>change-profile</servlet-name>
         <jsp-file>/WEB-INF/jsp/change-profile.jsp</jsp-file>

@@ -1,0 +1,55 @@
+body{
+    margin: 0;
+}
+
+.block{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: solid 1px #757575;
+    padding: 12px 0;
+}
+.imgmaru{
+    border: solid 1px rgba(0, 0, 0, 0.16);
+    border-radius: 50%;  /* 角丸半径を50%にする(=円形にする) */
+    width:  70px;       /* 縦横を同値に */
+    height: 70px;       /* 縦横を同値に */
+}
+#block_list{
+    padding: 60px 0 0 0;
+}
+.block_judge{
+    margin-top: 210px;
+    text-align: center;
+}
+
+.header{
+    position: fixed;
+    width: 100%;
+    height: 57px;
+    box-shadow: 0 0 2px;
+}
+
+#caption{
+    text-align: center;
+    margin-top: 10px;
+}
+.back{
+    position: relative;
+    top:-63px;
+    left: 10px;
+}
+
+a{
+    color: #007bff;
+    text-decoration: none;
+}
+.judge_friend{
+    margin-right: 20px;
+}
+.user_name{
+    font-size: 22px;
+    position: relative;
+    margin-left: 6px;
+    top:-27px;
+}

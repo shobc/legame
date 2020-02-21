@@ -84,7 +84,7 @@ public class OraTalkDao implements TalkDao{
                 }else{
                     Blob blob = rs.getBlob(10);
                     Base64Image bi = new Base64Image();
-                    tb.setContent("<img src='data:image;base64,"+bi.getBase64(blob)+"' height='10%' width='10%'");
+                    tb.setContent("<img src='data:image;base64,"+bi.getBase64(blob)+"'");
                 }
                 Blob blob = rs.getBlob(5);
                 Base64Image bi = new Base64Image();
@@ -182,78 +182,6 @@ public class OraTalkDao implements TalkDao{
             }
         }
     }
-//    public void addTalkPicture(String talk_id,String imagePath){
-//        PreparedStatement st = null;
-//        Connection cn = null;
-//        String id = null;
-//        try{
-//            FileInputStream fis = new FileInputStream(imagePath);
-//            cn = OracleConnectionManager.getInstance().getConnection();
-//            String sql="insert into talk_picture_table(talk_id,talk_picture)" +
-//                    " values(?,?)";
-//            System.out.println(sql);
-//            st = cn.prepareStatement(sql);
-//            st.setString(1,talk_id);
-//            st.setBinaryStream(2,fis);
-//            int count = st.executeUpdate();
-//            System.out.println(count+"Œˆ—‚µ‚Ü‚µ‚½");
-//        }catch(IOException e){
-//            System.out.println(e.getMessage());
-//            e.printStackTrace();
-//            OracleConnectionManager.getInstance().rollback();
-//        }catch(SQLException e){
-//            System.out.println(e.getMessage());
-//            e.printStackTrace();
-//            OracleConnectionManager.getInstance().rollback();
-//        }finally{
-//            try{
-//                if(st != null){
-//                    st.close();
-//                }
-//            }catch (SQLException e){
-//                System.out.println(e.getMessage());
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-//    public ArrayList getPicture(String chat_id){
-//        PreparedStatement st = null;
-//        ResultSet rs = null;
-//        Connection cn = null;
-//        ArrayList talkPictureList = new ArrayList();
-//        try{
-//
-//            cn = OracleConnectionManager.getInstance().getConnection();
-//            String sql = "select t.TALK_ID,t.TALK_PICTURE from TALK_PICTURE_TABLE t" +
-//                    " left join TALK_TABLE TT on t.TALK_ID = TT.TALK_ID where CHAT_ID = ?";
-//
-//            st = cn.prepareStatement(sql);
-//            st.setString(1,chat_id);
-//            rs = st.executeQuery();
-//            while(rs.next()){
-//                TalkPictureBean tpb = new TalkPictureBean();
-//                tpb.setTalk_id(rs.getString(1));
-//                Blob blob = rs.getBlob(2);
-//                Base64Image bi  = new Base64Image();
-//                tpb.setBase64Image(bi.getBase64(blob));
-//                talkPictureList.add(tpb);
-//            }
-//        }catch(SQLException e){
-//            System.out.println(e.getMessage());
-//            e.printStackTrace();
-//            OracleConnectionManager.getInstance().rollback();
-//        }finally{
-//            try{
-//                if(st != null){
-//                    st.close();
-//                }
-//            }catch (SQLException e){
-//                System.out.println(e.getMessage());
-//                e.printStackTrace();
-//            }
-//        }
-//        return talkPictureList;
-//    }
     public boolean blockJudge(String chat_id){
         boolean judge = false;
         PreparedStatement st = null;

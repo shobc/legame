@@ -8,8 +8,15 @@
     </c:param>
     <c:param name="content">
         <div class="titleStart">
-            <h2>LegPay</h2>
-            <a class="back" href="AccessAppServlet"><img src="<c:url value='/image/back.png' />" width="20px"></a>
+            <div>
+                <a class="back" href="AccessAppServlet"><img src="<c:url value='/image/back.png' />" width="20px"></a>
+            </div>
+            <div>
+                <h2>LegPay</h2>
+            </div>
+            <div>
+                <span><a href="QRCodeServlet"><img src="<c:url value='/image/qr.png' />" width="50px"></a></span>
+            </div>
         </div>
         <div class="pay">
             <div>

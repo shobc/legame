@@ -26,7 +26,7 @@ public class NewFriendListServlet extends HttpServlet{
         OracleConnectionManager.getInstance().commit();
         OracleConnectionManager.getInstance().closeConnection();
         req.setAttribute("newFrinedList",newFriendList);
-        RequestDispatcher dis = req.getRequestDispatcher("friendSearch");
+        RequestDispatcher dis = req.getRequestDispatcher("search-friend");
         dis.forward(req,res);
     }
     public void doPost(HttpServletRequest req, HttpServletResponse res)throws IOException, ServletException {

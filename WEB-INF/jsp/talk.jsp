@@ -21,33 +21,35 @@
             </div>
         </div>
         <!-- 実際の会話 -->
-        <div class="line-bc">
-            <c:forEach var="tl" items="${talkList}">
-                <!--左-->
-                <c:if test="${sessionScope.ub.name != tl.name}">
-                    <div class="balloon6">
-                        <div class="face_icon">
-                            <img src="data:image;base64,${tl.image}">
-                        </div>
-                        <div class="chatting">
-                            <div class="says">
-                                <p>${tl.content}</p>
+        <div class="talk_list">
+            <div class="line-bc">
+                <c:forEach var="tl" items="${talkList}">
+                    <!--左-->
+                    <c:if test="${sessionScope.ub.name != tl.name}">
+                        <div class="balloon6">
+                            <div class="face_icon">
+                                <img src="data:image;base64,${tl.image}">
                             </div>
-                            <div class="時間">${tl.mess_time}</div>
+                            <div class="chatting">
+                                <div class="says">
+                                    <p>${tl.content}</p>
+                                </div>
+                                <div class="時間">${tl.mess_time}</div>
+                            </div>
                         </div>
-                    </div>
-                </c:if>
-                <c:if test="${sessionScope.ub.name == tl.name}">
-                    <!--右-->
-                    <div class="my_comment">
-                        <p>
-                            ${tl.content}
-                        </p>
-                    </div>
-                    <span class="item">${tl.read_flag}</span>
-                    <span class="時間">${tl.mess_time}</span>
-                </c:if>
-            </c:forEach>
+                    </c:if>
+                    <c:if test="${sessionScope.ub.name == tl.name}">
+                        <!--右-->
+                        <div class="my_comment">
+                            <p>
+                                ${tl.content}
+                            </p>
+                        </div>
+                        <span class="item">${tl.read_flag}</span>
+                        <span>${tl.mess_time}</span>
+                    </c:if>
+                </c:forEach>
+            </div>
         </div>
 <%--        <div class="js-modal__btn"><img src="img/talkMenu.png" height="30px" width="30px"></div>--%>
 <%--        <div class="js-modal__bg"></div>--%>
@@ -72,18 +74,28 @@
 <%--            <span class="filelabel">--%>
 <%--       <i class="fab fa-adn"></i>送信--%>
 <%--    </span>--%>
-<%--            <!-- この部分は表示上から隠す -->--%>
-<%--            <input type="submit" id="send">--%>
-<%--        </label>--%>
+            <!-- この部分は表示上から隠す -->
+            <input type="submit" id="send">
+        </label>
         <div class="footer">
             <div class="input">
                 <div>
+                    <img src='<c:url value="/image/image.png"/>' class="change" onclick="changeTextBox()">
                 </div>
                 <div class="sendMessage">
                     <textarea id='message' class="text_area"></textarea>
                 </div>
+                <div class="sendPicture">
+                    <label class="upload-img-btn">
+                        TOP画像
+                        <input type="file" id="myImage" accept="image/*">
+<%--                        <input type="hidden" value="${sessionScope.ub.top_picture}" name="base64Image" id="base64Image">--%>
+                    </label>
+<%--                    <img id="preview" width="100px" height="100px">--%>
+<%--                    <input type="file" id="myImage" accept="image/*">--%>
+                </div>
                 <div>
-                    <span href="#" class="btn-flat-border">送信</span>
+                    <img class="btn-flat-border" src="<c:url value='/image/send.png' />" onclick='wsSendMessage();' width="100%" height="100%"/>
                 </div>
             </div>
         </div>
@@ -94,182 +106,204 @@
 
 
 
-<%--        <script>--%>
-<%--            function ajaxFriendAdd(id){--%>
-<%--                $.ajax({--%>
-<%--                    url: "AjaxFriendAddServlet",--%>
-<%--                    type: "GET",--%>
-<%--                    data: {chat_id :id}--%>
-<%--                }).done(function (result) {--%>
-<%--                    $('#friendAdd').remove();--%>
-<%--                }).fail(function () {--%>
-<%--                    alert("読み込み失敗");--%>
-<%--                }).always(function (result) {--%>
-<%--                });--%>
-<%--            }--%>
-<%--            function ajaxFriendRelease(id){--%>
-<%--                $.ajax({--%>
-<%--                    url: "AjaxFriendReleaseServlet",--%>
-<%--                    type: "GET",--%>
-<%--                    data: {chat_id :id}--%>
-<%--                }).done(function (result) {--%>
-<%--                    $('#frienddDeleteOrBlock').remove();--%>
-<%--                    $('#sendMessage').html('<input id="message" type="text">' +--%>
-<%--                        '<input onclick=wsSendMessage(); value="Echo" type="button">');--%>
-<%--                    ResurrectionMessage();--%>
-<%--                }).fail(function () {--%>
-<%--                    alert("読み込み失敗");--%>
-<%--                }).always(function (result) {--%>
-<%--                });--%>
-<%--            }--%>
-<%--            $(function () {--%>
-<%--                window.scrollTo(0,document.body.scrollHeight);--%>
-<%--            });--%>
-<%--            var showFlag = 0;--%>
-<%--            function sdContact() {--%>
-<%--                if(showFlag===0){--%>
-<%--                    $('#contact').css("display","block");--%>
-<%--                    showFlag++;--%>
-<%--                }else if(showFlag===1){--%>
-<%--                    $('#contact').css("display","none");--%>
-<%--                    showFlag--;--%>
-<%--                }--%>
-<%--            }--%>
-<%--            var showImageFlag = 0;--%>
-<%--            function sdImageContact() {--%>
-<%--                if(showFlag===0){--%>
-<%--                    $('#imageSend').css("display","block");--%>
-<%--                    $('#sendMessage').css("display","none");--%>
-<%--                    $('#sendPicture').text("テキスト");--%>
-<%--                    showFlag++;--%>
-<%--                }else if(showFlag===1){--%>
-<%--                    $('#imageSend').css("display","none");--%>
-<%--                    $('#sendMessage').css("display","block");--%>
-<%--                    $('#sendPicture').text("写真");--%>
-<%--                    showFlag--;--%>
-<%--                }--%>
-<%--            }--%>
-<%--            $(function(){--%>
-<%--                var modalBtn = $('.js-modal__btn');--%>
-<%--                var modalBtnClose = $('.js-modal__btn--close');--%>
-<%--                var modalBtnCloseFix = $('.js-modal__btn--close--fix');--%>
-<%--                var modalBg = $('.js-modal__bg');--%>
-<%--                var modalMain = $('.js-modal__main');--%>
-<%--                modalBtn.on('click', function (e) {--%>
-<%--                    $(this).next(modalBg).fadeIn();--%>
-<%--                    $(this).next(modalBg).next(modalMain).removeClass("_slideDown");--%>
-<%--                    $(this).next(modalBg).next(modalMain).addClass("_slideUp");--%>
-<%--                });--%>
-<%--                modalBtnClose.on('click', function (e) {--%>
-<%--                    modalBg.fadeOut();--%>
-<%--                    modalMain.removeClass("_slideUp");--%>
-<%--                    modalMain.addClass("_slideDown");--%>
-<%--                });--%>
-<%--                modalBtnCloseFix.on('click', function (e) {--%>
-<%--                    modalBg.fadeOut();--%>
-<%--                    modalMain.removeClass("_slideUp");--%>
-<%--                    modalMain.addClass("_slideDown");--%>
-<%--                });--%>
-<%--                modalMain.on('click', function (e) {--%>
-<%--                    e.stopPropagation();--%>
-<%--                });--%>
-<%--                modalBg.on('click', function () {--%>
-<%--                    $(this).fadeOut();--%>
-<%--                    $(this).next(modalMain).removeClass("_slideUp");--%>
-<%--                    $(this).next(modalMain).addClass("_slideDown");--%>
-<%--                });--%>
-<%--            });--%>
+        <script>
+            var change_flag = 0;
+            function changeTextBox(){
+                if(change_flag===0){
+                    $(".sendMessage").css("display","none");
+                    $(".sendPicture").css("display","block");
+                    $(".change").attr("src",'<c:url value="/image/chat.png"/>');
+                    change_flag++;
+                }else{
+                    $(".sendMessage").css("display","block");
+                    $(".sendPicture").css("display","none");
+                    $(".change").attr("src",'<c:url value="/image/image.png"/>');
+                    change_flag--;
+                }
 
-<%--            var webSocket = new WebSocket("ws://localhost:8080/legame/websocketendpoint");--%>
-<%--            var echoText = document.getElementById("echoText");--%>
-<%--            var message = document.getElementById("message");--%>
-<%--            function ResurrectionMessage(){--%>
-<%--                message = document.getElementById("message");--%>
-<%--            }--%>
-<%--            webSocket.onopen = function(message){ wsOpen(message);};--%>
-<%--            webSocket.onmessage = function(message){ wsGetMessage(message);};--%>
-<%--            webSocket.onclose = function(message){ wsClose(message);};--%>
-<%--            webSocket.onerror = function(message){ wsError(message);};--%>
-<%--            function wsOpen(message){--%>
-<%--                // echoText.value += "Connected ... \n";--%>
-<%--            }--%>
-<%--            var i=1;--%>
-<%--            function wsSendMessage(){--%>
-<%--                webSocket.send(message.value);--%>
-<%--                $("#preview").attr('src','');--%>
-<%--                var str = message.value;--%>
-<%--                if(message.value.length>=2000){--%>
-<%--                    str = "<img src='"+message.value+"' height='100px' width='100px'>";--%>
-<%--                }--%>
-<%--                $("#table").append("<tr id='#a"+i+"'><td>${sessionScope.ub.name}</td> "+--%>
-<%--                    "<td><img src='data:image;base64,${sessionScope.ub.top_picture}' style='height: 100px;width: 100px;'></td>'" +--%>
-<%--                    "<td>"+getDate()+"</td>" +--%>
-<%--                    "<td>"+str+"</td>" +--%>
-<%--                    "<td></td></tr>");--%>
-<%--                message.value = "";--%>
-<%--                $('html, body').animate({--%>
-<%--                    scrollTop: $(document).height()--%>
-<%--                },0);--%>
-<%--                return false;--%>
-<%--            }--%>
-<%--            function wsSendContact(name,user_id){--%>
-<%--                webSocket.send("<a href='ProfilePageServlet?id="+user_id+"'>"+name+"</a>");--%>
-<%--                $("#table").append("<a href='ProfilePageServlet?id="+user_id+"'>"+name+"</a>");--%>
-<%--                message.value = "";--%>
-<%--                $('html, body').animate({--%>
-<%--                    scrollTop: $(document).height()--%>
-<%--                },0);--%>
-<%--                return false;--%>
-<%--            }--%>
-<%--            function wsCloseConnection(){--%>
-<%--                webSocket.close();--%>
-<%--            }--%>
-<%--            function wsGetMessage(message){--%>
-<%--                var str = message.data;--%>
-<%--                if(message.data.length>=2000){--%>
-<%--                    str = "<img src='"+message.data+"' height='10%' width='10%'>";--%>
-<%--                }--%>
-<%--                $("#table").append("<tr><td>${requestScope.yub.name}</td>" +--%>
-<%--                    "<td><img src='data:image;base64,${requestScope.yub.top_picture}' style='height: 100px;width: 100px;'></td>" +--%>
-<%--                    "<td>"+getDate()+"</td>" +--%>
-<%--                    "<td>"+str+"</td>" +--%>
-<%--                    "<td></td></tr>");--%>
-<%--                $('html, body').animate({--%>
-<%--                    scrollTop: $(document).height()--%>
-<%--                },0);--%>
-<%--                return false;--%>
-<%--            }--%>
-<%--            function wsClose(message){--%>
-<%--                // echoText.value += "Disconnect ... \n";--%>
-<%--            }--%>
+            }
+            function ajaxFriendAdd(id){
+                $.ajax({
+                    url: "AjaxFriendAddServlet",
+                    type: "GET",
+                    data: {chat_id :id}
+                }).done(function (result) {
+                    $('#friendAdd').remove();
+                }).fail(function () {
+                    alert("読み込み失敗");
+                }).always(function (result) {
+                });
+            }
+            function ajaxFriendRelease(id){
+                $.ajax({
+                    url: "AjaxFriendReleaseServlet",
+                    type: "GET",
+                    data: {chat_id :id}
+                }).done(function (result) {
+                    $('#frienddDeleteOrBlock').remove();
+                    $('#sendMessage').html('<input id="message" type="text">' +
+                        '<input onclick=wsSendMessage(); value="Echo" type="button">');
+                    ResurrectionMessage();
+                }).fail(function () {
+                    alert("読み込み失敗");
+                }).always(function (result) {
+                });
+            }
+            $(function () {
+                window.scrollTo(0,document.body.scrollHeight);
+            });
+            var showFlag = 0;
+            function sdContact() {
+                if(showFlag===0){
+                    $('#contact').css("display","block");
+                    showFlag++;
+                }else if(showFlag===1){
+                    $('#contact').css("display","none");
+                    showFlag--;
+                }
+            }
+            var showImageFlag = 0;
+            function sdImageContact() {
+                if(showFlag===0){
+                    $('#imageSend').css("display","block");
+                    $('#sendMessage').css("display","none");
+                    $('#sendPicture').text("テキスト");
+                    showFlag++;
+                }else if(showFlag===1){
+                    $('#imageSend').css("display","none");
+                    $('#sendMessage').css("display","block");
+                    $('#sendPicture').text("写真");
+                    showFlag--;
+                }
+            }
+            $(function(){
+                var modalBtn = $('.js-modal__btn');
+                var modalBtnClose = $('.js-modal__btn--close');
+                var modalBtnCloseFix = $('.js-modal__btn--close--fix');
+                var modalBg = $('.js-modal__bg');
+                var modalMain = $('.js-modal__main');
+                modalBtn.on('click', function (e) {
+                    $(this).next(modalBg).fadeIn();
+                    $(this).next(modalBg).next(modalMain).removeClass("_slideDown");
+                    $(this).next(modalBg).next(modalMain).addClass("_slideUp");
+                });
+                modalBtnClose.on('click', function (e) {
+                    modalBg.fadeOut();
+                    modalMain.removeClass("_slideUp");
+                    modalMain.addClass("_slideDown");
+                });
+                modalBtnCloseFix.on('click', function (e) {
+                    modalBg.fadeOut();
+                    modalMain.removeClass("_slideUp");
+                    modalMain.addClass("_slideDown");
+                });
+                modalMain.on('click', function (e) {
+                    e.stopPropagation();
+                });
+                modalBg.on('click', function () {
+                    $(this).fadeOut();
+                    $(this).next(modalMain).removeClass("_slideUp");
+                    $(this).next(modalMain).addClass("_slideDown");
+                });
+            });
 
-<%--            function wsError(message){--%>
-<%--                // echoText.value += "Error ... \n";--%>
-<%--            }--%>
-<%--            function getDate(){--%>
-<%--                var now = new Date();--%>
-<%--                var y = now.getFullYear();--%>
-<%--                var m = now.getMonth() + 1;--%>
-<%--                var d = now.getDate();--%>
-<%--                var h = now.getHours();--%>
-<%--                var mi = now.getMinutes();--%>
-<%--                console.log(y + '年' + m + '月' + d + '日' + h + '時' + mi + '分');--%>
-<%--                return y + '年' + m + '月' + d + '日' + h + '時' + mi + '分';--%>
-<%--            }--%>
+            var webSocket = new WebSocket("ws://localhost:8080/legame/websocketendpoint");
+            var echoText = document.getElementById("echoText");
+            var message = document.getElementById("message");
+            function ResurrectionMessage(){
+                message = document.getElementById("message");
+            }
+            webSocket.onopen = function(message){ wsOpen(message);};
+            webSocket.onmessage = function(message){ wsGetMessage(message);};
+            webSocket.onclose = function(message){ wsClose(message);};
+            webSocket.onerror = function(message){ wsError(message);};
+            function wsOpen(message){
+                // echoText.value += "Connected ... \n";
+            }
+            var i=1;
+            function wsSendMessage(){
+                console.log(message.value);
+                webSocket.send(message.value);
+                $("#preview").attr('src','');
+                var str = message.value;
+                if(message.value.length>=2000){
+                    str = "<img src='"+message.value+"' >";
+                }
+                $(".line-bc").append("<div class='my_comment'>"+
+                "<p>"+str+"</p>"+
+                "</div>"+
+                "<span class='item'>?</span>"+
+                "<span>"+getDate()+"</span>");
+                message.value = "";
+                $('html, body').animate({
+                    scrollTop: $(document).height()
+                },0);
+                return false;
+            }
+            function wsSendContact(name,user_id){
+                webSocket.send("<a href='ProfilePageServlet?id="+user_id+"'>"+name+"</a>");
+                $("#table").append("<a href='ProfilePageServlet?id="+user_id+"'>"+name+"</a>");
+                message.value = "";
+                $('html, body').animate({
+                    scrollTop: $(document).height()
+                },0);
+                return false;
+            }
+            function wsCloseConnection(){
+                webSocket.close();
+            }
+            function wsGetMessage(message){
+                var str = message.data;
+                if(message.data.length>=2000){
+                    str = "<img src='"+message.data+"'>";
+                }
+                $(".line-bc").append("<div class='balloon6'>"+
+                    "<div class='face_icon'>"+
+                    "<img src='data:image;base64,${requestScope.yub.top_picture}'>"+
+                    "</div>"+
+                    "<div class='chatting'>"+
+                    "<div class='says'>"+
+                    "<p>"+str+"</p>"+
+                    "</div>"+
+                    "<div class='時間'>"+getDate()+"</div>"+
+                    "</div>"+
+                    "</div>");
+                $('html, body').animate({
+                    scrollTop: $(document).height()
+                },0);
+                return false;
+            }
+            function wsClose(message){
+                // echoText.value += "Disconnect ... \n";
+            }
+
+            function wsError(message){
+                // echoText.value += "Error ... \n";
+            }
+            function getDate(){
+                var now = new Date();
+                var y = now.getFullYear();
+                var m = now.getMonth() + 1;
+                var d = now.getDate();
+                var h = now.getHours();
+                var mi = now.getMinutes();
+                console.log(y + '年' + m + '月' + d + '日' + h + '時' + mi + '分');
+                return y + '年' + m + '月' + d + '日' + h + '時' + mi + '分';
+            }
 
 
 
-<%--            $('#myImage').on('change', function (e) {--%>
-<%--                var reader = new FileReader();--%>
-<%--                reader.onload = function (e) {--%>
-<%--                    $("#preview").attr('src', e.target.result);--%>
-<%--                    console.log(e.target.result);--%>
-<%--                    message.value=e.target.result;--%>
-<%--                    $("#myImage").val("");--%>
-<%--                };--%>
-<%--                reader.readAsDataURL(e.target.files[0]);--%>
-<%--            });--%>
-<%--        </script>--%>
+            $('#myImage').on('change', function (e) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("#preview").attr('src', e.target.result);
+                    $("#preview").css('display', 'block');
+                    message.value=e.target.result;
+                    $("#myImage").val("");
+                };
+                reader.readAsDataURL(e.target.files[0]);
+            });
+        </script>
 <%--        <script src="<c:url value='/js/talk.js' />">--%>
     </c:param>
 </c:import>

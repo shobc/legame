@@ -1,3 +1,27 @@
+body{
+    margin: 0;
+}
+
+.header{
+    position: fixed;
+    width: 100%;
+    height: 57px;
+    box-shadow: 0 0 2px;
+}
+
+#caption{
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+.back{
+    position: fixed;
+    z-index: 9999;
+    top: 6px;
+    left: 10px;
+}
+
+
 .top_picture{
     width: 70px;
     height: 70px;
@@ -56,10 +80,7 @@
     /*border-bottom: solid 1px #a2a6aa;*/
 }
 .timelineContent{
-    /*margin: 10px auto;*/
-    /*padding-bottom: 20px;*/
-    border: solid 0.5px #dbe1e6;
-    /*box-shadow: 0 0 0.5px 0;*/
+    padding: 70px 0 0 0;
     background-color: #fefefe;
 }
 #timeline{
@@ -84,7 +105,7 @@
 .good_count{
     float:right;
     position: relative;
-    left: 54px;
+    left: 47px;
     margin-bottom: 12px;
     font-size: 20px;
 }
@@ -98,4 +119,13 @@
     float:right;
     margin-right: 15px;
 
+}
+
+a{
+    color: #007bff;
+    text-decoration: none;
+}
+.image{
+    width: 100%;
+    height: 350px;
 }

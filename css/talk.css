@@ -7,12 +7,14 @@ body{
 #imageSend{
     display: none;
 }
-
+#preview{
+    display: none;
+}
 /*以下、背景色など*/
 .line-bc {
-    padding: 20px 10px;
+    padding: 60px 12px 50px 12px;
     max-width: 450px;
-    margin: 15px auto;
+    margin: 0;
     text-align: right;
     font-size: 14px;
     /*background: #7da4cd;*/
@@ -99,12 +101,15 @@ body{
 /*///////////////////////////////////////////////////////////////////////////*/
 /*ヘッドメニューの位置*/
 .btUnder{
+    position: fixed;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 57px;
     box-shadow: 0 0 2px;
     background-color: #f8f8f8;
+    z-index: 9999;
 }
 
 .back{
@@ -234,13 +239,21 @@ img{
 /*    width: 230px;*/
 /*    height: 45px;*/
 }
-
+.sendPicture{
+    display: none;
+    border-radius: 0.67em;
+    border: 1px solid rgb(0, 0, 0);
+    width: 260px;
+    height: 35px;
+    /*margin-top:2px;*/
+    background-color: #8b8b8b;
+}
 .text_area{
     border-radius: 0.67em;
     border: 1px solid rgb(0, 0, 0);
-    width: 230px;
+    width: 260px;
     height: 40px;
-    margin-top:1.5px;
+    margin-top:2.5px;
     font-size: 20px;
 }
 
@@ -265,19 +278,27 @@ img{
     position: fixed;
     bottom: 0;
     background-color: #f8f8f8;
+    z-index:9998;
 }
 .input{
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
+    /*justify-content: center;*/
 }
 
 .btn-flat-border {
-    display: inline-block;
-    padding: 0.3em 1em;
-    text-decoration: none;
-    color: #1c1c1d;
-    border: solid 2px #1c1c1d;
-    border-radius: 3px;
-    transition: .4s;
+    height: 40px;
+    width: 38px;
+}
+#myImage{
+    display: none   ;
+}
+.upload-img-btn {
+    width: 100%;
+    border-radius: 0.67em;
+    text-align: center;
+    background-color: #f1f1f1;
+    color: rgba(5, 210, 5, 0.79);
+    cursor: pointer;
 }

@@ -108,6 +108,8 @@
             <td><button onclick="ajaxReportTimeLine(${tlb.timeline_id})">通報</button></td>
         </c:if>
 
+
+
     </tr>
     <tr><th>名前&写真</th><th>時間</th><th>コメント</th><th>いいね</th><th>削除</th></tr>
 </table>

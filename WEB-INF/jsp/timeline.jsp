@@ -79,59 +79,70 @@
         </div>
     </c:param>
     <c:param name="content">
-        <div id="timeline">
-            <c:forEach var="tll" items="${timelineList}">
-                <div class="timelineContent">
-                    <div class="container">
+        <div id="main">
+            <div id="timeline">
+                <c:forEach var="tll" items="${timelineList}">
+                    <div class="timelineContent">
+                        <div class="container">
+                            <div>
+                                <c:choose>
+                                    <c:when test = "${tll.user_id==sessionScope.ub.user_id}">
+                                        <a onclick="profilePage('ProfileMyPageServlet',${tll.user_id});return false;" href="#"><img class="top_picture" src="data:image;base64,${tll.top_picture}" height="10%">
+                                        <span class="user_name">${tll.name}</span></a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a onclick="profilePage('ProfilePageServlet',${tll.user_id});return false;" href="#"><img class="top_picture" src="data:image;base64,${tll.top_picture}" height="10%"></a>
+                                        <span class="user_name">${tll.name}</span></a>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                            <div>
+                                <span>${tll.timeline_time}</span>
+                            </div>
+                        </div>
                         <div>
+                            <c:forEach var="tt" items="${tll.timeline_picutre}">
+                                <img class="sentence_image" src="data:image;base64,${tt.base64Image}" width="100%" height="100%"/>
+                            </c:forEach>
+                        </div>
+                        <div class="timeline_sentence">
+                            <p>${tll.timeline_sentence}</p>
+                        </div>
+                        <div class="comment_good">
+                            <span>
+                                <a href="CommentSearchServlet?timeline_id=${tll.timeline_id}">
+                                    <img class="comment" src="<c:url value='/image/comment.png' />" width="10%" height="40%"/>
+
+                                </a>
+                            </span>
                             <c:choose>
-                                <c:when test = "${tll.user_id==sessionScope.ub.user_id}">
-                                    <a onclick="profilePage('ProfileMyPageServlet',${tll.user_id});return false;" href="#"><img class="top_picture" src="data:image;base64,${tll.top_picture}" height="10%">
-                                    <span class="user_name">${tll.name}</span></a>
+                                <c:when test = "${empty tll.timeline_like_id}">
+                                    <img class="good" id="${tll.timeline_id}" onclick="ajaxLike(${tll.timeline_id},0)" src="<c:url value='/image/white_heart.png' />" width="8%" height="40%"/>
+                                    <span class="good_count" id="c${tll.timeline_id}">${tll.like_count}</span>
                                 </c:when>
                                 <c:otherwise>
-                                    <a onclick="profilePage('ProfilePageServlet',${tll.user_id});return false;" href="#"><img class="top_picture" src="data:image;base64,${tll.top_picture}" height="10%"></a>
-                                    <span class="user_name">${tll.name}</span></a>
+                                    <img class="good" id="${tll.timeline_id}" onclick="ajaxLike(${tll.timeline_id},1)" src="<c:url value='/image/heart.png' />" width="8%" height="40%"/>
+                                    <span class="good_count" id="c${tll.timeline_id}">${tll.like_count}</span>
                                 </c:otherwise>
                             </c:choose>
                         </div>
-                        <div>
-                            <span>${tll.timeline_time}</span>
-                        </div>
                     </div>
-                    <div>
-                        <c:forEach var="tt" items="${tll.timeline_picutre}">
-                            <img class="sentence_image" src="data:image;base64,${tt.base64Image}" width="100%" height="100%"/>
-                        </c:forEach>
-                    </div>
-                    <div class="timeline_sentence">
-                        <p>${tll.timeline_sentence}</p>
-                    </div>
-                    <div class="comment_good">
-                        <span>
-                            <a href="CommentSearchServlet?timeline_id=${tll.timeline_id}">
-                                <img class="comment" src="<c:url value='/image/comment.png' />" width="10%" height="40%"/>
-
-                            </a>
-                        </span>
-                        <c:choose>
-                            <c:when test = "${empty tll.timeline_like_id}">
-<%--                                <button id="${tll.timeline_id}" onclick="ajaxLike(${tll.timeline_id})">0</button>--%>
-                                <img class="good" id="${tll.timeline_id}" onclick="ajaxLike(${tll.timeline_id},0)" src="<c:url value='/image/white_heart.png' />" width="10%" height="40%"/>
-                                <span class="good_count" id="c${tll.timeline_id}">${tll.like_count}</span>
-                            </c:when>
-                            <c:otherwise>
-<%--                                <button id="${tll.timeline_id}" onclick="ajaxLike(${tll.timeline_id})">1</button>--%>
-                                <img class="good" id="${tll.timeline_id}" onclick="ajaxLike(${tll.timeline_id},1)" src="<c:url value='/image/heart.png' />" width="10%" height="40%"/>
-                                <span class="good_count" id="c${tll.timeline_id}">${tll.like_count}</span>
-                            </c:otherwise>
-                        </c:choose>
-                    </div>
-                </div>
-            </c:forEach>
+                </c:forEach>
+            </div>
+            <c:if test="${empty timelineList}">
+                <h2 id="noContent">なにもありません</h2>
+            </c:if>
         </div>
-        <c:if test="${empty timelineList}">
-            <h2 id="noContent">なにもありません</h2>
-        </c:if>
+        <script src="<c:url value='/js/index.umd.min.js' />"></script>
+        <script>
+            /* global PullToRefresh */
+            PullToRefresh.setPointerEventsMode(true);
+            PullToRefresh.init({
+                mainElement: '#main', //div mainを呼んでくる
+                onRefresh: function() {
+                    window.location.reload();
+                } //リフレッシュしたらアラートで伝える
+            });
+        </script>
     </c:param>
 </c:import>

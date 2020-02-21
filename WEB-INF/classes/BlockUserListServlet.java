@@ -29,7 +29,7 @@ public class BlockUserListServlet extends HttpServlet{
         OracleConnectionManager.getInstance().closeConnection();
 
         req.setAttribute("blocklist",blockList);
-        RequestDispatcher dis = req.getRequestDispatcher("blocklist");
+        RequestDispatcher dis = req.getRequestDispatcher("block-list");
         dis.forward(req,res);
     }
 }

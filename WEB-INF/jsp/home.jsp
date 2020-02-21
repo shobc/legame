@@ -67,7 +67,7 @@
     </c:param>
     <c:param name="content">
         <div id="myProf">
-                <div class="friend">
+                <div class="overall_my_profile">
                     <a onclick="profilePage('ProfilePageServlet',${sessionScope.ub.user_id});return false;" href="#">
                         <img class="imgmaru" src="data:image;base64,${sessionScope.ub.top_picture}" height="50%" style="border-style:none;">
                         <span class="my_profile">
