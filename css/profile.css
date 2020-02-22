@@ -1,0 +1,75 @@
+body{
+    margin:0;
+}
+
+.header{
+    position: fixed;
+    width: 100%;
+    height: 57px;
+    box-shadow: 0 0 2px;
+    background-color: #f8f8f8;
+    z-index:9999;
+}
+
+#caption{
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+.back{
+    position: fixed;
+    z-index: 9999;
+    top: 6px;
+    left: 10px;
+}
+.profile_top_picture{
+    position: relative;
+    bottom: 0;
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    border: solid 1px rgba(0, 0, 0, 0.53);
+}
+.overall_profile{
+    padding: 90px 0 0 0;
+    box-shadow: 0 0 2px;
+}
+.profile_user_name{
+    font-size: 35px;
+}
+.profile_info{
+    display: flex;
+    justify-content: center;
+}
+.profile_image{
+    display: flex;
+    justify-content: center;
+}
+.user_name_div{
+    display: flex;
+    justify-content: center;
+}
+.single_word_div{
+    display: flex;
+    justify-content: center;
+}
+.talk_block{
+    display: flex;
+    justify-content: space-around;
+}
+.single_word_inner{
+    text-align: center;
+    max-width: 200px;
+    word-break:break-all;
+}
+.single_word{
+
+}
+
+.image_title{
+    text-align: center;
+}
+a{
+    color:black;
+    text-decoration: none;
+}

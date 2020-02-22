@@ -4,8 +4,20 @@
 <c:import url="/WEB-INF/jsp/login-default-layout.jsp">
     <c:param name="head">
         <link rel="stylesheet" href="<c:url value='/css/timeline.css' />">
+        <link rel="stylesheet" href="<c:url value='/css/slick-theme.css' />">
+        <link rel="stylesheet" href="<c:url value='/css/slick.css' />">
+        <script src="<c:url value='/js/slick.min.js'/>"></script>
         <title>ホーム</title>
         <script>
+            $(function(){
+                $('.single').slick({
+                    autoplay: false,
+                    accessibility:false,
+                    arrows:false,
+                    dots: true,
+                    infinite: false,
+                });
+            });
             function ajaxLike(id,count){
                 console.log($('#'+id));
                 var Id = '#'+id;
@@ -74,7 +86,7 @@
                 </center>
             </div>
             <div>
-                <a href="createtimeline"><img id="create_timeline" src="<c:url value='/image/plus.png' />" height="25px" width="25px"></a>
+                <a href="create-timeline"><img id="create_timeline" src="<c:url value='/image/plus.png' />" height="25px" width="25px"></a>
             </div>
         </div>
     </c:param>
@@ -100,10 +112,14 @@
                                 <span>${tll.timeline_time}</span>
                             </div>
                         </div>
-                        <div>
-                            <c:forEach var="tt" items="${tll.timeline_picutre}">
-                                <img class="sentence_image" src="data:image;base64,${tt.base64Image}" width="100%" height="100%"/>
-                            </c:forEach>
+                        <div class="images">
+                            <div class="single">
+                                <c:forEach var="tt" items="${tll.timeline_picutre}">
+                                    <div>
+                                        <img class="sentence_image" src="data:image;base64,${tt.base64Image}" width="100%" height="100%"/>
+                                    </div>
+                                </c:forEach>
+                            </div>
                         </div>
                         <div class="timeline_sentence">
                             <p>${tll.timeline_sentence}</p>
@@ -130,18 +146,19 @@
                 </c:forEach>
             </div>
             <c:if test="${empty timelineList}">
-                <h2 id="noContent">なにもありません</h2>
+                <div id="noContent">
+                    <h2>なにもありません</h2>
+                </div>
             </c:if>
         </div>
         <script src="<c:url value='/js/index.umd.min.js' />"></script>
         <script>
-            /* global PullToRefresh */
             PullToRefresh.setPointerEventsMode(true);
             PullToRefresh.init({
-                mainElement: '#main', //div mainを呼んでくる
+                mainElement: '#main',
                 onRefresh: function() {
                     window.location.reload();
-                } //リフレッシュしたらアラートで伝える
+                }
             });
         </script>
     </c:param>

@@ -43,8 +43,8 @@ public class RegisterProfileServlet extends HttpServlet{
 
         OracleConnectionManager.getInstance().commit();
         OracleConnectionManager.getInstance().closeConnection();
-
-        RequestDispatcher dis = req.getRequestDispatcher("registered-profile");
+        req.setAttribute("message","ìoò^Ç≥ÇÍÇ‹ÇµÇΩÅI");
+        RequestDispatcher dis = req.getRequestDispatcher("confirm");
         dis.forward(req,res);
     }
     public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{

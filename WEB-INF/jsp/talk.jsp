@@ -75,29 +75,59 @@
 <%--       <i class="fab fa-adn"></i>送信--%>
 <%--    </span>--%>
             <!-- この部分は表示上から隠す -->
-            <input type="submit" id="send">
-        </label>
+<%--            <input type="submit" id="send">--%>
+<%--        </label>--%>
         <div class="footer">
-            <div class="input">
-                <div>
-                    <img src='<c:url value="/image/image.png"/>' class="change" onclick="changeTextBox()">
+            <c:if test="${not empty inputText}">
+                <div class="input">
+                    <div>
+                        <div class="sendPicture">
+                            <label class="upload-img-btn">
+                                <img class="change" src='<c:url value="/image/image.png"/>'>
+                                <input type="file" id="myImage" accept="image/*">
+                            </label>
+                        </div>
+                        <div class="sendMessage">
+                            <img onclick="changePic()" src='<c:url value="/image/chat.png"/>'>
+                        </div>
+                    </div>
+                    <div class="sendMessageBox">
+                        <textarea id='message' class="text_area"></textarea>
+                    </div>
+                    <div class="sendPictureBox">
+                            <%--                    <img id="preview">--%>
+                    </div>
+                    <div>
+                        <img class="btn-flat-border" src="<c:url value='/image/send.png' />" onclick='wsSendMessage();' width="100%" height="100%"/>
+                    </div>
                 </div>
-                <div class="sendMessage">
-                    <textarea id='message' class="text_area"></textarea>
+            </c:if>
+            <c:if test="${empty inputText}">
+                <div class="input">
+                    <div class="block_judge_area">
+                        <span class="block_text">ブロック中</span>
+                    </div>
+                    <div class="judge_text">
+                        <div class="sendPicture">
+                            <label class="upload-img-btn">
+                                <img class="change" src='<c:url value="/image/image.png"/>'>
+                                <input type="file" id="myImage" accept="image/*">
+                            </label>
+                        </div>
+                        <div class="sendMessage">
+                            <img onclick="changePic()" src='<c:url value="/image/chat.png"/>'>
+                        </div>
+                    </div>
+                    <div class="sendMessageBox judge_text">
+                        <textarea id='message' class="text_area"></textarea>
+                    </div>
+                    <div class="sendPictureBox">
+                    </div>
+                    <div class="judge_text">
+                        <img class="btn-flat-border" src="<c:url value='/image/send.png' />" onclick='wsSendMessage();' width="100%" height="100%"/>
+                    </div>
                 </div>
-                <div class="sendPicture">
-                    <label class="upload-img-btn">
-                        TOP画像
-                        <input type="file" id="myImage" accept="image/*">
-<%--                        <input type="hidden" value="${sessionScope.ub.top_picture}" name="base64Image" id="base64Image">--%>
-                    </label>
-<%--                    <img id="preview" width="100px" height="100px">--%>
-<%--                    <input type="file" id="myImage" accept="image/*">--%>
-                </div>
-                <div>
-                    <img class="btn-flat-border" src="<c:url value='/image/send.png' />" onclick='wsSendMessage();' width="100%" height="100%"/>
-                </div>
-            </div>
+            </c:if>
         </div>
 
 
@@ -107,21 +137,22 @@
 
 
         <script>
-            var change_flag = 0;
-            function changeTextBox(){
-                if(change_flag===0){
-                    $(".sendMessage").css("display","none");
-                    $(".sendPicture").css("display","block");
-                    $(".change").attr("src",'<c:url value="/image/chat.png"/>');
-                    change_flag++;
-                }else{
-                    $(".sendMessage").css("display","block");
-                    $(".sendPicture").css("display","none");
-                    $(".change").attr("src",'<c:url value="/image/image.png"/>');
-                    change_flag--;
-                }
-
+            function changePic(){
+                $(".sendPictureBox").css("display", "none");
+                $(".sendMessageBox").css("display", "block");
+                $(".sendPicture").css("display", "block");
+                $(".sendMessage").css("display", "none");
+                $("#message").val("");
             }
+            $(function(){
+                $("#myImage").on("change",function(){
+                        $(".sendMessageBox").css("display", "none");
+                        $(".sendPictureBox").css("display", "block");
+                        $(".sendPicture").css("display", "none");
+                        $(".sendMessage").css("display", "block");
+
+                });
+            });
             function ajaxFriendAdd(id){
                 $.ajax({
                     url: "AjaxFriendAddServlet",
@@ -140,9 +171,9 @@
                     type: "GET",
                     data: {chat_id :id}
                 }).done(function (result) {
-                    $('#frienddDeleteOrBlock').remove();
-                    $('#sendMessage').html('<input id="message" type="text">' +
-                        '<input onclick=wsSendMessage(); value="Echo" type="button">');
+                    $(".judge_text").css("display","block");
+                    $(".block_judge_area").css("display","none");
+                    $("#frienddDeleteOrBlock").empty();
                     ResurrectionMessage();
                 }).fail(function () {
                     alert("読み込み失敗");

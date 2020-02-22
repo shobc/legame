@@ -15,7 +15,7 @@
                 <h2>LegPay</h2>
             </div>
             <div>
-                <span><a href="QRCodeServlet"><img src="<c:url value='/image/qr.png' />" width="50px"></a></span>
+                <span><a href="PaymentQRCodeServlet"><img src="<c:url value='/image/qr.png' />" width="50px"></a></span>
             </div>
         </div>
         <div class="pay">

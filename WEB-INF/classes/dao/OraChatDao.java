@@ -142,14 +142,28 @@ public class OraChatDao implements ChatDao{
 
             cn = OracleConnectionManager.getInstance().getConnection();
             String sql = "select u.user_id,u.nickname,u.top_picture,c.chat_id\n" +
-                    ",(select NVL(CONTENT,'‰æ‘œ‚ª‚ ‚è‚Ü‚·') from TALK_TABLE where TALK_ID = (select MAX(TALK_ID) from TALK_TABLE where (CHAT_ID = c.chat_id and CHAT1_ID =\n" +
-                    "(select CHAT_ID from CHAT_TABLE where USER_CHAT1_ID = (select USER_CHAT_ID from CHAT_TABLE where CHAT_ID = c.CHAT_ID) and USER_CHAT_ID = (select USER_CHAT1_ID from CHAT_TABLE where CHAT_ID = c.CHAT_ID)))\n" +
-                    "or  (CHAT_ID = (select CHAT_ID from CHAT_TABLE where USER_CHAT1_ID = (select USER_CHAT_ID from CHAT_TABLE where CHAT_ID = c.CHAT_ID) and USER_CHAT_ID = (select USER_CHAT1_ID from CHAT_TABLE where CHAT_ID = c.CHAT_ID)) and  CHAT1_ID = c.chat_id))\n" +
-                    "and BLOCK_FLAG = 0 )\n" +
-                    ",(select count(TALK_TABLE.TALK_ID) from TALK_TABLE where ALREADY_READ_FLAG = 0 and BLOCK_FLAG = 0 and \n" +
-                    "(CHAT_ID = (select CHAT_ID from CHAT_TABLE where USER_CHAT1_ID = (select USER_CHAT_ID from CHAT_TABLE where CHAT_ID = c.CHAT_ID) and USER_CHAT_ID = (select USER_CHAT1_ID from CHAT_TABLE where CHAT_ID = c.CHAT_ID)) and  CHAT1_ID = c.chat_id))\n" +
-                    "from CHAT_TABLE c left join USER_INFORMATION_TABLE u\n" +
-                    "on c.USER_CHAT1_ID = u.USER_ID where c.USER_CHAT_ID = ? and delete_flag = 0";
+                    "    ,(select NVL(CONTENT,'‰æ‘œ‚ª‚ ‚è‚Ü‚·') from TALK_TABLE where TALK_ID = (select MAX(TALK_ID) from TALK_TABLE where (CHAT_ID = c.chat_id and CHAT1_ID =\n" +
+                    "    (select CHAT_ID from CHAT_TABLE where USER_CHAT1_ID = (select USER_CHAT_ID from CHAT_TABLE where CHAT_ID = c.CHAT_ID) and USER_CHAT_ID = (select USER_CHAT1_ID from CHAT_TABLE where CHAT_ID = c.CHAT_ID)))\n" +
+                    "    or  (CHAT_ID = (select CHAT_ID from CHAT_TABLE where USER_CHAT1_ID = (select USER_CHAT_ID from CHAT_TABLE where CHAT_ID = c.CHAT_ID) and USER_CHAT_ID = (select USER_CHAT1_ID from CHAT_TABLE where CHAT_ID = c.CHAT_ID)) and  CHAT1_ID = c.chat_id))\n" +
+                    "    and BLOCK_FLAG = 0 )\n" +
+                    "    ,(select count(TALK_TABLE.TALK_ID) from TALK_TABLE where ALREADY_READ_FLAG = 0 and BLOCK_FLAG = 0 and\n" +
+                    "    (CHAT_ID = (select CHAT_ID from CHAT_TABLE where USER_CHAT1_ID = (select USER_CHAT_ID from CHAT_TABLE where CHAT_ID = c.CHAT_ID) and USER_CHAT_ID = (select USER_CHAT1_ID from CHAT_TABLE where CHAT_ID = c.CHAT_ID)) and  CHAT1_ID = c.chat_id))\n" +
+                    "    from CHAT_TABLE c left join USER_INFORMATION_TABLE u\n" +
+                    "    on c.USER_CHAT1_ID = u.USER_ID where c.USER_CHAT_ID = ? and delete_flag = 0\n" +
+                    "    order by (select MAX(MESS_TIME) from TALK_TABLE where TALK_ID = (select MAX(TALK_ID) from TALK_TABLE where (CHAT_ID = c.chat_id and CHAT1_ID =\n" +
+                    "    (select CHAT_ID from CHAT_TABLE where USER_CHAT1_ID = (select USER_CHAT_ID from CHAT_TABLE where CHAT_ID = c.CHAT_ID) and USER_CHAT_ID = (select USER_CHAT1_ID from CHAT_TABLE where CHAT_ID = c.CHAT_ID)))\n" +
+                    "    or  (CHAT_ID = (select CHAT_ID from CHAT_TABLE where USER_CHAT1_ID = (select USER_CHAT_ID from CHAT_TABLE where CHAT_ID = c.CHAT_ID) and USER_CHAT_ID = (select USER_CHAT1_ID from CHAT_TABLE where CHAT_ID = c.CHAT_ID)) and  CHAT1_ID = c.chat_id))\n" +
+                    "    and BLOCK_FLAG = 0 ) desc";
+//‚à‚µ‚à‚Ì‚±‚Æ‚ª‚ ‚Á‚½‚ç
+//                    "select u.user_id,u.nickname,u.top_picture,c.chat_id\n" +
+//                    ",(select NVL(CONTENT,'‰æ‘œ‚ª‚ ‚è‚Ü‚·') from TALK_TABLE where TALK_ID = (select MAX(TALK_ID) from TALK_TABLE where (CHAT_ID = c.chat_id and CHAT1_ID =\n" +
+//                    "(select CHAT_ID from CHAT_TABLE where USER_CHAT1_ID = (select USER_CHAT_ID from CHAT_TABLE where CHAT_ID = c.CHAT_ID) and USER_CHAT_ID = (select USER_CHAT1_ID from CHAT_TABLE where CHAT_ID = c.CHAT_ID)))\n" +
+//                    "or  (CHAT_ID = (select CHAT_ID from CHAT_TABLE where USER_CHAT1_ID = (select USER_CHAT_ID from CHAT_TABLE where CHAT_ID = c.CHAT_ID) and USER_CHAT_ID = (select USER_CHAT1_ID from CHAT_TABLE where CHAT_ID = c.CHAT_ID)) and  CHAT1_ID = c.chat_id))\n" +
+//                    "and BLOCK_FLAG = 0 )\n" +
+//                    ",(select count(TALK_TABLE.TALK_ID) from TALK_TABLE where ALREADY_READ_FLAG = 0 and BLOCK_FLAG = 0 and \n" +
+//                    "(CHAT_ID = (select CHAT_ID from CHAT_TABLE where USER_CHAT1_ID = (select USER_CHAT_ID from CHAT_TABLE where CHAT_ID = c.CHAT_ID) and USER_CHAT_ID = (select USER_CHAT1_ID from CHAT_TABLE where CHAT_ID = c.CHAT_ID)) and  CHAT1_ID = c.chat_id))\n" +
+//                    "from CHAT_TABLE c left join USER_INFORMATION_TABLE u\n" +
+//                    "on c.USER_CHAT1_ID = u.USER_ID where c.USER_CHAT_ID = ? and delete_flag = 0"
 
             st = cn.prepareStatement(sql);
             st.setString(1,user_id);

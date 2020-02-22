@@ -34,7 +34,7 @@ public class CommentNoticeServlet extends HttpServlet{
         OracleConnectionManager.getInstance().closeConnection();
 
         req.setAttribute("commentNotice",commentNotice);
-        RequestDispatcher dis = req.getRequestDispatcher("commentnotice");
+        RequestDispatcher dis = req.getRequestDispatcher("comment-notice");
         dis.forward(req,res);
     }
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{

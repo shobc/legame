@@ -65,7 +65,8 @@ public class OraTalkDao implements TalkDao{
                     "left join USER_INFORMATION_TABLE u on  u.USER_ID = (select CHAT_TABLE.USER_CHAT_ID from CHAT_TABLE where chat_id = t.chat_id)\n" +
                     "where TALK_ID NOT IN(select TALK_ID from TALK_TABLE where CHAT1_ID = ? and block_flag = 1)\n" +
                     "and t.MESS_TIME >= (select CHAT_TABLE.DELETE_TIME from CHAT_TABLE where chat_id = (select max(chat_id) from CHAT_TABLE where USER_CHAT_ID = (select USER_CHAT_ID from CHAT_TABLE where chat_id = ?)\n" +
-                    "and USER_CHAT1_ID = (select USER_CHAT1_ID from CHAT_TABLE where chat_id = ?))) and (t.CHAT_ID = ? or t.CHAT1_ID = ?)";
+                    "and USER_CHAT1_ID = (select USER_CHAT1_ID from CHAT_TABLE where chat_id = ?))) and (t.CHAT_ID = ? or t.CHAT1_ID = ?) " +
+                    "order by t.TALK_ID asc";
 
             st = cn.prepareStatement(sql);
             st.setString(1,chat_id);

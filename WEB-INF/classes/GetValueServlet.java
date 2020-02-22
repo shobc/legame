@@ -19,7 +19,7 @@ public class GetValueServlet extends HttpServlet{
         if(RandomCode.equals(lub.getRandomCode())){
             //ŠÔˆá‚Á‚Ä‚½‚ç—áŠO‚ğo‚·
         }
-        RequestDispatcher dis = req.getRequestDispatcher("chang");
+        RequestDispatcher dis = req.getRequestDispatcher("password-reissue");
         dis.forward(req,res);
     }
     public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{

@@ -2,7 +2,6 @@
     <listener>
         <listener-class>listener.LoadListener</listener-class>
     </listener>
-
     <filter>
         <filter-name>loginCheckFilter</filter-name>
         <filter-class>filter.LoginCheckFilter</filter-class>
@@ -210,12 +209,12 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>QRCodeServlet</servlet-name>
-        <servlet-class>QRCodeServlet</servlet-class>
+        <servlet-name>PaymentQRCodeServlet</servlet-name>
+        <servlet-class>PaymentQRCodeServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>QRCodeServlet</servlet-name>
-        <url-pattern>/QRCodeServlet</url-pattern>
+        <servlet-name>PaymentQRCodeServlet</servlet-name>
+        <url-pattern>/PaymentQRCodeServlet</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>InputMoneyServlet</servlet-name>
@@ -225,6 +224,7 @@
         <servlet-name>InputMoneyServlet</servlet-name>
         <url-pattern>/InputMoneyServlet</url-pattern>
     </servlet-mapping>
+
 
     <servlet>
         <servlet-name>RegisterTalkServlet</servlet-name>
@@ -484,6 +484,11 @@
         <servlet-name>deletesession</servlet-name>
         <url-pattern>/deletesession</url-pattern>
     </servlet-mapping>
+
+
+
+
+
     <servlet>
         <servlet-name>mail-confirmation</servlet-name>
         <jsp-file>/WEB-INF/jsp/mail-confirmation.jsp</jsp-file>
@@ -502,13 +507,24 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>chang</servlet-name>
-        <jsp-file>/chang.jsp</jsp-file>
+        <servlet-name>password-reissue</servlet-name>
+        <jsp-file>/WEB-INF/jsp/password-reissue.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
-        <servlet-name>chang</servlet-name>
-        <url-pattern>/chang</url-pattern>
+        <servlet-name>password-reissue</servlet-name>
+        <url-pattern>/password-reissue</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>confirm</servlet-name>
+        <jsp-file>/WEB-INF/jsp/confirm.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>confirm</servlet-name>
+        <url-pattern>/confirm</url-pattern>
+    </servlet-mapping>
+
+
     <servlet>
         <servlet-name>home</servlet-name>
         <jsp-file>/WEB-INF/jsp/home.jsp</jsp-file>
@@ -533,14 +549,7 @@
         <servlet-name>register-account</servlet-name>
         <url-pattern>/register-account</url-pattern>
     </servlet-mapping>
-    <servlet>
-        <servlet-name>registered-profile</servlet-name>
-        <jsp-file>/WEB-INF/jsp/registered-profile.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>registered-profile</servlet-name>
-        <url-pattern>/registered-profile</url-pattern>
-    </servlet-mapping>
+
     <servlet>
         <servlet-name>search-friend</servlet-name>
         <jsp-file>/WEB-INF/jsp/search-friend.jsp</jsp-file>
@@ -591,14 +600,18 @@
         <servlet-name>depositmoney</servlet-name>
         <url-pattern>/depositmoney</url-pattern>
     </servlet-mapping>
+
     <servlet>
-        <servlet-name>qrcode</servlet-name>
-        <jsp-file>/qrcode.jsp</jsp-file>
+        <servlet-name>qr</servlet-name>
+        <jsp-file>/WEB-INF/jsp/qr.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
-        <servlet-name>qrcode</servlet-name>
-        <url-pattern>/qrcode</url-pattern>
+        <servlet-name>qr</servlet-name>
+        <url-pattern>/payment</url-pattern>
+        <url-pattern>/my-account-qr</url-pattern>
+        <url-pattern>/deposit-qr</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>settlement</servlet-name>
         <jsp-file>/settlement.jsp</jsp-file>
@@ -623,6 +636,7 @@
         <servlet-name>mail</servlet-name>
         <url-pattern>/mail</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>timeline</servlet-name>
         <jsp-file>/WEB-INF/jsp/timeline.jsp</jsp-file>
@@ -631,14 +645,16 @@
         <servlet-name>timeline</servlet-name>
         <url-pattern>/timeline</url-pattern>
     </servlet-mapping>
+
     <servlet>
-        <servlet-name>createtimeline</servlet-name>
-        <jsp-file>/createtimeline.jsp</jsp-file>
+        <servlet-name>create-timeline</servlet-name>
+        <jsp-file>/WEB-INF/jsp/create-timeline.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
-        <servlet-name>createtimeline</servlet-name>
-        <url-pattern>/createtimeline</url-pattern>
+        <servlet-name>create-timeline</servlet-name>
+        <url-pattern>/create-timeline</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>comment</servlet-name>
         <jsp-file>/WEB-INF/jsp/comment.jsp</jsp-file>
@@ -647,7 +663,6 @@
         <servlet-name>comment</servlet-name>
         <url-pattern>/comment</url-pattern>
     </servlet-mapping>
-
 
     <servlet>
         <servlet-name>profile-setting</servlet-name>
@@ -658,8 +673,6 @@
         <url-pattern>/profile-setting</url-pattern>
     </servlet-mapping>
 
-
-
     <servlet>
         <servlet-name>change-password</servlet-name>
         <jsp-file>/WEB-INF/jsp/change-password.jsp</jsp-file>
@@ -668,6 +681,7 @@
         <servlet-name>change-password</servlet-name>
         <url-pattern>/change-password</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>change-profile</servlet-name>
         <jsp-file>/WEB-INF/jsp/change-profile.jsp</jsp-file>
@@ -680,37 +694,24 @@
         <url-pattern>/change-top-picture</url-pattern>
     </servlet-mapping>
 
-
-
     <servlet>
         <servlet-name>profile</servlet-name>
-        <jsp-file>/profile.jsp</jsp-file>
+        <jsp-file>/WEB-INF/jsp/profile.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>profile</servlet-name>
         <url-pattern>/profile</url-pattern>
     </servlet-mapping>
 
-
-
-
-
     <servlet>
-        <servlet-name>commentnotice</servlet-name>
-        <jsp-file>/commentnotice.jsp</jsp-file>
+        <servlet-name>comment-notice</servlet-name>
+        <jsp-file>/WEB-INF/jsp/comment-notice.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
-        <servlet-name>commentnotice</servlet-name>
-        <url-pattern>/commentnotice</url-pattern>
+        <servlet-name>comment-notice</servlet-name>
+        <url-pattern>/comment-notice</url-pattern>
     </servlet-mapping>
-    <servlet>
-        <servlet-name>accountqr</servlet-name>
-        <jsp-file>/accountqr.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>accountqr</servlet-name>
-        <url-pattern>/accountqr</url-pattern>
-    </servlet-mapping>
+
     <servlet>
         <servlet-name>profileinfo</servlet-name>
         <jsp-file>/profileinfo.jsp</jsp-file>
@@ -718,14 +719,6 @@
     <servlet-mapping>
         <servlet-name>profileinfo</servlet-name>
         <url-pattern>/profileinfo</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>depositqr</servlet-name>
-        <jsp-file>/depositqr.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>depositqr</servlet-name>
-        <url-pattern>/depositqr</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>deleted-account</servlet-name>
@@ -751,39 +744,6 @@
         <servlet-name>resultDevice</servlet-name>
         <url-pattern>/resultDevice</url-pattern>
     </servlet-mapping>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <!--    管理者ページ-->
     <filter>

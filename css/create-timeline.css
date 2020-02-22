@@ -1,0 +1,111 @@
+body{
+    margin:0;
+}
+
+.text{
+    height: 30%;
+}
+
+a{
+    height:1px;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.cross{
+
+}
+.btn{
+    border:none;
+    background-color: white;
+    color: #b7b7b7;
+    font-size: 20px;
+    padding-right: 20px;
+}
+/* メニューバーとの仕切り */
+.border{
+    border-bottom: 2px solid #000;
+    /*border-top: 0px;*/
+    /*border-left: 0px;*/
+    /*border-right: 0px;*/
+}
+.image_btn{
+    position: absolute;
+    top:550px;
+    width: 100%;
+}
+.upload-img-btn {
+    margin: 22px auto 22px auto;
+    padding: 15px;
+    border-radius: 4px;
+    /*max-width: 120px;*/
+    width: 80%;
+    text-align: center;
+    display: block;
+    background-color: #f1f1f1;
+    color: #73a9ff;
+    box-shadow:  0 1px 6px rgba(146, 146, 146, 0.8);
+    cursor: pointer;
+    object-fit: cover;
+    z-index: 9999;
+}
+/* パソコンではタイル型で表示 */
+.slide-wrap {
+    /*background-color: #ccc;*/
+    display: flex;
+    /*margin: 0 auto;*/
+    margin: 0 0 0 0;
+    max-width: initial;
+    max-height: 300px;
+    width: 100%;
+
+}
+.slide-box {
+    height: auto;
+    margin-right: 1%;
+    width: 24%;
+    border-radius: 50%;
+}
+/* サムネイルとタイトルのスタイル調整 */
+.slide-box a {
+    background-color: #fff;
+    color: #222;
+    display: block;
+    text-decoration: none;
+}
+.slide-box img {
+    display: block;
+    height: auto;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+.slide-box p {
+    font-weight: bold;
+    padding: 10px;
+}
+.timeline_sentence{
+    border: none;
+    height: 100%;
+    width: 100%;
+    font-size: 15px;
+}
+#image_error{
+    text-align: center;
+    margin: 100px auto 0 auto;
+    font-size: 26px;
+    color: red;
+}
+@media screen and (max-width: 479px) {
+    /* スマホではスライダーで表示 */
+    .slide-wrap {
+        overflow-x: scroll;
+        -webkit-overflow-scrolling: touch;
+    }
+    .slide-box {
+        flex: 0 0 70%;
+    }
+}

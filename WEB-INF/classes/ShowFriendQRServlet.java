@@ -31,8 +31,9 @@ public class ShowFriendQRServlet extends HttpServlet{
         OracleConnectionManager.getInstance().commit();
         OracleConnectionManager.getInstance().closeConnection();
 
+        req.setAttribute("title","マイQRコード");
         req.setAttribute("picURI",value.filePathImage);
-        RequestDispatcher dis = req.getRequestDispatcher("accountqr");
+        RequestDispatcher dis = req.getRequestDispatcher("my-account-qr");
         dis.forward(req,res);
     }
 }

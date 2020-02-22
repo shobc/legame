@@ -34,6 +34,7 @@ a{
 .back{
     position: relative;
     top:-69px;
+    left:8px;
 }
 .content {
     margin-right: 0;

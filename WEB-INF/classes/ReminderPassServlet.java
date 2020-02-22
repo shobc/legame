@@ -27,7 +27,7 @@ public class ReminderPassServlet extends HttpServlet{
         lub.setMail(mail);
         lub.setRandomCode(RString);
         sc.setAttribute(RString,lub);
-        RequestDispatcher dis = req.getRequestDispatcher("mailConfirmation");
+        RequestDispatcher dis = req.getRequestDispatcher("mail-confirmation");
         dis.forward(req,res);
     }
 }

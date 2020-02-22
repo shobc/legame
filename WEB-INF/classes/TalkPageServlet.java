@@ -36,9 +36,9 @@ public class TalkPageServlet extends HttpServlet{
         FriendDao Fdao = factory.getOraFriendDao();
         String friendJudge = "";
         if(Fdao.getFriendAddJudge(chat_id)){
-            friendJudge = "<button id='friendAdd' onclick='ajaxFriendAdd("+chat_id+")'>追加</button>";
+            friendJudge = "<span id='friendAdd' onclick='ajaxFriendAdd("+chat_id+")'>追加</span>";
         }else if(Fdao.getFriendDeleteOrBlockJudge(chat_id)){
-            friendJudge = "<button id='frienddDeleteOrBlock' onclick='ajaxFriendRelease("+chat_id+")'>解除</button>";
+            friendJudge = "<span id='frienddDeleteOrBlock' onclick='ajaxFriendRelease("+chat_id+")'>解除</span>";
         }
         session.setAttribute("receiver_chat_id",null);
         ChatBean cb = new ChatBean();
@@ -54,10 +54,9 @@ public class TalkPageServlet extends HttpServlet{
         ArrayList frieadList = Fdao.getFriend(user_id);
         OracleConnectionManager.getInstance().commit();
         OracleConnectionManager.getInstance().closeConnection();
-        String inputText = "<input id='message' type='text'>\n" +
-                "<input onclick='wsSendMessage();' value='Echo' type='button'>";
+        String inputText = "not noull";
         if(judge){
-            inputText = "ユーザーをブロック中";
+            inputText =null;
         }
         req.setAttribute("talkList",talkList);
         req.setAttribute("chat_id",chat_id);

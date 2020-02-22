@@ -231,7 +231,7 @@ img{
     left: 12%;
 }
 
-.sendMessage{
+.sendMessageBox{
 /*    !*margin-left: 50px;*!*/
 /*    bottom: 64px;*/
 /*    border: 1px solid rgb(0, 0, 0);*/
@@ -239,15 +239,7 @@ img{
 /*    width: 230px;*/
 /*    height: 45px;*/
 }
-.sendPicture{
-    display: none;
-    border-radius: 0.67em;
-    border: 1px solid rgb(0, 0, 0);
-    width: 260px;
-    height: 35px;
-    /*margin-top:2px;*/
-    background-color: #8b8b8b;
-}
+
 .text_area{
     border-radius: 0.67em;
     border: 1px solid rgb(0, 0, 0);
@@ -295,10 +287,29 @@ img{
     display: none   ;
 }
 .upload-img-btn {
-    width: 100%;
+    /*width: 260px;*/
+    /*border-radius: 0.67em;*/
+    /*text-align: center;*/
+    /*background-color: #f1f1f1;*/
+    /*color: rgba(5, 210, 5, 0.79);*/
+    /*cursor: pointer;*/
+}
+.sendPictureBox{
+    display: none;
     border-radius: 0.67em;
-    text-align: center;
-    background-color: #f1f1f1;
-    color: rgba(5, 210, 5, 0.79);
-    cursor: pointer;
+    border: 1px solid rgb(0, 0, 0);
+    width: 260px;
+    height: 38px;
+    margin-top:2px;
+    background-color: #8b8b8b;
+}
+.sendMessage{
+    display: none;
+}
+
+.block_text{
+    font-size: 30px;
+}
+.judge_text{
+    display: none;
 }

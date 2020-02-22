@@ -13,11 +13,15 @@
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/InputMoneyServlet.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/LikeServlet.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/LoginPageServlet.java" charset="windows-31j" />
+    <file url="file://$PROJECT_DIR$/WEB-INF/classes/PassChangServlet.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/PassWordChangeServlet.java" charset="windows-31j" />
+    <file url="file://$PROJECT_DIR$/WEB-INF/classes/PaymentQRCodeServlet.java" charset="windows-31j" />
+    <file url="file://$PROJECT_DIR$/WEB-INF/classes/QRDepositMoneyServlet.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/RegisterChatServlet.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/RegisterProfileServlet.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/RegisterTalkServlet.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/ReminderPassServlet.java" charset="windows-31j" />
+    <file url="file://$PROJECT_DIR$/WEB-INF/classes/ShowFriendQRServlet.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/TalkPageServlet.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/WalletPageServlet.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/admin/AdminHomePageServlet.java" charset="windows-31j" />
@@ -80,6 +84,7 @@
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/socket/WebSocketEndPoint.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/css/admin/header.css" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/js/admin/header.js" charset="windows-31j" />
+    <file url="file://$PROJECT_DIR$/js/create-timeline.js" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/../story/WEB-INF/classes/DB/RegisterStoryDB.java" charset="windows-31j" />
   </component>
 </project>

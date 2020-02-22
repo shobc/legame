@@ -26,8 +26,9 @@ public class QRDepositMoneyServlet extends HttpServlet{
         ServletContext  sc = getServletContext();
         System.out.println("value.randomString"+value.randomString);
         sc.setAttribute(value.randomString,ub.getUser_id());
+        req.setAttribute("title","“ü‹àQR");
         req.setAttribute("picURI",value.filePathImage);
-        RequestDispatcher dis = req.getRequestDispatcher("depositqr");
+        RequestDispatcher dis = req.getRequestDispatcher("deposit-qr");
         dis.forward(req,res);
     }
 }

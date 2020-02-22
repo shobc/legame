@@ -28,7 +28,9 @@ public class PassChangServlet extends HttpServlet{
         OracleConnectionManager.getInstance().closeConnection();
 
         sc.removeAttribute(Random);
-        RequestDispatcher dis = req.getRequestDispatcher("loginPage");
+
+        req.setAttribute("message","パスワード変更されました");
+        RequestDispatcher dis = req.getRequestDispatcher("confirm");
         dis.forward(req,res);
     }
 }

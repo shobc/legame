@@ -30,7 +30,7 @@
     margin-top: -10px;
     margin-left: 12px;
     color: #d20001;
-    background-color: white;
+    background-color:#f8f8f8;
 }
 #create_timeline{
     margin-right: 20px;
@@ -61,6 +61,9 @@
     border: solid 0.5px #dbe1e6;
     /*box-shadow: 0 0 0.5px 0;*/
     background-color: #fefefe;
+    margin:0;
+    padding:10px 0 10px 0;
+    padding:10px 0 10px 0;
 }
 #timeline{
     display: flex;
@@ -98,4 +101,12 @@
     float:right;
     margin-right: 15px;
 
+}
+.images{
+    width: 100%;
+}
+
+#noContent{
+    text-align: center;
+    padding: 100px 0 0 0;
 }

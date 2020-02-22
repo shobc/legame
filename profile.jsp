@@ -41,7 +41,7 @@
 <a href="HomePageServlet">home</a>
 <h1>${ub.name}さんのプロフィール</h1>
 <table>
-    <td style="width: 20%;height: 100%;"><img src="data:image;base64,${ub.top_picture}" height="20%" width="80%" style="border: solid;"></td>
+    <td style="width: 20%;height: 100%;"><img src="data:image;base64,${ub.top_picture}" height="20%" width="80%"></td>
     <td>${ub.name}</td>
     <td>${ub.single_word}</td>
     <c:if test="${sessionScope.ub.user_id!=requestScope.ub.user_id}">

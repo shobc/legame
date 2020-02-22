@@ -5,7 +5,6 @@
     border: none;
     outline: none;
     padding-bottom: 8px;
-
     box-sizing: border-box; /*横幅の解釈をpadding, borderまで*/
 }
 

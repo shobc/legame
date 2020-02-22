@@ -59,16 +59,14 @@
             <!--’Ê’mE—F’BŒŸõ-->
             <div class="notification">
                 <span class="noticeCount">${noticeCount}</span>
-<%--                <img class="rogo" src="img/kuro.PNG" width="100px;" height="30px;">--%>
                 <a href="NewFriendListServlet"><img class="plus" src="<c:url value='/image/plus.png' />" width="20px;" height="20px;"></a>
-<%--                <img src="img/tuuti.png" width="40px;" height="40px;">--%>
             </div>
         </div>
     </c:param>
     <c:param name="content">
         <div id="myProf">
                 <div class="overall_my_profile">
-                    <a onclick="profilePage('ProfilePageServlet',${sessionScope.ub.user_id});return false;" href="#">
+                    <a onclick="profilePage('ProfileMyPageServlet',${sessionScope.ub.user_id});return false;" href="#">
                         <img class="imgmaru" src="data:image;base64,${sessionScope.ub.top_picture}" height="50%" style="border-style:none;">
                         <span class="my_profile">
                         ${sessionScope.ub.name}<br>
