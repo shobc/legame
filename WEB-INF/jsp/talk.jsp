@@ -5,11 +5,12 @@
 <c:import url="/WEB-INF/jsp/top-layout.jsp">
     <c:param name="head">
         <link rel="stylesheet" href="<c:url value='/css/talk.css' />">
+        <title>talk</title>
     </c:param>
     <c:param name="content">
         <div class="btUnder">
             <div id="drawer">
-                <a href="TalkListPageServlet" onclick="wsCloseConnection();">
+                <a href="BackTalkListPageServlet" onclick="wsCloseConnection();">
                     <img class="back" src="<c:url value='/image/back.png' />" height="60px">
                 </a>
             </div>
@@ -207,6 +208,7 @@
                     showFlag--;
                 }
             }
+
             $(function(){
                 var modalBtn = $('.js-modal__btn');
                 var modalBtnClose = $('.js-modal__btn--close');
@@ -261,7 +263,7 @@
                     str = "<img src='"+message.value+"' >";
                 }
                 $(".line-bc").append("<div class='my_comment'>"+
-                "<p>"+str+"</p>"+
+                "<p>"+escape_html(str)+"</p>"+
                 "</div>"+
                 "<span class='item'>?</span>"+
                 "<span>"+getDate()+"</span>");
@@ -318,11 +320,20 @@
                 var d = now.getDate();
                 var h = now.getHours();
                 var mi = now.getMinutes();
-                console.log(y + '”N' + m + 'ŒŽ' + d + '“ú' + h + 'Žž' + mi + '•ª');
-                return y + '”N' + m + 'ŒŽ' + d + '“ú' + h + 'Žž' + mi + '•ª';
+                console.log(y + '/' + m + '/' + d + ' ' + h + ':' + mi + '');
+                return y + '/' + m + '/' + d + ' ' + h + ':' + mi ;
             }
 
-
+            function escape_html(str){
+                str = str.replace(/&/g,'&amp;');
+                str = str.replace(/'/g,'&#x27;');
+                str = str.replace(/`/g,'&#x60;');
+                str = str.replace(/"/g,'&quot;');
+                str = str.replace(/</g,'&lt;');
+                str = str.replace(/>/g,'&gt;');
+                console.log(str);
+                return str;
+            }
 
             $('#myImage').on('change', function (e) {
                 var reader = new FileReader();

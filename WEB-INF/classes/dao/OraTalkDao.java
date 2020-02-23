@@ -22,8 +22,9 @@ public class OraTalkDao implements TalkDao{
     public void addRead_flag(String chat_id,String user_id){
         PreparedStatement st = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql="update TALK_TABLE set ALREADY_READ_FLAG = 1\n" +
                     "where TALK_ID IN(select TALK_ID from TALK_TABLE where block_flag = 0)\n" +
                     "and MESS_TIME>=(select CHAT_TABLE.DELETE_TIME from CHAT_TABLE where chat_id =?)\n" +
@@ -38,10 +39,13 @@ public class OraTalkDao implements TalkDao{
             st.setString(4,chat_id);
             int count = st.executeUpdate();
             System.out.println(count+"Œˆ—‚µ‚Ü‚µ‚½");
+            st.close();
+            oc.commit();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -59,9 +63,10 @@ public class OraTalkDao implements TalkDao{
         PreparedStatement st = null;
         ResultSet rs = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
-            String sql = "select t.TALK_ID,t.chat_id,u.USER_ID,t.content,u.TOP_PICTURE,u.nickname,t.mess_time,ALREADY_READ_FLAG,BLOCK_FLAG,t.talk_picture from TALK_TABLE t\n" +
+            cn = oc.getConnection();
+            String sql = "select t.TALK_ID,t.chat_id,u.USER_ID,t.content,u.TOP_PICTURE,u.nickname,TO_CHAR(t.mess_time,'YYYY/MM/DD HH24:Mi'),ALREADY_READ_FLAG,BLOCK_FLAG,t.talk_picture from TALK_TABLE t\n" +
                     "left join USER_INFORMATION_TABLE u on  u.USER_ID = (select CHAT_TABLE.USER_CHAT_ID from CHAT_TABLE where chat_id = t.chat_id)\n" +
                     "where TALK_ID NOT IN(select TALK_ID from TALK_TABLE where CHAT1_ID = ? and block_flag = 1)\n" +
                     "and t.MESS_TIME >= (select CHAT_TABLE.DELETE_TIME from CHAT_TABLE where chat_id = (select max(chat_id) from CHAT_TABLE where USER_CHAT_ID = (select USER_CHAT_ID from CHAT_TABLE where chat_id = ?)\n" +
@@ -81,7 +86,7 @@ public class OraTalkDao implements TalkDao{
                 tb.setChat_id(rs.getString(2));
                 tb.setUser_id(rs.getString(3));
                 if(rs.getString(4)!=null){
-                    tb.setContent(""+rs.getString(4)+"");
+                    tb.setContent(rs.getString(4).replaceAll("\n", "<br/>"));
                 }else{
                     Blob blob = rs.getBlob(10);
                     Base64Image bi = new Base64Image();
@@ -97,10 +102,13 @@ public class OraTalkDao implements TalkDao{
                 }
                 talkList.add(tb);
             }
+            rs.close();
+            st.close();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -118,8 +126,9 @@ public class OraTalkDao implements TalkDao{
         PreparedStatement st = null;
         ResultSet rs = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql = "select count(*) from FRIEND_TABLE where USER_ID = ? and FRIEND_FLAG = 1 and " +
                     "(FRIEND_ID = (select USER_CHAT_ID from CHAT_TABLE where USER_CHAT1_ID = ? and CHAT_ID = ?) or " +
                     "FRIEND_ID = (select USER_CHAT1_ID from CHAT_TABLE where USER_CHAT_ID = ? and CHAT_ID = ?))";
@@ -135,10 +144,13 @@ public class OraTalkDao implements TalkDao{
             if(count==1){
                 judge = true;
             }
+            rs.close();
+            st.close();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){

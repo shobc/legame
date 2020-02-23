@@ -20,8 +20,9 @@ public class OraFriendDao implements FriendDao{
         ResultSet rs = null;
         Connection cn = null;
         String count = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql = "select count(*) from friend_table " +
                     "where user_id IN(select user_id from friend_table where friend_id = ?) " +
                     "and user_id NOT IN (select friend_id from friend_table where user_id = ?) " +
@@ -38,10 +39,12 @@ public class OraFriendDao implements FriendDao{
             if(rs.getInt(1)!=0){
                 count = "new";
             }
+            st.close();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -250,8 +253,9 @@ public class OraFriendDao implements FriendDao{
         PreparedStatement st = null;
         ResultSet rs = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql = "select search_id,nickname,single_word,top_picture,user_id from\n" +
                     "    user_information_table where user_id\n" +
                     "    not in(select FRIEND_ID from FRIEND_TABLE where USER_ID = ? and (FRIEND_FLAG = 1 or FRIEND_FLAG = 0))\n" +
@@ -260,21 +264,24 @@ public class OraFriendDao implements FriendDao{
             st.setString(1,fb.getUser_id());
             st.setString(2,fb.getSearch_id());
             rs = st.executeQuery();
-            rs.next();
-            fb = new FriendBean();
-            fb.setSearch_id(rs.getString(1));
-            fb.setName(rs.getString(2));
-            fb.setSingle_word(rs.getString(3));
-            Blob blob = rs.getBlob(4);
-            fb.setUser_id(rs.getString(5));
+            if(rs.next()){
+                fb = new FriendBean();
+                fb.setSearch_id(rs.getString(1));
+                fb.setName(rs.getString(2));
+                fb.setSingle_word(rs.getString(3));
+                Blob blob = rs.getBlob(4);
+                fb.setUser_id(rs.getString(5));
 
-            Base64Image bi = new Base64Image();
-            fb.setTop_picture(bi.getBase64(blob));
-
+                Base64Image bi = new Base64Image();
+                fb.setTop_picture(bi.getBase64(blob));
+            }else{
+                fb = null;
+            }
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -293,9 +300,9 @@ public class OraFriendDao implements FriendDao{
         PreparedStatement st = null;
         ResultSet rs = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql = "select u.nickname,u.single_word,u.top_picture,u.user_id from user_information_table u " +
                     "left join friend_table f on u.user_id = f.friend_id and f.friend_flag = 0" +
                     "where f.user_id = ? and delete_flag = 0";
@@ -308,15 +315,17 @@ public class OraFriendDao implements FriendDao{
                 fb.setSingle_word(rs.getString(2));
                 Blob blob = rs.getBlob(3);
                 fb.setUser_id(rs.getString(4));
-
                 Base64Image bi = new Base64Image();
                 fb.setTop_picture(bi.getBase64(blob));
                 friendList.add(fb);
             }
+            rs.close();
+            st.close();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -407,8 +416,9 @@ public class OraFriendDao implements FriendDao{
         ResultSet rs = null;
         Connection cn = null;
         boolean judge = false;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql = "select count(*) from FRIEND_TABLE " +
                     "where USER_ID =(select USER_CHAT_ID from CHAT_TABLE where CHAT_ID = ?) " +
                     "and FRIEND_ID=(select USER_CHAT1_ID from CHAT_TABLE where CHAT_ID = ?) ";
@@ -420,10 +430,13 @@ public class OraFriendDao implements FriendDao{
             if(rs.getInt(1)==0){
                 judge = true;
             }
+            rs.close();
+            st.close();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -441,8 +454,9 @@ public class OraFriendDao implements FriendDao{
         ResultSet rs = null;
         Connection cn = null;
         boolean judge = false;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql = "select count(*) from FRIEND_TABLE " +
                     "where USER_ID =(select USER_CHAT_ID from CHAT_TABLE where CHAT_ID = ?) " +
                     "and FRIEND_ID=(select USER_CHAT1_ID from CHAT_TABLE where CHAT_ID = ?)\n" +
@@ -455,10 +469,13 @@ public class OraFriendDao implements FriendDao{
             if(rs.getInt(1)==1){
                 judge = true;
             }
+            rs.close();
+            st.close();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){

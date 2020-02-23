@@ -17,8 +17,9 @@ public class OraCommentDao implements CommentDao{
     public void addCommentLike(CommentBean cb){
         PreparedStatement st = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
+            oc.getConnection();
             String sql = "insert into timeline_like_table values(?,?,?)";
             st = cn.prepareStatement(sql);
             st.setString(1,cb.getTimeline_id());
@@ -26,9 +27,11 @@ public class OraCommentDao implements CommentDao{
             st.setString(3,cb.getUser_id());
             st.executeUpdate();
             st.close();
+            oc.commit();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -101,16 +104,17 @@ public class OraCommentDao implements CommentDao{
         ResultSet rs = null;
         Connection cn = null;
         ArrayList commentList = new ArrayList();
+        OracleConnecter oc = new OracleConnecter();
         try{
-
-            cn = OracleConnectionManager.getInstance().getConnection();
-            String sql = "select u.USER_ID,u.NICKNAME,u.TOP_PICTURE,c.comment_sentence,comment_time,c.timeline_id,\n" +
+            cn = oc.getConnection();
+            String sql = "select u.USER_ID,u.NICKNAME,u.TOP_PICTURE,c.comment_sentence,TO_CHAR(comment_time,'YYYY/MM/DD HH24:Mi'),c.timeline_id,\n" +
                     "(select comment_id from timeline_like_table where TIMELINE_LIKE_TABLE.TIMELLINE_ID = ? and user_id = ? and COMMENT_ID = c.COMMENT_ID)\n" +
                     ",c.COMMENT_ID,\n" +
-                    "(select NICKNAME from USER_INFORMATION_TABLE where USER_ID = c.reply_user_id),\n" +
+                    "(select '@'||NICKNAME from USER_INFORMATION_TABLE where USER_ID = c.reply_user_id),\n" +
                     "(select count(*) from timeline_like_table where  TIMELINE_ID = c.timeline_id and COMMENT_ID = c.COMMENT_ID  and COMMENT_ID IS NOT NULL)\n" +
                     "from (COMMENT_TABLE c left join TIMELINE_LIKE_TABLE TLT  on c.COMMENT_ID = TLT.COMMENT_ID and TLT.USER_ID =?)\n" +
-                    "left join  USER_INFORMATION_TABLE u on u.USER_ID = c.USER_ID where c.TIMELINE_ID = ?";
+                    "left join  USER_INFORMATION_TABLE u on u.USER_ID = c.USER_ID where c.TIMELINE_ID = ?" +
+                    "order by comment_time desc";
             st = cn.prepareStatement(sql);
             st.setString(1,cb.getTimeline_id());
             st.setString(2,cb.getUser_id());
@@ -124,7 +128,7 @@ public class OraCommentDao implements CommentDao{
                 Blob blob = rs.getBlob(3);
                 Base64Image bi = new Base64Image();
                 cb.setTop_picture(bi.getBase64(blob));
-                cb.setComment_sentence(rs.getString(4));
+                cb.setComment_sentence(rs.getString(4).replaceAll("\n", "<br/>"));
                 cb.setComment_time(rs.getString(5));
                 cb.setTimeline_id(rs.getString(6));
                 cb.setComment_like_id(rs.getString(7));
@@ -133,10 +137,11 @@ public class OraCommentDao implements CommentDao{
                 cb.setComment_like_count(rs.getString(10));
                 commentList.add(cb);
             }
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){

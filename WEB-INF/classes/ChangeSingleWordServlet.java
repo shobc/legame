@@ -11,12 +11,13 @@ import dao.OracleConnectionManager;
 import dao.AbstractDaoFactory;
 import dao.ProfileDao;
 import bean.UserBean;
+import function.EscapeString;
 
 
 public class ChangeSingleWordServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         req.setCharacterEncoding("windows-31j");
-        String single_word = req.getParameter("single_word");
+        String single_word = EscapeString.escape(req.getParameter("single_word"));
         HttpSession session = req.getSession();
         UserBean ub = (UserBean)session.getAttribute("ub");
         ub.setSingle_word(single_word);

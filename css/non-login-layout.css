@@ -88,3 +88,20 @@ a{
 .input:focus + .text_underline::after{
     width: 50%;
 }
+
+.error{
+    display: none;
+    color:red;
+    font-size: 12px;
+}
+
+.setting{
+    float: right;
+    font-size: 12px;
+}
+
+.mail_error{
+    display: none;
+    color:red;
+    font-size: 12px;
+}

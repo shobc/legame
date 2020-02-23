@@ -110,3 +110,13 @@
     text-align: center;
     padding: 100px 0 0 0;
 }
+
+.profile{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.user_name_div{
+    margin-left: 10px;
+}

@@ -20,12 +20,9 @@ public class DeleteUserAccountServlet extends HttpServlet{
         HttpSession session = req.getSession();
         UserBean ub = (UserBean)session.getAttribute("ub");
         String user_id = ub.getUser_id();
-        OracleConnectionManager.getInstance().beginTransaction();
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         UserDao dao = factory.getOraUserDao();
         dao.deleteUserAcount(user_id);
-        OracleConnectionManager.getInstance().commit();
-        OracleConnectionManager.getInstance().closeConnection();
         session.invalidate();
         res.sendRedirect("deleted-account");
     }

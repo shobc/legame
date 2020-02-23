@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import bean.UserBean;
-import dao.OracleConnectionManager;
 import dao.UserDao;
 import dao.AbstractDaoFactory;
 
@@ -20,20 +19,16 @@ public class PassWordChangeServlet extends HttpServlet{
         HttpSession session = req.getSession();
         UserBean ub = (UserBean)session.getAttribute("ub");
         String user_id = ub.getUser_id();
-
-        OracleConnectionManager.getInstance().beginTransaction();
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         UserDao dao = factory.getOraUserDao();
 
         if(dao.searchPassWord(old_pass,user_id)){
-            req.setAttribute("error","パスワードが違います");
+            req.setAttribute("error","前回のパスワードと一致しません");
         }else{
             dao.UpdateUserPassWord(new_pass,user_id);
             req.setAttribute("OK","パスワードが変更されました");
         }
-        OracleConnectionManager.getInstance().commit();
-        OracleConnectionManager.getInstance().closeConnection();
-        RequestDispatcher dis = req.getRequestDispatcher("changepassword");
+        RequestDispatcher dis = req.getRequestDispatcher("change-password");
         dis.forward(req,res);
     }
 }

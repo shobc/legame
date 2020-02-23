@@ -28,12 +28,13 @@ public class TalkPageServlet extends HttpServlet{
         UserBean ub = (UserBean)session.getAttribute("ub");
         String user_id = ub.getUser_id();
         session.setAttribute("sender_chat_id",chat_id);
-        OracleConnectionManager.getInstance().beginTransaction();
+
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         TalkDao dao = factory.getOraTalkDao();
         ChatDao Cdao = factory.getOraChatDao();
         ProfileDao Pdao = factory.getOraProfileDao();
         FriendDao Fdao = factory.getOraFriendDao();
+
         String friendJudge = "";
         if(Fdao.getFriendAddJudge(chat_id)){
             friendJudge = "<span id='friendAdd' onclick='ajaxFriendAdd("+chat_id+")'>’Ç‰Á</span>";
@@ -52,9 +53,8 @@ public class TalkPageServlet extends HttpServlet{
         boolean judge = dao.getBlockJudge(chat_id,user_id);
         req.setAttribute("yub",Pdao.getProfile(chat_id));
         ArrayList frieadList = Fdao.getFriend(user_id);
-        OracleConnectionManager.getInstance().commit();
-        OracleConnectionManager.getInstance().closeConnection();
-        String inputText = "not noull";
+
+        String inputText = "not null";
         if(judge){
             inputText =null;
         }

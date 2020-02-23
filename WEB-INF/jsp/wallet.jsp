@@ -9,7 +9,7 @@
     <c:param name="content">
         <div class="titleStart">
             <div>
-                <a class="back" href="AccessAppServlet"><img src="<c:url value='/image/back.png' />" width="20px"></a>
+                <a class="back" href="WalletPageVisitedServlet"><img src="<c:url value='/image/back.png' />" width="20px"></a>
             </div>
             <div>
                 <h2>LegPay</h2>
@@ -31,11 +31,11 @@
                 <div class="pay_input">
                     <div class="cp_iptxt">
                         <label class="ef">
-                            <input type="number" name="money" min="100" step="10" placeholder="‹àŠz‚ð“ü—Í">
+                            <input type="number" name="money" max="50000" min="100" step="10" placeholder="‹àŠz‚ð“ü—Í" required>
                         </label>
                     </div>
                     <div>
-                        <input type="submit" class="submit_box" value="“ü‹à">
+                        <input type="image" src="<c:url value='/image/wallet.png' />" class="submit_box" value="“ü‹à">
                     </div>
                 </div>
             </form>

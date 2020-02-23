@@ -57,8 +57,9 @@ public class OraProfileDao implements ProfileDao{
     public void addProfile(UserBean ub){
         PreparedStatement st = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try {
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             FileInputStream fis = new FileInputStream(ub.getTop_picture());
             st = cn.prepareStatement("insert into user_information_table(user_id,search_id,nickname,single_word,top_picture) values(?,?,?,?,?)");
             st.setString(1,ub.getUser_id());
@@ -68,12 +69,14 @@ public class OraProfileDao implements ProfileDao{
             st.setBinaryStream(5,fis);
             int count = st.executeUpdate();
             System.out.println(count+"åèèàóùÇµÇ‹ÇµÇΩ");
+            oc.commit();
+            oc.closeConnection();
         }catch(FileNotFoundException e){
             System.out.println(e.getMessage());
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -90,8 +93,9 @@ public class OraProfileDao implements ProfileDao{
         PreparedStatement st = null;
         ResultSet rs = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-
+            cn = oc.getConnection();
             cn = OracleConnectionManager.getInstance().getConnection();
             String sql = "select user_id,search_id,nickname,single_word,top_picture" +
                     " from user_information_table where user_id = ?";
@@ -107,11 +111,13 @@ public class OraProfileDao implements ProfileDao{
             Blob blob = rs.getBlob(5);
             Base64Image bi = new Base64Image();
             ub.setTop_picture(bi.getBase64(blob));
-
+            rs.close();
+            st.close();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){

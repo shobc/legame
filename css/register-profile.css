@@ -1,10 +1,10 @@
 .caption{
-    margin-top:-15px;
+    /*margin-top:-15px;*/
     text-align: center;
 }
 
 .textStart{
-    margin-top: 3%;
+    margin-top: 5%;
 }
 .upload-img-btn {
     margin: 22px auto;
@@ -28,4 +28,13 @@
     font-family: "Yu Gothic", YuGothic, Verdana, 'Hiragino Kaku Gothic ProN','Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', 'メイリオ', Meiryo, sans-serif;
     text-align: center;
     margin-top: 15%;
+}
+.input{
+    margin-top: 10px ;
+}
+
+.name_error{
+    display: none;
+    color: red;
+    font-size: 12px;
 }

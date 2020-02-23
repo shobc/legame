@@ -4,35 +4,7 @@
 <c:import url="/WEB-INF/jsp/login-default-layout.jsp">
     <c:param name="head">
         <link rel="stylesheet" href="<c:url value='/css/home.css' />">
-        <script>
-            function profilePage(action,id){
-                $('<form/>',{action:action, method:"post"})
-                    .append("<input type='hidden' name='id' value='"+id+"'>")
-                    .appendTo($('body'))
-                    .submit();
-            }
-            var noticeFlag = 0;
-            function FriendNotice(){
-                $.ajax({
-                    url: "AjaxFriendNoticeServlet",
-                    type: "GET",
-                    data: {}
-                }).done(function (result) {
-                    if(noticeFlag===0){
-                        if(result=='new'){
-                            if($("#notice").text()!='new'){
-                                $("#notice").append(result);
-                                noticeFlag++;
-                            }
-                        }
-                    }
-                }).fail(function () {
-                    alert("読み込み失敗");
-                }).always(function (result) {
-                });
-            }
-            setInterval(FriendNotice, 1000);
-        </script>
+        <script src="<c:url value='/js/home.js'/>"></script>
         <title>ホーム</title>
     </c:param>
     <c:param name="title">
@@ -54,7 +26,8 @@
                 </div>
             </div>
             <div>
-                <h2>home</h2>
+<%--                <h2>home</h2>--%>
+                <img class="home_logo" src="<c:url value='/image/home_logo.png' />">
             </div>
             <!--通知・友達検索-->
             <div class="notification">
@@ -65,29 +38,22 @@
     </c:param>
     <c:param name="content">
         <div id="myProf">
+            <a onclick="profilePage('ProfileMyPageServlet',${sessionScope.ub.user_id});return false;" href="#">
                 <div class="overall_my_profile">
-                    <a onclick="profilePage('ProfileMyPageServlet',${sessionScope.ub.user_id});return false;" href="#">
-                        <img class="imgmaru" src="data:image;base64,${sessionScope.ub.top_picture}" height="50%" style="border-style:none;">
-                        <span class="my_profile">
-                        ${sessionScope.ub.name}<br>
-                            <span class="single_word">${sessionScope.ub.single_word}</span>
-                    </span>
-                    </a>
+                    <div>
+                        <img class="top_picture" src="data:image;base64,${sessionScope.ub.top_picture}" height="50%">
+                    </div>
+                    <div class="profile_info">
+                        <div class="user_name">
+                            <span>${sessionScope.ub.name}</span>
+                        </div>
+                        <div class="single_word">
+                            <span >${sessionScope.ub.single_word}</span>
+                        </div>
+                    </div>
                 </div>
+            </a>
         </div>
-
-        <!-- 友達リスト -->
-        <script>
-            $(function(){
-                $("#container").click(function(){
-                    $("#frinedList").slideToggle(400);  //スライドイン０，４秒
-                    setTimeout(function(){
-                        $("#up , #down").toggleClass("active passive");
-                    },250);
-                });
-            });
-        </script>
-
         <!-- 友達リストドロップダウン -->
         <div id="container">
             <div>
@@ -102,11 +68,9 @@
         <!-- 友達一人に対するプロフィール -->
         <div id="frinedList">
             <c:forEach var="fl" items="${friendList}">
-                <div class="friend">
-                    <a onclick="profilePage('ProfilePageServlet',${fl.user_id});return false;" href="#" >
-                        <img class="imgmaru" src="data:image;base64,${fl.top_picture}" height="20%"  style="border-style:none;">
-                        <span class="profile">${fl.name}</span>
-                    </a>
+                <div class="friend" onclick="profilePage('ProfilePageServlet',${fl.user_id});return false;">
+                    <img class="top_picture" src="data:image;base64,${fl.top_picture}" height="20%">
+                    <span class="profile">${fl.name}</span>
                 </div>
             </c:forEach>
         </div>

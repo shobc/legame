@@ -13,15 +13,20 @@
 }
 .header{
     width: 100%;
-}
+    text-align: center;
 
+}
 #caption{
     text-align: center;
 }
-.back{
-    position: relative;
-    top:-125px;
+#setting{
+    float: right;
+    margin-right: 10px;
 }
+/*.back{*/
+/*    position: relative;*/
+/*    top:-25px;*/
+/*}*/
 
 .btn-border , #btn-border {
     margin-top:300px;
@@ -112,4 +117,9 @@
 }
 .l_input{
     padding-left: 10px;
+}
+#error{
+    display: none;
+    color: red;
+    font-size: 14px;
 }

@@ -11,12 +11,13 @@ import dao.OracleConnectionManager;
 import dao.AbstractDaoFactory;
 import dao.ProfileDao;
 import bean.UserBean;
+import function.EscapeString;
 
 
 public class ChangeNameServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         req.setCharacterEncoding("windows-31j");
-        String name = req.getParameter("name");
+        String name = EscapeString.escape(req.getParameter("name"));
         HttpSession session = req.getSession();
         UserBean ub = (UserBean)session.getAttribute("ub");
         ub.setName(name);

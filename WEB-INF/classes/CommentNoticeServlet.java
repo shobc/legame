@@ -12,7 +12,6 @@ import javax.servlet.http.HttpSession;
 import bean.UserBean;
 import bean.TimeLineBean;
 import bean.TimeLinePictureBean;
-import dao.OracleConnectionManager;
 import dao.AbstractDaoFactory;
 import dao.TimeLineDao;
 
@@ -23,15 +22,11 @@ public class CommentNoticeServlet extends HttpServlet{
         UserBean ub = (UserBean)session.getAttribute("ub");
         String user_id = ub.getUser_id();
 
-        OracleConnectionManager.getInstance().beginTransaction();
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         TimeLineDao dao = factory.getOraTimeLineDao();
 
         ArrayList commentNotice = dao.getCommentNotice(user_id);
         dao.updateCommentNotice(user_id);
-
-        OracleConnectionManager.getInstance().commit();
-        OracleConnectionManager.getInstance().closeConnection();
 
         req.setAttribute("commentNotice",commentNotice);
         RequestDispatcher dis = req.getRequestDispatcher("comment-notice");

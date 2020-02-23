@@ -10,13 +10,14 @@ import javax.servlet.http.HttpSession;
 import bean.LoginUserBean;
 import function.RandomString;
 import function.SendMail;
+import function.EscapeString;
 
 
 public class ReminderPassServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         ServletContext  sc = getServletContext();
         req.setCharacterEncoding("windows-31j");
-        String mail = req.getParameter("mail");
+        String mail = EscapeString.escape(req.getParameter("mail"));
         String RString = RandomString.getString();
         String url = "http://localhost:8080/legame/GetValueServlet?RandomCode="+RString;
 

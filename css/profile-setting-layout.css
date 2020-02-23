@@ -1,13 +1,27 @@
-.titleStart h2{
-    padding: 7px;
-    border-bottom: solid 0.5px black;
-    box-shadow: 2px 0 1px;
+.titleStart{
+    position: fixed;
+    width: 100%;
+    height: 57px;
+    box-shadow: 0 0 2px;
     background-color: #f8f8f8;
+    z-index:9998;
 }
+
+#title{
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+.back{
+    position: fixed;
+    z-index: 9999;
+    top: 6px;
+    left: 10px;
+}
+
 body{
     margin:0;
 }
 .content{
-    margin-right: 8px;
-    margin-left: 8px;
+    padding:100px 0 0 0;
 }

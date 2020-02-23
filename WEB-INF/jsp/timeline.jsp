@@ -9,70 +9,10 @@
         <script src="<c:url value='/js/slick.min.js'/>"></script>
         <title>ÉzÅ[ÉÄ</title>
         <script>
-            $(function(){
-                $('.single').slick({
-                    autoplay: false,
-                    accessibility:false,
-                    arrows:false,
-                    dots: true,
-                    infinite: false,
-                });
-            });
-            function ajaxLike(id,count){
-                console.log($('#'+id));
-                var Id = '#'+id;
-                var count_judge = count;
-                console.log(Id);
-                console.log(count);
-                $.ajax({
-                    url: 'LikeServlet',
-                    type: 'GET',
-                    data: {timeline_id :id,likeJudge:count}
-                }).done(function (result) {
-                    if(count_judge==0){
-                        $(Id).attr("src","<c:url value='/image/heart.png' />");
-                        $(Id).attr("onclick","ajaxLike("+id+",1)");
-                        var count = parseInt($("#c"+id).text());
-                        $("#c"+id).text(count+1);
-                    }else if(count_judge==1){
-                        $(Id).attr("src","<c:url value='/image/white_heart.png' />");
-                        $(Id).attr("onclick","ajaxLike("+id+",0)");
-                        var count = parseInt($("#c"+id).text());
-                        $("#c"+id).text(count-1);
-                    }
-                }).fail(function () {
-                    console.log("ì«Ç›çûÇ›é∏îs");
-                }).always(function (result) {
-                });
-            }
-            var noticeFlag = 0;
-            function timelineNotice(){
-                $.ajax({
-                    url: "AjaxTimelineNoticeServlet",
-                    type: "GET",
-                    data: {}
-                }).done(function (result) {
-                    if(noticeFlag===0){
-                        if(result=='new'){
-                            if($("#notice").text()!='new'){
-                                $("#notice").append(result);
-                                noticeFlag++;
-                            }
-                        }
-                    }
-                }).fail(function () {
-                    console.log("ì«Ç›çûÇ›é∏îs");
-                }).always(function (result) {
-                });
-            }
-            setInterval(timelineNotice, 1000);
-            function profilePage(action,id){
-                $('<form/>',{action:action, method:"post"})
-                    .append("<input type='hidden' name='id' value='"+id+"'>")
-                    .appendTo($('body'))
-                    .submit();
-            }
+            var heard_url = "<c:url value='/image/heart.png' />";
+            var white_heard_url = "<c:url value='/image/white_heart.png' />";
         </script>
+        <script src="<c:url value='/js/timeline.js'/>"></script>
     </c:param>
     <c:param name="title">
         <div class="timelineTitle">
@@ -96,17 +36,20 @@
                 <c:forEach var="tll" items="${timelineList}">
                     <div class="timelineContent">
                         <div class="container">
-                            <div>
-                                <c:choose>
-                                    <c:when test = "${tll.user_id==sessionScope.ub.user_id}">
-                                        <a onclick="profilePage('ProfileMyPageServlet',${tll.user_id});return false;" href="#"><img class="top_picture" src="data:image;base64,${tll.top_picture}" height="10%">
-                                        <span class="user_name">${tll.name}</span></a>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <a onclick="profilePage('ProfilePageServlet',${tll.user_id});return false;" href="#"><img class="top_picture" src="data:image;base64,${tll.top_picture}" height="10%"></a>
-                                        <span class="user_name">${tll.name}</span></a>
-                                    </c:otherwise>
-                                </c:choose>
+                            <div class="profile">
+                                <div>
+                                    <c:choose>
+                                        <c:when test = "${tll.user_id==sessionScope.ub.user_id}">
+                                            <a onclick="profilePage('ProfileMyPageServlet',${tll.user_id});return false;" href="#"><img class="top_picture" src="data:image;base64,${tll.top_picture}" height="10%"></a>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a onclick="profilePage('ProfilePageServlet',${tll.user_id});return false;" href="#"><img class="top_picture" src="data:image;base64,${tll.top_picture}" height="10%"></a>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
+                                <div class="user_name_div">
+                                    <span class="user_name">${tll.name}</span></a>
+                                </div>
                             </div>
                             <div>
                                 <span>${tll.timeline_time}</span>
@@ -127,7 +70,7 @@
                         <div class="comment_good">
                             <span>
                                 <a href="CommentSearchServlet?timeline_id=${tll.timeline_id}">
-                                    <img class="comment" src="<c:url value='/image/comment.png' />" width="10%" height="40%"/>
+                                    <img class="comment" src="<c:url value='/image/comment.png' />" width="8%" height="38%"/>
 
                                 </a>
                             </span>

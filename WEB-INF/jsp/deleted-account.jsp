@@ -7,7 +7,7 @@
     </c:param>
     <c:param name="content">
         <div class="confirm">
-            <h1>アカウントを削除しました</h1>
+            <h2>アカウントを削除しました</h2>
             <a href="loginPage">ログイン画面に戻る</a>
         </div>
     </c:param>

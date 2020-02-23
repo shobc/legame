@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
 
 import bean.UserBean;
-import dao.OracleConnectionManager;
 import dao.AbstractDaoFactory;
 import dao.TimeLineDao;
 
@@ -20,12 +19,11 @@ public class AjaxTimelineNoticeServlet extends HttpServlet{
         HttpSession session = req.getSession();
         UserBean ub = (UserBean)session.getAttribute("ub");
         String user_id = ub.getUser_id();
-        OracleConnectionManager.getInstance().beginTransaction();
+
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         TimeLineDao dao = factory.getOraTimeLineDao();
         String timelineNotice = dao.getCountNotice(user_id);
-        OracleConnectionManager.getInstance().commit();
-        OracleConnectionManager.getInstance().closeConnection();
+
         PrintWriter out = res.getWriter();
         out.print(timelineNotice);
     }

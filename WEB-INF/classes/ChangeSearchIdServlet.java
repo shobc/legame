@@ -11,12 +11,12 @@ import dao.OracleConnectionManager;
 import dao.AbstractDaoFactory;
 import dao.ProfileDao;
 import bean.UserBean;
-
+import function.EscapeString;
 
 public class ChangeSearchIdServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         req.setCharacterEncoding("windows-31j");
-        String search_id = req.getParameter("search_id");
+        String search_id =EscapeString.escape(req.getParameter("search_id"));
         HttpSession session = req.getSession();
         UserBean ub = (UserBean)session.getAttribute("ub");
         ub.setSearch_id(search_id);

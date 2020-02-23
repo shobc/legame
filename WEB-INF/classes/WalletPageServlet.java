@@ -24,16 +24,12 @@ public class WalletPageServlet extends HttpServlet{
         UserBean ub = (UserBean)session.getAttribute("ub");
         String user_id = ub.getUser_id();
 
-        OracleConnectionManager.getInstance().beginTransaction();
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         PropertyDao dao = factory.getOraPropertyDao();
 
         List propertylist =dao.getAllProperty(user_id);
 
         BalanceBean bb = dao.getBalanceProperty(user_id);
-
-        OracleConnectionManager.getInstance().commit();
-        OracleConnectionManager.getInstance().closeConnection();
 
         session.setAttribute("propertylist",propertylist);
         session.setAttribute("bb",bb);

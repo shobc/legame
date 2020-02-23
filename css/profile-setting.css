@@ -1,7 +1,6 @@
 .container{
     display: flex;
     justify-content: center;
-    margin-top: -45px;
 }
 .top_picture{
     bottom: 0;
@@ -17,7 +16,7 @@
 .profile-element p {
     margin: 0;
     padding: 0;
-    font-size: 30px;
+    font-size: 25px;
 }
 span{
     margin-left: 10px;
@@ -31,12 +30,6 @@ a{
     margin-top: 10px;
 }
 
-.back{
-    position: relative;
-    top:-69px;
-    left:8px;
-}
-.content {
-    margin-right: 0;
-    margin-left: 0;
+.single_word{
+    word-break: break-all;
 }

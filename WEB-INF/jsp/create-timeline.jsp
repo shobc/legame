@@ -19,7 +19,7 @@
         </div>
         <form action="CreateTimeLineServlet" method="post" id="create_timeline_form"  enctype="multipart/form-data">
             <div class="text">
-                <textarea class="timeline_sentence" name="timeline_sentence" placeholder="¡‰½‚µ‚Ä‚éH" required></textarea>
+                <textarea class="timeline_sentence" name="timeline_sentence" maxlength="250" placeholder="¡‰½‚µ‚Ä‚éH" required></textarea>
                 <div class="slide-wrap"></div>
                 <div class="image_btn">
                     <label class="upload-img-btn" style="left: 5px;">

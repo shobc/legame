@@ -73,3 +73,14 @@ a{
     color:black;
     text-decoration: none;
 }
+
+
+.profile{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.user_name_div{
+    margin-left: 10px;
+}

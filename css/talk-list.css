@@ -1,6 +1,6 @@
 .container{
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     padding: 0 10px 0 10px;
     border-bottom: solid 0.5px #525457;
@@ -20,9 +20,21 @@
     width: 100%;
 }
 
-.user{
-    width: 300px;
-}
 .delete{
     color: #007bff;
+}
+
+.user_profile{
+    margin-right: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.user_profile_info{
+    margin-left: 10px;
+}
+
+.user_name{
+    font-size: 20px;
 }

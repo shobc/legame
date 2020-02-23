@@ -76,9 +76,10 @@ public class OraPropertyDao implements PropertyDao{
         PreparedStatement st = null;
         ResultSet rs = null;
         BalanceBean bb = new BalanceBean();
+        OracleConnecter oc = new OracleConnecter();
         try{
             Connection cn = null;
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql = "select sum(money),sum(point) from property_table where user_id = ? ";
             st = cn.prepareStatement(sql);
             st.setString(1,id);
@@ -86,10 +87,10 @@ public class OraPropertyDao implements PropertyDao{
             rs.next();
             bb.setMoneyTotal(rs.getInt(1));
             bb.setPointTotal(rs.getInt(2));
-
-
+            oc.closeConnection();
         }catch(SQLException e){
-            OracleConnectionManager.getInstance().rollback();
+            System.out.println(e.getMessage());
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -107,9 +108,10 @@ public class OraPropertyDao implements PropertyDao{
         PreparedStatement st = null;
         ResultSet rs = null;
         ArrayList propertyList = new ArrayList();
+        Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            Connection cn = null;
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql = "select money, point, history, TO_CHAR(history_date,'YYYY/MM/DD') from PROPERTY_TABLE where user_id = ? order by history_date desc";
             st = cn.prepareStatement(sql);
             st.setString(1,id);
@@ -122,8 +124,11 @@ public class OraPropertyDao implements PropertyDao{
                 pb.setHistorydate(rs.getString(4));
                 propertyList.add(pb);
             }
+            st.close();
+            oc.closeConnection();
         }catch(SQLException e){
-            OracleConnectionManager.getInstance().rollback();
+            System.out.println(e.getMessage());
+            oc.rollback();
         }finally{
             try{
                 if(st != null){

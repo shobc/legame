@@ -31,7 +31,7 @@ public class CommentSearchServlet extends HttpServlet{
         CommentBean cb = new CommentBean();
         cb.setTimeline_id(timeline_id);
         cb.setUser_id(user_id);
-        OracleConnectionManager.getInstance().beginTransaction();
+
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         TimeLineDao timelineDao = factory.getOraTimeLineDao();
         CommentDao commentDao = factory.getOraCommentDao();
@@ -43,8 +43,6 @@ public class CommentSearchServlet extends HttpServlet{
             tlb.add(tlpb);
         }
         ArrayList commentList = commentDao.getComment(cb);
-        OracleConnectionManager.getInstance().commit();
-        OracleConnectionManager.getInstance().closeConnection();
 
         req.setAttribute("tlb",tlb);
         req.setAttribute("commentArray",commentList);

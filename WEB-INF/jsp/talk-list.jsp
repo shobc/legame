@@ -24,21 +24,29 @@
     <c:param name="content">
         <div class="talk_list">
             <c:forEach var="cl" items="${chatList}">
-                <a onclick="sendPost('TalkPageServlet','chat_id',${cl.chat_id})" href="#">
-                    <div class="container">
-                        <div class="user">
-                            <img src="data:image;base64,${cl.top_picture}" class="top_picture">
-                            <span>${cl.name}</span>
-                            <span>${cl.content}</span>
-                        </div>
-                        <div>
-                            <c:if test="${cl.not_read_count != 0}">
-                                <span>${cl.not_read_count}</span>
-                            </c:if>
-                            <a class="delete" href="DeleteChatServlet?chat_id=${cl.chat_id}">çÌèú</a>
+                <div class="container" onclick="sendPost('TalkPageServlet','chat_id',${cl.chat_id})">
+                    <div class="user">
+                        <div class="user_profile">
+                            <div>
+                                <img src="data:image;base64,${cl.top_picture}" class="top_picture">
+                            </div>
+                            <div class="user_profile_info">
+                                <div>
+                                    <span class="user_name">${cl.name}</span>
+                                </div>
+                                <div>
+                                    <span>${cl.content}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </a>
+                    <div>
+                        <c:if test="${cl.not_read_count != 0}">
+                            <span>${cl.not_read_count}</span>
+                        </c:if>
+                        <a class="delete" href="DeleteChatServlet?chat_id=${cl.chat_id}">çÌèú</a>
+                    </div>
+                </div>
             </c:forEach>
         </div>
     </c:param>

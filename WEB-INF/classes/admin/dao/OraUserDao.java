@@ -24,7 +24,7 @@ public class OraUserDao implements UserDao{
             String sql = "select u.USER_ID,uit.SEARCH_ID,uit.TOP_PICTURE," +
                     "(select count(user_id) from USER_TABLE where USER_ID= u.USER_ID and u.USER_TIME <= SYSDATE)\n" +
                     "from USER_TABLE u left join USER_INFORMATION_TABLE uit on u.USER_ID = uit.USER_ID " +
-                    "where u.user_id != 0";
+                    "where u.user_id != 0 and uit.SEARCH_ID IS NOT NUll";
             st = cn.prepareStatement(sql);
             rs = st.executeQuery();
             while(rs.next()){

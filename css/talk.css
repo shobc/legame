@@ -36,8 +36,12 @@ body{
 
 .balloon6 .face_icon img{
     width: 100%;
-    height: 30px;
+    height: 47px;
     border-radius: 50%;
+    border: solid 1px #b7b7b7;
+}
+.chatting{
+    margin-top: 10px;
 }
 .balloon6 .chatting {
     width: 100%;

@@ -61,8 +61,11 @@ h2{
     margin-top: 3px;
 }
 .single_word{
-    font-size: 15px;
+    font-size: 13px;
     color: #1c1c1d;
+}
+.profile_info{
+    margin-left: 10px;
 }
 .friend{
     text-decoration: underline;
@@ -204,10 +207,12 @@ a{
 }
 
 /* 画像の表示方法 */
-.imgmaru{
+.top_picture{
     border-radius: 50%;  /* 角丸半径を50%にする(=円形にする) */
     width:  60px;       /* 縦横を同値に */
     height: 60px;       /* 縦横を同値に */
+    margin-left: 10px;
+    border: solid 1px #d7d7d7;
 }
 
 /* サブタイトルのドロップダウンマークの位置 */
@@ -220,6 +225,11 @@ a{
 #myProf{
     margin-top: 20px;
 }
+.overall_my_profile{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
 
 .account_danger{
     text-align: center;
@@ -229,4 +239,11 @@ a{
     font-size: 20px;
     margin-top: 40px;
     margin-left: 10px;
+}
+.home_logo{
+    height: 27px;
+}
+
+.user_name{
+    font-size: 20px;
 }

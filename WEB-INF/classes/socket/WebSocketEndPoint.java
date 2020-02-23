@@ -12,6 +12,7 @@ import javax.websocket.server.ServerEndpoint;
 import function.ChatFactory;
 import function.BinaryToBufferedImage;
 import function.Base64Decode;
+import function.EscapeString;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -45,9 +46,6 @@ public class WebSocketEndPoint {
         UserBean ub = (UserBean)httpSession.getAttribute("ub");
         user_id = ub.getUser_id();
         ChatFactory.load(sender_chat_id,session.getId());
-        System.out.println("sender_chat_id="+sender_chat_id);
-        System.out.println("session.getId()="+session.getId());
-        System.out.println("user_id="+user_id);
         System.out.println("Open Connection ...");
     }
 
@@ -55,7 +53,7 @@ public class WebSocketEndPoint {
     public void onClose(Session session){
         sessionMap.remove(session.getId());
         ChatFactory.load(sender_chat_id,"null");
-        httpSession.removeAttribute("sender_chat_id");
+//        httpSession.removeAttribute("sender_chat_id");
         httpSession.removeAttribute("receiver_chat_id");
         System.out.println("Close Connection ...");
     }
@@ -99,7 +97,7 @@ public class WebSocketEndPoint {
         }
         tb.setBlock_flag(block_flag);
         String read = null;
-        tb.setContent(message);
+        tb.setContent(EscapeString.escape(message));
         if(id==null||id.equals("null")){
             System.out.println("データベースに入れるだけ");
             if(message.length()>=2000){
@@ -124,7 +122,8 @@ public class WebSocketEndPoint {
                 dao.addTalk(tb);
 
                 if(block_flag.equals("0")){
-                    session.getBasicRemote().sendText(message);
+                    String esc_message = EscapeString.escape(message);
+                    session.getBasicRemote().sendText(EscapeString.escape(message).replaceAll("\n", "<br/>"));
                 }
             }
             read = "既読";

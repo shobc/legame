@@ -64,17 +64,13 @@
             <c:forEach var="tll" items="${timelineList}">
                 <div class="timelineContent">
                     <div class="container">
-                        <div>
-                            <c:choose>
-                                <c:when test = "${tll.user_id==sessionScope.ub.user_id}">
-                                    <a onclick="profilePage('ProfileMyPageServlet',${tll.user_id});return false;" href="#"><img class="top_picture" src="data:image;base64,${tll.top_picture}" height="10%">
-                                        <span class="user_name">${tll.name}</span></a>
-                                </c:when>
-                                <c:otherwise>
-                                    <a onclick="profilePage('ProfilePageServlet',${tll.user_id});return false;" href="#"><img class="top_picture" src="data:image;base64,${tll.top_picture}" height="10%"></a>
-                                    <span class="user_name">${tll.name}</span></a>
-                                </c:otherwise>
-                            </c:choose>
+                        <div class="profile">
+                            <div>
+                                <a onclick="profilePage('ProfileMyPageServlet',${tll.user_id});return false;" href="#"><img class="top_picture" src="data:image;base64,${tll.top_picture}" height="10%"></a>
+                            </div>
+                            <div class="user_name_div">
+                                <span class="user_name">${tll.name}</span></a>
+                            </div>
                         </div>
                         <div>
                             <span>${tll.timeline_time}</span>
@@ -95,7 +91,7 @@
                     <div class="comment_good">
                             <span>
                                 <a href="CommentSearchServlet?timeline_id=${tll.timeline_id}">
-                                    <img class="comment" src="<c:url value='/image/comment.png' />" width="10%" height="40%"/>
+                                    <img class="comment" src="<c:url value='/image/comment.png' />" width="8%" height="38%"/>
 
                                 </a>
                             </span>

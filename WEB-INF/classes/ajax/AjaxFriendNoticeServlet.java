@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
 
-import dao.OracleConnectionManager;
 import dao.AbstractDaoFactory;
 import dao.FriendDao;
 import bean.UserBean;
@@ -20,12 +19,9 @@ public class AjaxFriendNoticeServlet extends HttpServlet{
         HttpSession session = req.getSession();
         UserBean ub = (UserBean)session.getAttribute("ub");
         String user_id = ub.getUser_id();
-        OracleConnectionManager.getInstance().beginTransaction();
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         FriendDao dao = factory.getOraFriendDao();
         String noticeCount = dao.getNewFriendCount(user_id);
-        OracleConnectionManager.getInstance().commit();
-        OracleConnectionManager.getInstance().closeConnection();
         PrintWriter out = res.getWriter();
         out.print(noticeCount);
     }

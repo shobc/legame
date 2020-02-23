@@ -6,8 +6,10 @@
         <link rel="stylesheet" href="<c:url value='/css/profile-setting.css' />">
         <title>プロフィール設定</title>
     </c:param>
-    <c:param name="content">
+    <c:param name="back">
         <a class="back" href="HomePageServlet"><img src="<c:url value='/image/back.png' />" width="20px"></a>
+    </c:param>
+    <c:param name="content">
         <div class="container">
             <div>
                 <a href="change-top-picture"><img class="top_picture" src="data:image;base64,${sessionScope.ub.top_picture}" width="100%" height="100%"></a>
@@ -33,7 +35,7 @@
             <span>一言</span>
             <a href="change-singleWord">
                 <div class="profile-element">
-                    <p>${sessionScope.ub.single_word}</p>
+                    <p class="single_word">${sessionScope.ub.single_word}</p>
                 </div>
             </a>
         </div>

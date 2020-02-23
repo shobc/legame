@@ -8,9 +8,8 @@
     </c:param>
     <c:param name="content">
         <div class="titleStart">
-            <center>
-               <h2>プロフィール設定</h2>
-            </center>
+            <h2 id="title">プロフィール設定</h2>
+            ${param.back}
         </div>
         <div class="content">
                 ${param.content}

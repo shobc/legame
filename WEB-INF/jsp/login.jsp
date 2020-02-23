@@ -29,7 +29,6 @@
 
         <!-- フッター -->
         <div class="footer">
-<%--            <center>パスワードを忘れた方は<nav><a href="mail" >こちら</a></nav></center><br>--%>
             <center>パスワードを忘れた方は<a href="mail" >こちら</a></center><br>
             <center><nav><a href="register-account">新規会員登録</a></nav></center>
         </div>

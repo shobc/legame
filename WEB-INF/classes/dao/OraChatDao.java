@@ -55,25 +55,22 @@ public class OraChatDao implements ChatDao{
         ResultSet rs = null;
         Connection cn = null;
         boolean judge = false;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             if(cb.getFriend_id()!=null){
                 String sql = "select count(chat_id) from chat_table " +
                         "where user_chat_id= ? and user_chat1_id = ?";
                 st = cn.prepareStatement(sql);
                 st.setString(1,cb.getUser_id());
                 st.setString(2,cb.getFriend_id());
-                System.out.println("ã");
             }else{
                 String sql = "select count(chat_id) from chat_table " +
                         "where user_chat1_id = ? and user_chat_id = " +
                         "(select user_chat1_id from chat_table where chat_id = ?)";
                 st = cn.prepareStatement(sql);
                 st.setString(1,cb.getUser_id());
-                System.out.println(cb.getUser_id());
                 st.setString(2,cb.getChat_id());
-                System.out.println(cb.getChat_id());
-                System.out.println("‰º");
             }
             rs = st.executeQuery();
             rs.next();
@@ -83,10 +80,13 @@ public class OraChatDao implements ChatDao{
             if(j.equals("0")){
                 judge = true;
             }
+            rs.close();
+            st.close();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -138,9 +138,9 @@ public class OraChatDao implements ChatDao{
         ResultSet rs = null;
         Connection cn = null;
         ArrayList chatList = new ArrayList();
+        OracleConnecter oc = new OracleConnecter();
         try{
-
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql = "select u.user_id,u.nickname,u.top_picture,c.chat_id\n" +
                     "    ,(select NVL(CONTENT,'‰æ‘œ‚ª‚ ‚è‚Ü‚·') from TALK_TABLE where TALK_ID = (select MAX(TALK_ID) from TALK_TABLE where (CHAT_ID = c.chat_id and CHAT1_ID =\n" +
                     "    (select CHAT_ID from CHAT_TABLE where USER_CHAT1_ID = (select USER_CHAT_ID from CHAT_TABLE where CHAT_ID = c.CHAT_ID) and USER_CHAT_ID = (select USER_CHAT1_ID from CHAT_TABLE where CHAT_ID = c.CHAT_ID)))\n" +
@@ -176,14 +176,19 @@ public class OraChatDao implements ChatDao{
                 Base64Image bi = new Base64Image();
                 cb.setTop_picture(bi.getBase64(blob));
                 cb.setChat_id(rs.getString(4));
-                cb.setContent(rs.getString(5));
+                String content = rs.getString(5);
+                if(content.length()>=12){
+                    content = content.substring(0,12)+"...";
+                }
+                cb.setContent(content);
                 cb.setNot_read_count(rs.getString(6));
                 chatList.add(cb);
             }
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -340,8 +345,9 @@ public class OraChatDao implements ChatDao{
         ResultSet rs = null;
         Connection cn = null;
         String receiver_chat_id = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql = "select chat_id from CHAT_TABLE where CHAT_ID = (select CHAT_ID from CHAT_TABLE \n" +
                     "where USER_CHAT1_ID = (select USER_CHAT_ID from CHAT_TABLE where CHAT_ID = ?) \n" +
                     "and USER_CHAT_ID = (select USER_CHAT1_ID from CHAT_TABLE where CHAT_ID = ?))";
@@ -352,10 +358,13 @@ public class OraChatDao implements ChatDao{
             rs = st.executeQuery();
             rs.next();
             receiver_chat_id = rs.getString(1);
+            rs.close();
+            st.close();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){

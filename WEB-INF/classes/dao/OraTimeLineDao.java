@@ -146,10 +146,11 @@ public class OraTimeLineDao implements TimeLineDao{
         ResultSet rs = null;
         Connection cn = null;
         ArrayList timelineList = new ArrayList();
+        OracleConnecter oc = new OracleConnecter();
         try{
 
-            cn = OracleConnectionManager.getInstance().getConnection();
-            String sql = "select t.USER_ID,u.NICKNAME,u.top_picture,t.TIMELINE_ID,t.TIMELINE_SENTENCE,t.TIMELINE_TIME,(select TIMELLINE_ID from timeline_like_table where user_id = ? and  TIMELLINE_ID = t.TIMELINE_ID and COMMENT_ID IS NULL),\n" +
+            cn = oc.getConnection();
+            String sql = "select t.USER_ID,u.NICKNAME,u.top_picture,t.TIMELINE_ID,t.TIMELINE_SENTENCE,TO_CHAR(t.TIMELINE_TIME,'YYYY/MM/DD HH24:Mi'),(select TIMELLINE_ID from timeline_like_table where user_id = ? and  TIMELLINE_ID = t.TIMELINE_ID and COMMENT_ID IS NULL),\n" +
                     "       (select count(*) from TIMELINE_LIKE_TABLE where TIMELLINE_ID = t.TIMELINE_ID and COMMENT_ID IS NULL)\n" +
                     "from (TIMELINE_TABLE t left join TIMELINE_LIKE_TABLE TLT  on t.TIMELINE_ID = TLT.TIMELLINE_ID and TLT.USER_ID = ? and TLT.COMMENT_ID IS NULL)\n" +
                     "         left join USER_INFORMATION_TABLE u on t.USER_ID = u.USER_ID\n" +
@@ -180,14 +181,16 @@ public class OraTimeLineDao implements TimeLineDao{
                 tlb.setTimeline_sentence(rs.getString(5));
                 tlb.setTimeline_time(rs.getString(6));
                 tlb.setTimeline_like_id(rs.getString(7));
-                System.out.println("rs.getString(8)"+rs.getString(8));
                 tlb.setLike_count(rs.getString(8));
                 timelineList.add(tlb);
             }
+            rs.close();
+            st.close();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -205,9 +208,9 @@ public class OraTimeLineDao implements TimeLineDao{
         ResultSet rs = null;
         Connection cn = null;
         ArrayList timelinePictureList = new ArrayList();
+        OracleConnecter oc = new OracleConnecter();
         try{
-
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql = "select tp.TIMELINE_ID,tp.TIMELINE_PICTURE from TIMELINE_PICTURE_TABLE tp\n" +
                     "                    left join TIMELINE_TABLE t on tp.TIMELINE_ID = t.TIMELINE_ID\n" +
                     "                    left join USER_INFORMATION_TABLE u on t.USER_ID = u.USER_ID\n" +
@@ -233,10 +236,13 @@ public class OraTimeLineDao implements TimeLineDao{
                 tlpb.setTimeline_id(timeline_id);
                 timelinePictureList.add(tlpb);
             }
+            rs.close();
+            st.close();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -292,7 +298,7 @@ public class OraTimeLineDao implements TimeLineDao{
         Connection cn = null;
         try{
             cn = OracleConnectionManager.getInstance().getConnection();
-            String sql = "select t.USER_ID,u.NICKNAME,u.top_picture,t.TIMELINE_ID,t.TIMELINE_SENTENCE,t.TIMELINE_TIME,\n" +
+            String sql = "select t.USER_ID,u.NICKNAME,u.top_picture,t.TIMELINE_ID,t.TIMELINE_SENTENCE,TO_CHAR(t.TIMELINE_TIME,'YYYY/MM/DD HH24:Mi'),\n" +
                     "(select TIMELLINE_ID from timeline_like_table where user_id = ? and  TIMELLINE_ID = t.TIMELINE_ID and COMMENT_ID IS NULL),\n" +
                     "(select count(*) from TIMELINE_LIKE_TABLE where TIMELLINE_ID = t.TIMELINE_ID and COMMENT_ID IS NULL)\n" +
                     "from (TIMELINE_TABLE t left join TIMELINE_LIKE_TABLE TLT  on t.TIMELINE_ID = TLT.TIMELLINE_ID and TLT.USER_ID = ? and TLT.COMMENT_ID IS NULL)\n" +
@@ -336,9 +342,9 @@ public class OraTimeLineDao implements TimeLineDao{
         ResultSet rs = null;
         Connection cn = null;
         ArrayList commentList = new ArrayList();
+        OracleConnecter oc = new OracleConnecter();
         try{
-
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql = "select c.timeline_id,(select USER_INFORMATION_TABLE.NICKNAME from USER_INFORMATION_TABLE where user_id = c.user_id)\n" +
                     ",(select USER_INFORMATION_TABLE.TOP_PICTURE from USER_INFORMATION_TABLE where user_id = c.user_id),TO_CHAR(c.comment_time,'YYYY/MM/DD HH24:Mi')\n" +
                     " from comment_table c where reply_user_id = ?\n" +
@@ -351,6 +357,9 @@ public class OraTimeLineDao implements TimeLineDao{
                 TimeLineBean tlb = new TimeLineBean();
                 String timeline_id = rs.getString(1);
                 String name = rs.getString(2);
+                if(name.length()>=6){
+                    name = name.substring(0,6)+"...";
+                }
                 Blob blob_image = rs.getBlob(3);
                 Base64Image bi = new Base64Image();
                 tlb.setTop_picture(bi.getBase64(blob_image));
@@ -360,10 +369,11 @@ public class OraTimeLineDao implements TimeLineDao{
                 tlb.setTimeline_time(timeline_time);
                 commentList.add(tlb);
             }
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -381,8 +391,9 @@ public class OraTimeLineDao implements TimeLineDao{
         ResultSet rs = null;
         Connection cn = null;
         String count = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql = "select count(TIMELINE_ID) from TIMELINE_TABLE " +
                     "where TIMELINE_ID IN(select comment_table.timeline_id from comment_table where reply_user_id = ? and read_flag = 0)";
             st = cn.prepareStatement(sql);
@@ -392,11 +403,13 @@ public class OraTimeLineDao implements TimeLineDao{
             if(rs.getInt(1)!=0){
                 count = "new";
             }
-
+            rs.close();
+            st.close();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -412,17 +425,20 @@ public class OraTimeLineDao implements TimeLineDao{
     public void updateCommentNotice(String user_id){
         PreparedStatement st = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql="update comment_table set read_flag = 1 where REPLY_USER_ID = ?";
             st = cn.prepareStatement(sql);
             st.setString(1,user_id);
             int count = st.executeUpdate();
             System.out.println(count+"åèèàóùÇµÇ‹ÇµÇΩ");
             st.close();
+            oc.commit();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -442,7 +458,7 @@ public class OraTimeLineDao implements TimeLineDao{
         try{
 
             cn = OracleConnectionManager.getInstance().getConnection();
-            String sql = "select t.USER_ID,u.NICKNAME,u.top_picture,t.TIMELINE_ID,t.TIMELINE_SENTENCE,t.TIMELINE_TIME,(select TIMELLINE_ID from timeline_like_table where user_id = ? and  TIMELLINE_ID = t.TIMELINE_ID and COMMENT_ID IS NULL)\n" +
+            String sql = "select t.USER_ID,u.NICKNAME,u.top_picture,t.TIMELINE_ID,t.TIMELINE_SENTENCE,TO_CHAR(t.TIMELINE_TIME,'YYYY/MM/DD HH24:Mi'),(select TIMELLINE_ID from timeline_like_table where user_id = ? and  TIMELLINE_ID = t.TIMELINE_ID and COMMENT_ID IS NULL)\n" +
                     ",(select count(*) from TIMELINE_LIKE_TABLE where TIMELLINE_ID = t.TIMELINE_ID and COMMENT_ID IS NULL)\n" +
                     "from (TIMELINE_TABLE t left join TIMELINE_LIKE_TABLE TLT  on t.TIMELINE_ID = TLT.TIMELLINE_ID and TLT.USER_ID = ? and TLT.COMMENT_ID IS NULL)\n" +
                     "left join USER_INFORMATION_TABLE u on t.USER_ID = u.user_id\n" +
@@ -566,7 +582,7 @@ public class OraTimeLineDao implements TimeLineDao{
         try{
 
             cn = OracleConnectionManager.getInstance().getConnection();
-            String sql = "select t.USER_ID,u.NICKNAME,u.top_picture,t.TIMELINE_ID,t.TIMELINE_SENTENCE,t.TIMELINE_TIME,(select TIMELLINE_ID from timeline_like_table where user_id = ? and  TIMELLINE_ID = t.TIMELINE_ID  and COMMENT_ID IS NULL),(select count(*) from TIMELINE_LIKE_TABLE where TIMELLINE_ID = t.TIMELINE_ID and COMMENT_ID IS NULL)\n" +
+            String sql = "select t.USER_ID,u.NICKNAME,u.top_picture,t.TIMELINE_ID,t.TIMELINE_SENTENCE,TO_CHAR(t.TIMELINE_TIME,'YYYY/MM/DD HH24:Mi'),(select TIMELLINE_ID from timeline_like_table where user_id = ? and  TIMELLINE_ID = t.TIMELINE_ID  and COMMENT_ID IS NULL),(select count(*) from TIMELINE_LIKE_TABLE where TIMELLINE_ID = t.TIMELINE_ID and COMMENT_ID IS NULL)\n" +
                     "from (TIMELINE_TABLE t left join TIMELINE_LIKE_TABLE TLT  on t.TIMELINE_ID = TLT.TIMELLINE_ID and TLT.USER_ID = ? and TLT.COMMENT_ID IS NULL)\n" +
                     "left join USER_INFORMATION_TABLE u  on t.USER_ID = u.USER_ID\n" +
                     "where t.USER_ID = ? and u.USER_ID = ? order by t.TIMELINE_TIME desc";

@@ -6,7 +6,6 @@ import java.sql.Connection;
 
 public class OracleConnecter {
     private Connection cn = null;
-//    private OracleConnecter(){}
     //Connectionを取得する
     public Connection getConnection(){
         if(cn == null){
@@ -35,19 +34,7 @@ public class OracleConnecter {
             System.out.println(e.getMessage());
         }
     }
-    //トランザクションを開始させる
-//    public void beginTransaction(){
-//        if(cn == null){
-//            getConnection();
-//        }
-//        try{
-//            cn.setAutoCommit(false);
-//        }catch (SQLException e){
-//            System.out.println(e.getMessage());
-//            e.printStackTrace();
-//        }
-//    }
-    //Connectionをクローズさせる
+    //commit
     public void commit(){
         try{
             cn.commit();
@@ -63,6 +50,8 @@ public class OracleConnecter {
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
+        }finally {
+            closeConnection();
         }
     }
 }

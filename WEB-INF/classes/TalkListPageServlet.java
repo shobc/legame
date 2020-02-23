@@ -20,14 +20,10 @@ public class TalkListPageServlet extends HttpServlet{
         UserBean ub = (UserBean)session.getAttribute("ub");
         String user_id = ub.getUser_id();
 
-        OracleConnectionManager.getInstance().beginTransaction();
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         ChatDao dao = factory.getOraChatDao();
 
         ArrayList chatList =dao.getChat(user_id);
-
-        OracleConnectionManager.getInstance().commit();
-        OracleConnectionManager.getInstance().closeConnection();
 
         req.setAttribute("chatList",chatList);
 

@@ -5,6 +5,7 @@
 <c:import url="/WEB-INF/jsp/top-layout.jsp">
     <c:param name="head">
         <link rel="stylesheet" href="<c:url value='/css/search-friend.css' />">
+        <script src="<c:url value='/js/search-friend.js' />"></script>
     </c:param>
     <c:param name="content">
         <div class="titleStart">
@@ -23,11 +24,11 @@
                 <div class="search_input">
                     <div class="cp_iptxt">
                         <label class="ef">
-                            <input type="search" name="id" min="100" step="10" placeholder="ID‚ð“ü—Í" required>
+                            <input type="search" class="not" id="search_id" name="id" min="100" step="10" placeholder="ID‚ð“ü—Í" required>
                         </label>
                     </div>
                     <div>
-                        <input type="submit" class="submit_box" value="ŒŸõ">
+                        <input type="image" src="<c:url value='/image/search.png' />" class="submit_box" width="40px">
                     </div>
                 </div>
             </form>

@@ -23,7 +23,8 @@
     <c:param name="title">
         <div class="titleStart">
             <center>
-                <h2>app</h2>
+                <h2><img src="<c:url value='/image/App_logo.png' />" height="37px"></h2>
+
             </center>
         </div>
     </c:param>
