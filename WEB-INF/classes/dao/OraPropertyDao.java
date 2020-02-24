@@ -17,17 +17,22 @@ public class OraPropertyDao implements PropertyDao{
 //お金をチャージする
     public void addPropery(PropertyBean p){
         PreparedStatement st = null;
+        Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            Connection cn = null;
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql="insert into property_table(property_id,user_id,money,history) values(PROPERTY_SEQUESNCE.nextval,?,?,'チャージしました')";
             st = cn.prepareStatement(sql);
             st.setString(1,p.getUser_id());
             st.setInt(2,p.getMoney());
             int count = st.executeUpdate();
             System.out.println(count+"件処理しました");
+            st.close();
+            oc.commit();
+            oc.closeConnection();
         }catch(SQLException e){
-            OracleConnectionManager.getInstance().rollback();
+            System.out.println(e.getMessage());
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -42,23 +47,24 @@ public class OraPropertyDao implements PropertyDao{
 //お金を使う
     public void employMoney(PropertyBean p){
         PreparedStatement st = null;
+        Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            Connection cn = null;
-            cn = OracleConnectionManager.getInstance().getConnection();
-            String sql="insert into PROPERTY_TABLE(USER_ID,money,point,HISTORY) " +
-                    "select (select user_id from USER_INFORMATION_TABLE where QRCODE = ?) ,-?,?,? " +
-                    "from PROPERTY_TABLE where USER_ID = (select user_id from USER_INFORMATION_TABLE where QRCODE = ?) " +
-                    "group by USER_ID having SUM(MONEY)>=?";
+            cn = oc.getConnection();
+            String sql="insert into PROPERTY_TABLE(property_id,USER_ID,money,point,HISTORY)\n" +
+                    "    values (PROPERTY_SEQUESNCE.nextval,(select user_id from USER_INFORMATION_TABLE where QRCODE = ?) ,-?,?,? )";
             st = cn.prepareStatement(sql);
             st.setString(1,p.getRandomString());
             st.setInt(2,p.getMoney());
             st.setInt(3,p.getMoney()/100);
             st.setString(4,p.getHistory());
-            st.setString(5,p.getRandomString());
-            st.setInt(6,p.getMoney());
             st.executeUpdate();
+            st.close();
+            oc.commit();
+            oc.closeConnection();
         }catch(SQLException e){
-            OracleConnectionManager.getInstance().rollback();
+            System.out.println(e.getMessage());
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -145,15 +151,19 @@ public class OraPropertyDao implements PropertyDao{
     public void updateQRCode(String user_id,String randomString){
         PreparedStatement st = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql="update user_information_table set qrcode= ? where user_id = ?";
             st = cn.prepareStatement(sql);
             st.setString(1,randomString);
             st.setString(2,user_id);
             st.executeUpdate();
+            st.close();
+            oc.commit();
+            oc.closeConnection();
         }catch(SQLException e){
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){

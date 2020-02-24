@@ -13,7 +13,7 @@ $(function(){
         $('#form').attr('action', 'ChangeSearchIdServlet');
         $('.text').attr('name', 'search_id');
         $(".text").addClass("not");
-        $(".btn-borde").addClass("search_btn");
+        $(".btn-border").addClass("search_btn");
         $('.text').attr('value', search_id);
         $("#caption").text('åüçıIDïœçX');
         $("#setting").text('8ï∂éöà»è„20ï∂éöà»ì‡');
@@ -58,8 +58,8 @@ $(function(){
     $(document).on('blur', '.not',function(){
         this.value = this.value.replace(/[^0-9a-zA-Z]+/i,'');
     });
-    $(".search_btn").on("click",function(){
-        var search_id = $(".text").val();
+    $(".btn-border").on("click",function(){
+        var search_id = $(".not").val();
         if(search_id.length<8){
             $("#error").css("display","inline");
             $("#error").empty();

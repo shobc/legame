@@ -6,15 +6,16 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import function.PathHolder;
+import javax.servlet.annotation.WebServlet;
+
 import function.RandomString;
 import function.SendMail;
 import bean.LoginUserBean;
 import function.EscapeString;
 
+@WebServlet("/InputAccountServlet")
 public class InputAccountServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
-        PathHolder.pathName = getServletContext().getRealPath("/");
         ServletContext  sc = getServletContext();
         req.setCharacterEncoding("windows-31j");
         String mail = EscapeString.escape(req.getParameter("mail"));

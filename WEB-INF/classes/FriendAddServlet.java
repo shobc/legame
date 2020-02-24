@@ -6,13 +6,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
+import javax.servlet.annotation.WebServlet;
 
-import dao.OracleConnectionManager;
 import dao.AbstractDaoFactory;
 import dao.FriendDao;
 import bean.UserBean;
 import bean.FriendBean;
 
+@WebServlet("/FriendAddServlet")
 public class FriendAddServlet extends HttpServlet{
     public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         req.setCharacterEncoding("windows-31j");
@@ -23,14 +24,11 @@ public class FriendAddServlet extends HttpServlet{
         FriendBean fb = new FriendBean();
         fb.setUser_id(user_id);
         fb.setFriend_id(friend_id);
-        OracleConnectionManager.getInstance().beginTransaction();
+
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         FriendDao dao = factory.getOraFriendDao();
 
         dao.addFriend(fb);
-
-        OracleConnectionManager.getInstance().commit();
-        OracleConnectionManager.getInstance().closeConnection();
 
         res.sendRedirect("NewFriendListServlet");
 

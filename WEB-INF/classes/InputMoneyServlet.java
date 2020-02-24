@@ -16,8 +16,6 @@ import dao.OracleConnectionManager;
 import dao.AbstractDaoFactory;
 import dao.PropertyDao;
 
-
-//手入力チャージするためのサーブレット
 public class InputMoneyServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         req.setCharacterEncoding("Windows-31J");
@@ -29,7 +27,7 @@ public class InputMoneyServlet extends HttpServlet{
         System.out.println("sc.getAttribute((RandomString)"+sc.getAttribute(RandomString));
         pb.setUser_id(String.valueOf(sc.getAttribute(RandomString)));
         pb.setMoney(pay);
-
+        //コンテキストスコープをリムーブする
         OracleConnectionManager.getInstance().beginTransaction();
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         PropertyDao dao = factory.getOraPropertyDao();

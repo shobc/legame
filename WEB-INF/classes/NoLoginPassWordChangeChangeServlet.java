@@ -5,12 +5,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
+import javax.servlet.annotation.WebServlet;
 
 import bean.LoginUserBean;
 import dao.UserDao;
 import dao.AbstractDaoFactory;
 import function.EscapeString;
 
+@WebServlet("/NoLoginPassWordChangeChangeServlet")
 public class NoLoginPassWordChangeChangeServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         ServletContext sc = getServletContext();

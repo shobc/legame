@@ -8,15 +8,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.annotation.WebServlet;
 
+import dao.AbstractDaoFactory;
+import dao.PropertyDao;
 import bean.UserBean;
 import bean.BalanceBean;
 
-import dao.OracleConnectionManager;
-import dao.AbstractDaoFactory;
-import dao.PropertyDao;
-
-//Walletページを表示するためのサーブレット
+@WebServlet("/WalletPageServlet")
 public class WalletPageServlet extends HttpServlet{
     public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         req.setCharacterEncoding("windows-31j");
@@ -26,9 +25,7 @@ public class WalletPageServlet extends HttpServlet{
 
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         PropertyDao dao = factory.getOraPropertyDao();
-
         List propertylist =dao.getAllProperty(user_id);
-
         BalanceBean bb = dao.getBalanceProperty(user_id);
 
         session.setAttribute("propertylist",propertylist);

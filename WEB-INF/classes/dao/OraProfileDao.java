@@ -22,25 +22,36 @@ public class OraProfileDao implements ProfileDao{
         ResultSet rs = null;
         Connection cn = null;
         UserBean ub = new UserBean();
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
+
             String sql = "select user_id,search_id,nickname,single_word,top_picture" +
                     " from user_information_table where user_id = (select user_id from user_table where mail= ? and password = ?)";
             st = cn.prepareStatement(sql);
             st.setString(1,mail);
             st.setString(2,pass);
             rs = st.executeQuery();
-            rs.next();
-            ub.setUser_id(rs.getString(1));
-            ub.setSearch_id(rs.getString(2));
-            ub.setName(rs.getString(3));
-            ub.setSingle_word(rs.getString(4));
-            Blob blob = rs.getBlob(5);
-            Base64Image bi = new Base64Image();
-            ub.setTop_picture(bi.getBase64(blob));
+            if(rs.next()){
+                ub.setUser_id(rs.getString(1));
+                ub.setSearch_id(rs.getString(2));
+                ub.setName(rs.getString(3));
+                ub.setSingle_word(rs.getString(4));
+                Blob blob = rs.getBlob(5);
+                Base64Image bi = new Base64Image();
+                ub.setTop_picture(bi.getBase64(blob));
+            }else{
+                ub = null;
+            }
+            rs.close();
+            st.close();
+            oc.closeConnection();
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+            oc.rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -96,7 +107,6 @@ public class OraProfileDao implements ProfileDao{
         OracleConnecter oc = new OracleConnecter();
         try{
             cn = oc.getConnection();
-            cn = OracleConnectionManager.getInstance().getConnection();
             String sql = "select user_id,search_id,nickname,single_word,top_picture" +
                     " from user_information_table where user_id = ?";
             st = cn.prepareStatement(sql);
@@ -114,6 +124,10 @@ public class OraProfileDao implements ProfileDao{
             rs.close();
             st.close();
             oc.closeConnection();
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            oc.rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -136,8 +150,11 @@ public class OraProfileDao implements ProfileDao{
         PreparedStatement st = null;
         FileInputStream fip = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try {
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
+
+
             File file = new File(ub.getTop_picture());
             System.out.println(file);
             fip = new FileInputStream(file);
@@ -146,13 +163,14 @@ public class OraProfileDao implements ProfileDao{
             st.setString(2,ub.getUser_id());
             st.executeUpdate();
             st.close();
-
+            oc.commit();
+            oc.closeConnection();
         }catch(FileNotFoundException e){
             System.out.println(e.getMessage());
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -168,17 +186,20 @@ public class OraProfileDao implements ProfileDao{
     public void updateSingleWordProfile(UserBean ub){
         PreparedStatement st = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try {
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             st = cn.prepareStatement("update USER_INFORMATION_TABLE set single_word = ? where user_id = ?");
             st.setString(1,ub.getSingle_word());
             st.setString(2,ub.getUser_id());
             st.executeUpdate();
             st.close();
+            oc.commit();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -194,17 +215,20 @@ public class OraProfileDao implements ProfileDao{
     public void updateNameProfile(UserBean ub){
         PreparedStatement st = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try {
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             st = cn.prepareStatement("update USER_INFORMATION_TABLE set nickname = ? where user_id = ?");
             st.setString(1,ub.getName());
             st.setString(2,ub.getUser_id());
             st.executeUpdate();
             st.close();
+            oc.commit();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -220,17 +244,20 @@ public class OraProfileDao implements ProfileDao{
     public void updateSearchIdProfile(UserBean ub){
         PreparedStatement st = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try {
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             st = cn.prepareStatement("update USER_INFORMATION_TABLE set search_id = ? where user_id = ?");
             st.setString(1,ub.getSearch_id());
             st.setString(2,ub.getUser_id());
             st.executeUpdate();
             st.close();
+            oc.commit();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -245,23 +272,26 @@ public class OraProfileDao implements ProfileDao{
     public void UpdateUserTopPicture(UserBean ub){
         PreparedStatement st = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try {
             FileInputStream fis = new FileInputStream(ub.getTop_picture());
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             st = cn.prepareStatement("update USER_INFORMATION_TABLE set Top_Picture = ? where user_id = ?");
             st.setBinaryStream(1,fis);
             st.setString(2,ub.getUser_id());
             int count = st.executeUpdate();
             System.out.println(count+"åèèàóùÇµÇ‹ÇµÇΩ");
             st.close();
+            oc.commit();
+            oc.closeConnection();
         }catch(IOException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -278,8 +308,9 @@ public class OraProfileDao implements ProfileDao{
         ResultSet rs = null;
         Connection cn = null;
         UserBean ub = new UserBean();
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql = "select user_id,nickname,single_word,top_picture from user_information_table " +
                     "where user_id = (select CHAT_TABLE.USER_CHAT1_ID from CHAT_TABLE where CHAT_ID = ?)";
             st = cn.prepareStatement(sql);
@@ -292,10 +323,18 @@ public class OraProfileDao implements ProfileDao{
             Blob blob = rs.getBlob(4);
             Base64Image bi = new Base64Image();
             ub.setTop_picture(bi.getBase64(blob));
+
+            rs.close();
+            st.close();
+            oc.closeConnection();
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            oc.rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -312,17 +351,19 @@ public class OraProfileDao implements ProfileDao{
         PreparedStatement st = null;
         FileInputStream fip = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try {
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             st = cn.prepareStatement("update USER_INFORMATION_TABLE set friend_qrcode = ? where user_id = ?");
             st.setString(1,QRCode);
             st.setString(2,user_id);
             st.executeUpdate();
             st.close();
-
+            oc.commit();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){

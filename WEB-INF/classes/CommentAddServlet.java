@@ -7,14 +7,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
+import javax.servlet.annotation.WebServlet;
 
 import function.EscapeString;
-import dao.OracleConnectionManager;
 import dao.AbstractDaoFactory;
 import dao.CommentDao;
 import bean.UserBean;
 import bean.CommentBean;
 
+
+@WebServlet("/CommentAddServlet")
 public class CommentAddServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         req.setCharacterEncoding("windows-31j");
@@ -29,12 +31,9 @@ public class CommentAddServlet extends HttpServlet{
         cb.setComment_sentence(comment);
         cb.setTimeline_id(timeline_id);
         cb.setReply_user_id(reply_user_id);
-        OracleConnectionManager.getInstance().beginTransaction();
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         CommentDao dao = factory.getOraCommentDao();
         dao.addComment(cb);
-        OracleConnectionManager.getInstance().commit();
-        OracleConnectionManager.getInstance().closeConnection();
 //        res.sendRedirect("CommentSearchServlet?timeline_id="+timeline_id);
         RequestDispatcher dis = req.getRequestDispatcher("CommentSearchServlet?timeline_id="+timeline_id);
         dis.forward(req,res);

@@ -40,7 +40,7 @@
             <div class="textStart">
                 <label class="upload-img-btn">
                     TOP‰æ‘œ
-                    <input type="file"  onchange="OnFileSelect(this); showTrimming();" id="profileImage">
+                    <input type="file"  multiple="multiple" accept="image/*" onchange="OnFileSelect(this); showTrimming();" id="profileImage">
                     <input type="hidden" name="base64Image" id="base64Image">
                 </label>
             </div>

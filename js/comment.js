@@ -11,7 +11,7 @@ function ajaxLike(id,count){
     var Id = "#"+id;
     var count_judge = count;
     $.ajax({
-        url: "LikeServlet",
+        url: "AjaxTimelineLikeServlet",
         type: "GET",
         data: {timeline_id :id,likeJudge:count_judge}
     }).done(function (result) {
@@ -27,7 +27,7 @@ function ajaxLike(id,count){
             $("#c"+id).text(count-1);
         }
     }).fail(function () {
-        console.log("èª­ã¿è¾¼ã¿å¤±æ•—");
+        console.log("“Ç‚İ‚İ¸”s");
     }).always(function (result) {
     });
 }
@@ -45,10 +45,13 @@ function ajaxLikeComment(tid,cid,count){
     var Id = "#"+(tid+cid)+"comment";
     var id = (tid+cid);
     var timeline_id = tid;
+    console.log(tid);
     var comment_id = cid;
+    console.log(cid);
     var count_judge = count;
+    console.log(count);
     $.ajax({
-        url: "CommentLikeServlet",
+        url: "AjaxCommentLikeServlet",
         type: "POST",
         data: {timeline_id :tid,comment_id :cid,likeJudge:count_judge}
     }).done(function (result) {
@@ -64,7 +67,7 @@ function ajaxLikeComment(tid,cid,count){
             $("#c"+id).text(count-1);
         }
     }).fail(function () {
-        alert("èª­ã¿è¾¼ã¿å¤±æ•—");
+        console.log("“Ç‚İ‚İ¸”s");
     }).always(function (result) {
     });
 }
@@ -80,8 +83,9 @@ function ajaxReportTimeLine(id){
         type: "GET",
         data: {timeline_id :id}
     }).done(function (result) {
+        console.log("ƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚Ü‚µ‚½");
     }).fail(function () {
-        alert("èª­ã¿è¾¼ã¿å¤±æ•—");
+        console.log("“Ç‚İ‚İ¸”s");
     }).always(function (result) {
     });
 }

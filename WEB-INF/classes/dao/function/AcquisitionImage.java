@@ -18,30 +18,22 @@ public class AcquisitionImage{
     private ResultSet rs = null;
     private FileOutputStream output = null;
 
-    public String getImagePath(String user_id,String search_id,Blob blob) {
+    public String getImagePath(String user_id,String search_id,Blob blob) throws IOException,SQLException{
         String pathImage = null;
-        try {
-            File file = new File(PathHolder.pathName+"image/"+user_id+search_id+".jpg");
-            pathImage = "image/"+user_id+search_id+".jpg";
+        File file = new File(PathHolder.pathName+"image/"+user_id+search_id+".jpg");
+        pathImage = "image/"+user_id+search_id+".jpg";
 
-            output = new FileOutputStream(file);
+        output = new FileOutputStream(file);
 
-            BufferedInputStream binput = new BufferedInputStream(blob.getBinaryStream());
+        BufferedInputStream binput = new BufferedInputStream(blob.getBinaryStream());
 
-            byte[] buff = new byte[4*1024];
-            while(true){
-                int size = binput.read(buff,0,buff.length);
-                if(size==-1)break;
-                output.write(buff,0,size);
-            }
-            binput.close();
-        } catch (IOException e) {
-
-        } catch (SQLException e) {
-
-        } catch (Exception e) {
-
+        byte[] buff = new byte[4*1024];
+        while(true){
+            int size = binput.read(buff,0,buff.length);
+            if(size==-1)break;
+            output.write(buff,0,size);
         }
+        binput.close();
         return pathImage;
     }
 }

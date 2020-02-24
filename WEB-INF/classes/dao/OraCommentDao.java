@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
@@ -19,8 +20,39 @@ public class OraCommentDao implements CommentDao{
         Connection cn = null;
         OracleConnecter oc = new OracleConnecter();
         try{
-            oc.getConnection();
+            cn = oc.getConnection();
             String sql = "insert into timeline_like_table values(?,?,?)";
+            st = cn.prepareStatement(sql);
+            st.setString(1,cb.getTimeline_id());
+            st.setString(2,cb.getComment_id());
+            st.setString(3,cb.getUser_id());
+            st.executeUpdate();
+            st.close();
+            oc.commit();
+            oc.closeConnection();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            oc.rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
+    //コメントに対するいいねを削除する
+    public void deleteCommentLike(CommentBean cb){
+        PreparedStatement st = null;
+        Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
+        try{
+            cn = oc.getConnection();
+            String sql="DELETE FROM timeline_like_table WHERE timelline_id = ? and comment_id = ? and user_id = ?";
             st = cn.prepareStatement(sql);
             st.setString(1,cb.getTimeline_id());
             st.setString(2,cb.getComment_id());
@@ -43,39 +75,13 @@ public class OraCommentDao implements CommentDao{
             }
         }
     }
-    //コメントに対するいいねを削除する
-    public void deleteCommentLike(CommentBean cb){
-        PreparedStatement st = null;
-        Connection cn = null;
-        try{
-            cn = OracleConnectionManager.getInstance().getConnection();
-            String sql="DELETE FROM timeline_like_table WHERE timelline_id = ? and comment_id = ? and user_id = ?";
-            st = cn.prepareStatement(sql);
-            st.setString(1,cb.getTimeline_id());
-            st.setString(2,cb.getComment_id());
-            st.setString(3,cb.getUser_id());
-            st.executeUpdate();
-            st.close();
-        }catch(SQLException e){
-            System.out.println(e.getMessage());
-            OracleConnectionManager.getInstance().rollback();
-        }finally{
-            try{
-                if(st != null){
-                    st.close();
-                }
-            }catch (SQLException e){
-                System.out.println(e.getMessage());
-                e.printStackTrace();
-            }
-        }
-    }
     //タイムラインのコメントを追加する
     public void addComment(CommentBean cb){
         PreparedStatement st = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql="insert into comment_table(comment_id,user_id,timeline_id,comment_sentence,reply_user_id) values(COMMENT_SEQUENCE.nextval,?,?,?,?)";
             st = cn.prepareStatement(sql);
             st.setString(1,cb.getUser_id());
@@ -84,9 +90,11 @@ public class OraCommentDao implements CommentDao{
             st.setString(4,cb.getReply_user_id());
             st.executeUpdate();
             st.close();
+            oc.commit();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -138,6 +146,10 @@ public class OraCommentDao implements CommentDao{
                 commentList.add(cb);
             }
             oc.closeConnection();
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            oc.rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();

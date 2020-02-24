@@ -8,13 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
+import javax.servlet.annotation.WebServlet;
 
 import bean.UserBean;
 import bean.ChatBean;
 import dao.AbstractDaoFactory;
 import dao.ChatDao;
 
-
+@WebServlet("/AjaxReportFriendServlet")
 public class AjaxReportFriendServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         req.setCharacterEncoding("windows-31j");

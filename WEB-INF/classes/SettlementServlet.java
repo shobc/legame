@@ -6,22 +6,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.http.Part;
+import javax.servlet.annotation.WebServlet;
 
-import function.PathHolder;
-import bean.PropertyBean;
 import dao.OracleConnectionManager;
+import bean.PropertyBean;
 import dao.AbstractDaoFactory;
 import dao.PropertyDao;
 
-import function.ReadQR;
-
-
+@WebServlet("/SettlementServlet")
 public class SettlementServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         req.setCharacterEncoding("windows-31j");
-        PathHolder.pathName = getServletContext().getRealPath("/");
         String history = req.getParameter("history");
         String price = req.getParameter("price");
         String randomString = req.getParameter("qrcode");
@@ -30,12 +25,10 @@ public class SettlementServlet extends HttpServlet{
         pb.setHistory(history);
         pb.setMoney(Integer.parseInt(price));
         pb.setRandomString(randomString);
-        OracleConnectionManager.getInstance().beginTransaction();
+
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         PropertyDao dao = factory.getOraPropertyDao();
         dao.employMoney(pb);
-        OracleConnectionManager.getInstance().commit();
-        OracleConnectionManager.getInstance().closeConnection();
 
         RequestDispatcher dis = req.getRequestDispatcher("clear");
         dis.forward(req,res);

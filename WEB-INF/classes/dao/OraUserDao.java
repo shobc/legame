@@ -11,8 +11,9 @@ public class OraUserDao implements UserDao{
     public void RegisterUser(LoginUserBean lub){
         PreparedStatement st = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql="insert into user_table(user_id,mail ,password ) values(user_sequesnce.nextval,?,?)";
             st = cn.prepareStatement(sql);
             st.setString(1,lub.getMail());
@@ -21,10 +22,13 @@ public class OraUserDao implements UserDao{
             System.out.println(lub.getPass());
             int count = st.executeUpdate();
             System.out.println(count+"Œˆ—‚µ‚Ü‚µ‚½");
+            oc.commit();
+            st.close();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -42,8 +46,9 @@ public class OraUserDao implements UserDao{
         String user_id = null;
         ResultSet rs = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql="select user_id from user_table where mail = ? and password = ?";
             st = cn.prepareStatement(sql);
             st.setString(1,lub.getMail());
@@ -51,10 +56,14 @@ public class OraUserDao implements UserDao{
             rs = st.executeQuery();
             rs.next();
             user_id = rs.getString(1);
+            rs.close();
+            st.close();
+            oc.commit();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -189,5 +198,75 @@ public class OraUserDao implements UserDao{
                 e.printStackTrace();
             }
         }
+    }
+    public boolean judgeUserAccount(LoginUserBean lub){
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Connection cn = null;
+        boolean judge = false;
+        OracleConnecter oc = new OracleConnecter();
+        try{
+            cn = oc.getConnection();
+            String sql = "select count(*) from user_table where mail = ? and password = ? ";
+            st = cn.prepareStatement(sql);
+            st.setString(1,lub.getMail());
+            st.setString(2,lub.getPass());
+            rs = st.executeQuery();
+            rs.next();
+            if(rs.getString(1).equals("0")){
+                judge = true;
+            }
+            st.close();
+            oc.closeConnection();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            oc.rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return judge;
+    }
+    public boolean judgeStopUserAccount(LoginUserBean lub){
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Connection cn = null;
+        boolean judge = false;
+        OracleConnecter oc = new OracleConnecter();
+        try{
+            cn = oc.getConnection();
+            String sql = "select count(*) from user_table where mail = ? and password = ? and USER_TIME>= sysdate";
+            st = cn.prepareStatement(sql);
+            st.setString(1,lub.getMail());
+            st.setString(2,lub.getPass());
+            rs = st.executeQuery();
+            rs.next();
+            if(rs.getString(1).equals("1")){
+                judge = true;
+            }
+            st.close();
+            oc.closeConnection();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            oc.rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return judge;
     }
 }

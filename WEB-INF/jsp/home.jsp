@@ -20,7 +20,7 @@
                     <p class="line"><a class="kugiri" href="BlockUserListServlet">ブロックリスト</a></p>
                     <p class="line"><a class="kugiri" href="change-password">パスワード変更</a></p>
                     <div class="account_danger">
-                        <p><a class="kugiri" href="deletesession">ログアウト</a></p>
+                        <p><a class="kugiri" href="DeleteSessionServlet">ログアウト</a></p>
                         <p><a class="kugiri" href="DeleteUserAccountServlet">アカウント削除</a></p>
                     </div>
                 </div>

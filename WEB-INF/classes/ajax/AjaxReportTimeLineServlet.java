@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
+import javax.servlet.annotation.WebServlet;
 
 import bean.UserBean;
 import bean.TimeLineBean;
@@ -18,7 +19,7 @@ import admin.dao.AdminAbstractDaoFactory;
 import admin.dao.TalkDao;
 import admin.dao.AdminChatDao;
 
-
+@WebServlet("/AjaxReportTimeLineServlet")
 public class AjaxReportTimeLineServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         req.setCharacterEncoding("windows-31j");

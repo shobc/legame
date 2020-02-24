@@ -6,6 +6,7 @@
     <c:param name="head">
         <link rel="stylesheet" href="<c:url value='/css/search-friend.css' />">
         <script src="<c:url value='/js/search-friend.js' />"></script>
+        <title>—F’BŒŸõ</title>
     </c:param>
     <c:param name="content">
         <div class="titleStart">

@@ -20,8 +20,6 @@ public class AuthFilter  extends HttpServlet implements Filter{
         String flag = (String)session.getAttribute("token");
         if(flag==null){
             HttpServletRequest hreq = (HttpServletRequest)req;
-            String servletPath = hreq.getServletPath();
-            hreq.setAttribute("target",servletPath);
             RequestDispatcher dis = req.getRequestDispatcher("/login");
             dis.forward(req,res);
         }else{

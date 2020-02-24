@@ -1,0 +1,17 @@
+.header{
+    margin-top: 15px;
+}
+.error_message{
+    text-align: center;
+    margin-top: 180px;
+}
+
+.url_404{
+    margin-top: 200px;
+    text-align: center;
+}
+.url_404 a{
+    color: #007bff;
+    text-decoration: none;
+    font-size: 20px;
+}

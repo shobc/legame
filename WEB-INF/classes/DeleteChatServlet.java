@@ -14,20 +14,18 @@ import dao.ChatDao;
 
 import bean.UserBean;
 
+import javax.servlet.annotation.WebServlet;
+@WebServlet("/DeleteChatServlet")
 public class DeleteChatServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         String chat_id = req.getParameter("chat_id");
-        OracleConnectionManager.getInstance().beginTransaction();
+
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         ChatDao dao = factory.getOraChatDao();
 
         dao.deleteChat(chat_id);
 
-        OracleConnectionManager.getInstance().commit();
-        OracleConnectionManager.getInstance().closeConnection();
-
-        res.sendRedirect("ChatPageServlet");
-
+        res.sendRedirect("TalkListPageServlet");
     }
     public void doGet (HttpServletRequest req, HttpServletResponse res)throws IOException, ServletException {
         this.doPost(req,res);

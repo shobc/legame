@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpSession;
+import javax.servlet.annotation.WebServlet;
 
 import bean.UserBean;
 import bean.TimeLineBean;
@@ -15,6 +16,7 @@ import bean.TimeLinePictureBean;
 import dao.AbstractDaoFactory;
 import dao.TimeLineDao;
 
+@WebServlet("/TimeLineServlet")
 public class TimeLineServlet extends HttpServlet{
     public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         req.setCharacterEncoding("Windows-31J");
@@ -24,11 +26,8 @@ public class TimeLineServlet extends HttpServlet{
 
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         TimeLineDao dao = factory.getOraTimeLineDao();
-
         ArrayList timelineArray = dao.getTimeLines(user_id);
-
         ArrayList timelinePicList = dao.getTimelinePicture(user_id);
-
         String timelineNotice = dao.getCountNotice(user_id);
 
         ArrayList timelineList = new ArrayList();

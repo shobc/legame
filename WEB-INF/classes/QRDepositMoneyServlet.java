@@ -7,23 +7,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.annotation.WebServlet;
 
 import function.CreateQRCode;
-import function.PathHolder;
-
-import dao.OracleConnectionManager;
-import dao.AbstractDaoFactory;
-import dao.PropertyDao;
 import bean.UserBean;
 
+@WebServlet("/QRDepositMoneyServlet")
 public class QRDepositMoneyServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
-        PathHolder.pathName = getServletContext().getRealPath("/");
+        ServletContext  sc = getServletContext();
         HttpSession session = req.getSession();
         UserBean ub = (UserBean)session.getAttribute("ub");
         String money = req.getParameter("money");
         CreateQRCode value = CreateQRCode.getQRCode("DepositMoneyServlet?money="+money+"&RandomString=");
-        ServletContext  sc = getServletContext();
         System.out.println("value.randomString"+value.randomString);
         sc.setAttribute(value.randomString,ub.getUser_id());
         req.setAttribute("title","“ü‹àQR");

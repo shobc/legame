@@ -22,8 +22,8 @@ function FriendNotice(){
     }).done(function (result) {
         if(noticeFlag===0){
             if(result=='new'){
-                if($("#notice").text()!='new'){
-                    $("#notice").append(result);
+                if($(".noticeCount").text()!='new'){
+                    $(".noticeCount").append(result);
                     noticeFlag++;
                 }
             }

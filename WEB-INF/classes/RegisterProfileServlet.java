@@ -7,17 +7,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import function.BinaryToBufferedImage;
-import function.Base64Decode;
 
-import function.ProfileImageName;
-import dao.OracleConnectionManager;
 import dao.AbstractDaoFactory;
 import dao.ProfileDao;
-import function.PathHolder;
 import bean.UserBean;
+import function.PathHolder;
+import function.Base64Decode;
 import function.EscapeString;
 
+import javax.servlet.annotation.WebServlet;
+@WebServlet("/RegisterProfileServlet")
 public class RegisterProfileServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         req.setCharacterEncoding("windows-31j");

@@ -44,7 +44,7 @@
                 <div class="textStart">
                     <label class="upload-img-btn">
                         TOP‰æ‘œ
-                        <input type="file"  onchange="OnFileSelect(this); showTrimming();" id="profileImage" required>
+                        <input type="file"  multiple="multiple" accept="image/*" onchange="OnFileSelect(this); showTrimming();" id="profileImage" required>
                         <input type="hidden" value="${sessionScope.ub.top_picture}" name="base64Image" id="base64Image">
                     </label>
                 </div>

@@ -8,16 +8,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
+import javax.servlet.annotation.WebServlet;
 
 import bean.TimeLineBean;
 import bean.CommentBean;
 import bean.UserBean;
 import bean.TimeLinePictureBean;
-import dao.OracleConnectionManager;
 import dao.AbstractDaoFactory;
 import dao.TimeLineDao;
 import dao.CommentDao;
 
+@WebServlet("/CommentSearchServlet")
 public class CommentSearchServlet extends HttpServlet{
     public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         req.setCharacterEncoding("windows-31j");

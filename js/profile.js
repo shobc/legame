@@ -14,7 +14,7 @@ function ajaxLike(id,count){
     console.log(Id);
     console.log(count);
     $.ajax({
-        url: 'LikeServlet',
+        url: 'AjaxTimelineLikeServlet',
         type: 'GET',
         data: {timeline_id :id,likeJudge:count}
     }).done(function (result) {

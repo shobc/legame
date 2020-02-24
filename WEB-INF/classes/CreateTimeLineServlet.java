@@ -9,6 +9,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
 
 import bean.UserBean;
 import bean.TimeLineBean;
@@ -18,13 +19,14 @@ import dao.TimeLineDao;
 import function.ImageName;
 import function.RandomString;
 import function.EscapeString;
+import function.PathHolder;
 
-
+@WebServlet("/CreateTimeLineServlet")
 @MultipartConfig(maxFileSize=1048571121)
 public class CreateTimeLineServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         req.setCharacterEncoding("Windows-31J");
-        String realPath =  getServletContext().getRealPath("/WEB-INF/image");
+        String realPath =  PathHolder.pathName;
         String timeline_sentence = EscapeString.escape(req.getParameter("timeline_sentence"));
         HttpSession session = req.getSession();
         UserBean ub = (UserBean)session.getAttribute("ub");
@@ -41,7 +43,7 @@ public class CreateTimeLineServlet extends HttpServlet{
             if (file_name != null&&!file_name.equals("")) {
                 int index = file_name.indexOf(".");
                 String extension = file_name.substring(index);
-                String imagePath = realPath + "/"+ RandomString.getString() + extension;
+                String imagePath = realPath + "/WEB-INF/image/"+ RandomString.getString() + extension;
                 part.write(imagePath);
                 dao.addTimelinePicture(id,imagePath);
             }

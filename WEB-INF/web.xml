@@ -1,7 +1,43 @@
 <web-app>
+<!--    リスナー　-->
     <listener>
         <listener-class>listener.LoadListener</listener-class>
     </listener>
+<!--    URLを指定しない場合に行くページ　-->
+    <welcome-file-list>
+        <welcom-file>/WEB-INF/jsp/login.jsp</welcom-file>
+    </welcome-file-list>
+<!--    エラーページ -->
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/jsp/error/404.jsp</location>
+    </error-page>
+
+    <error-page>
+        <exception-type>exception.NoRegisterAccountException</exception-type>
+        <location>/WEB-INF/jsp/login.jsp</location>
+    </error-page>
+
+    <error-page>
+        <exception-type>exception.StopAccountException</exception-type>
+        <location>/WEB-INF/jsp/login.jsp</location>
+    </error-page>
+
+<!--    フィルタ -->
+    <filter>
+        <filter-name>FilterEncoding</filter-name>
+        <filter-class>filter.FilterEncoding</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>windows-31j</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>FilterEncoding</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <filter>
         <filter-name>loginCheckFilter</filter-name>
         <filter-class>filter.LoginCheckFilter</filter-class>
@@ -24,203 +60,7 @@
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
-    <servlet>
-        <servlet-name>loginservlet</servlet-name>
-        <servlet-class>LoginServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>loginservlet</servlet-name>
-        <url-pattern>/loginservlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>WalletPageServlet</servlet-name>
-        <servlet-class>WalletPageServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>WalletPageServlet</servlet-name>
-        <url-pattern>/WalletPageServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>QRDepositMoneyServlet</servlet-name>
-        <servlet-class>QRDepositMoneyServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>QRDepositMoneyServlet</servlet-name>
-        <url-pattern>/QRDepositMoneyServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>AjaxTimelineNoticeServlet</servlet-name>
-        <servlet-class>ajax.AjaxTimelineNoticeServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AjaxTimelineNoticeServlet</servlet-name>
-        <url-pattern>/AjaxTimelineNoticeServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>AjaxFriendNoticeServlet</servlet-name>
-        <servlet-class>ajax.AjaxFriendNoticeServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AjaxFriendNoticeServlet</servlet-name>
-        <url-pattern>/AjaxFriendNoticeServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>AjaxFriendAddServlet</servlet-name>
-        <servlet-class>ajax.AjaxFriendAddServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AjaxFriendAddServlet</servlet-name>
-        <url-pattern>/AjaxFriendAddServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>AjaxFriendReleaseServlet</servlet-name>
-        <servlet-class>ajax.AjaxFriendReleaseServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AjaxFriendReleaseServlet</servlet-name>
-        <url-pattern>/AjaxFriendReleaseServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>AjaxReportFriendServlet</servlet-name>
-        <servlet-class>ajax.AjaxReportFriendServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AjaxReportFriendServlet</servlet-name>
-        <url-pattern>/AjaxReportFriendServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>AjaxReportTimeLineServlet</servlet-name>
-        <servlet-class>ajax.AjaxReportTimeLineServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AjaxReportTimeLineServlet</servlet-name>
-        <url-pattern>/AjaxReportTimeLineServlet</url-pattern>
-    </servlet-mapping>
 
-    <servlet>
-        <servlet-name>DepositMoneyServlet</servlet-name>
-        <servlet-class>DepositMoneyServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>DepositMoneyServlet</servlet-name>
-        <url-pattern>/DepositMoneyServlet</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>AccessAppServlet</servlet-name>
-        <servlet-class>AccessAppServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AccessAppServlet</servlet-name>
-        <url-pattern>/AccessAppServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>TimeLineDeleteServlet</servlet-name>
-        <servlet-class>TimeLineDeleteServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TimeLineDeleteServlet</servlet-name>
-        <url-pattern>/TimeLineDeleteServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>NoFriendBlockServlet</servlet-name>
-        <servlet-class>NoFriendBlockServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>NoFriendBlockServlet</servlet-name>
-        <url-pattern>/NoFriendBlockServlet</url-pattern>
-    </servlet-mapping>
-
-
-    <servlet>
-        <servlet-name>CommentAddServlet</servlet-name>
-        <servlet-class>CommentAddServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>CommentAddServlet</servlet-name>
-        <url-pattern>/CommentAddServlet</url-pattern>
-    </servlet-mapping>
-
-
-
-    <servlet>
-        <servlet-name>FriendQRAddServlet</servlet-name>
-        <servlet-class>FriendQRAddServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>FriendQRAddServlet</servlet-name>
-        <url-pattern>/FriendQRAddServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>NewFriendInfoServlet</servlet-name>
-        <servlet-class>NewFriendInfoServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>NewFriendInfoServlet</servlet-name>
-        <url-pattern>/NewFriendInfoServlet</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>PayServlet</servlet-name>
-        <servlet-class>PayServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>PayServlet</servlet-name>
-        <url-pattern>/PayServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>ChangeTopPictureServlet</servlet-name>
-        <servlet-class>ChangeTopPictureServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ChangeTopPictureServlet</servlet-name>
-        <url-pattern>/ChangeTopPictureServlet</url-pattern>
-    </servlet-mapping>
-
-
-    <servlet>
-        <servlet-name>CommentLikeServlet</servlet-name>
-        <servlet-class>CommentLikeServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>CommentLikeServlet</servlet-name>
-        <url-pattern>/CommentLikeServlet</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>DeleteChatServlet</servlet-name>
-        <servlet-class>DeleteChatServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>DeleteChatServlet</servlet-name>
-        <url-pattern>/DeleteChatServlet</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>LikeServlet</servlet-name>
-        <servlet-class>LikeServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>LikeServlet</servlet-name>
-        <url-pattern>/LikeServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>SettlementServlet</servlet-name>
-        <servlet-class>SettlementServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>SettlementServlet</servlet-name>
-        <url-pattern>/SettlementServlet</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>PaymentQRCodeServlet</servlet-name>
-        <servlet-class>PaymentQRCodeServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>PaymentQRCodeServlet</servlet-name>
-        <url-pattern>/PaymentQRCodeServlet</url-pattern>
-    </servlet-mapping>
     <servlet>
         <servlet-name>InputMoneyServlet</servlet-name>
         <servlet-class>InputMoneyServlet</servlet-class>
@@ -228,100 +68,6 @@
     <servlet-mapping>
         <servlet-name>InputMoneyServlet</servlet-name>
         <url-pattern>/InputMoneyServlet</url-pattern>
-    </servlet-mapping>
-
-
-    <servlet>
-        <servlet-name>RegisterTalkServlet</servlet-name>
-        <servlet-class>RegisterTalkServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>RegisterTalkServlet</servlet-name>
-        <url-pattern>/RegisterTalkServlet</url-pattern>
-    </servlet-mapping>
-
-
-    <servlet>
-        <servlet-name>NoLoginPassWordChangeChangeServlet</servlet-name>
-        <servlet-class>NoLoginPassWordChangeChangeServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>NoLoginPassWordChangeChangeServlet</servlet-name>
-        <url-pattern>/NoLoginPassWordChangeChangeServlet</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>WalletPageVisitedServlet</servlet-name>
-        <servlet-class>WalletPageVisitedServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>WalletPageVisitedServlet</servlet-name>
-        <url-pattern>/WalletPageVisitedServlet</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>CommentSearchServlet</servlet-name>
-        <servlet-class>CommentSearchServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>CommentSearchServlet</servlet-name>
-        <url-pattern>/CommentSearchServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>GetValueServlet</servlet-name>
-        <servlet-class>GetValueServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>GetValueServlet</servlet-name>
-        <url-pattern>/GetValueServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>DeleteFriendServlet</servlet-name>
-        <servlet-class>DeleteFriendServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>DeleteFriendServlet</servlet-name>
-        <url-pattern>/DeleteFriendServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>BlockUserListServlet</servlet-name>
-        <servlet-class>BlockUserListServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>BlockUserListServlet</servlet-name>
-        <url-pattern>/BlockUserListServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>ReleaseFriendServlet</servlet-name>
-        <servlet-class>ReleaseFriendServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ReleaseFriendServlet</servlet-name>
-        <url-pattern>/ReleaseFriendServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>NewFriendListServlet</servlet-name>
-        <servlet-class>NewFriendListServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>NewFriendListServlet</servlet-name>
-        <url-pattern>/NewFriendListServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>BlockUserServlet</servlet-name>
-        <servlet-class>BlockUserServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>BlockUserServlet</servlet-name>
-        <url-pattern>/BlockUserServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>AuthAccountServlet</servlet-name>
-        <servlet-class>AuthAccountServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AuthAccountServlet</servlet-name>
-        <url-pattern>/AuthAccountServlet</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>TalkPageServlet</servlet-name>
@@ -338,166 +84,6 @@
     <servlet-mapping>
         <servlet-name>RegisterChatServlet</servlet-name>
         <url-pattern>/RegisterChatServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>TalkListPageServlet</servlet-name>
-        <servlet-class>TalkListPageServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TalkListPageServlet</servlet-name>
-        <url-pattern>/TalkListPageServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>loginPage</servlet-name>
-        <servlet-class>LoginPageServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>loginPage</servlet-name>
-        <url-pattern>/loginPage</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>FriendSearchServlet</servlet-name>
-        <servlet-class>FriendSearchServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>FriendSearchServlet</servlet-name>
-        <url-pattern>/FriendSearchServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>FriendAddServlet</servlet-name>
-        <servlet-class>FriendAddServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>FriendAddServlet</servlet-name>
-        <url-pattern>/FriendAddServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>HomePageServlet</servlet-name>
-        <servlet-class>HomePageServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>HomePageServlet</servlet-name>
-        <url-pattern>/HomePageServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>InputAccountServlet</servlet-name>
-        <servlet-class>InputAccountServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>InputAccountServlet</servlet-name>
-        <url-pattern>/InputAccountServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>ProfilePageServlet</servlet-name>
-        <servlet-class>ProfilePageServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ProfilePageServlet</servlet-name>
-        <url-pattern>/ProfilePageServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>ChangeSingleWordServlet</servlet-name>
-        <servlet-class>ChangeSingleWordServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ChangeSingleWordServlet</servlet-name>
-        <url-pattern>/ChangeSingleWordServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>DeleteUserAccountServlet</servlet-name>
-        <servlet-class>DeleteUserAccountServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>DeleteUserAccountServlet</servlet-name>
-        <url-pattern>/DeleteUserAccountServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>ChangeSearchIdServlet</servlet-name>
-        <servlet-class>ChangeSearchIdServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ChangeSearchIdServlet</servlet-name>
-        <url-pattern>/ChangeSearchIdServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>ChangeNameServlet</servlet-name>
-        <servlet-class>ChangeNameServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ChangeNameServlet</servlet-name>
-        <url-pattern>/ChangeNameServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>PassWordChangeServlet</servlet-name>
-        <servlet-class>PassWordChangeServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>PassWordChangeServlet</servlet-name>
-        <url-pattern>/PassWordChangeServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>CreateTimeLineServlet</servlet-name>
-        <servlet-class>CreateTimeLineServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>CreateTimeLineServlet</servlet-name>
-        <url-pattern>/CreateTimeLineServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>TimeLineServlet</servlet-name>
-        <servlet-class>TimeLineServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TimeLineServlet</servlet-name>
-        <url-pattern>/TimeLineServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>RegisterProfileServlet</servlet-name>
-        <servlet-class>RegisterProfileServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>RegisterProfileServlet</servlet-name>
-        <url-pattern>/RegisterProfileServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>CommentNoticeServlet</servlet-name>
-        <servlet-class>CommentNoticeServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>CommentNoticeServlet</servlet-name>
-        <url-pattern>/CommentNoticeServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>ProfileMyPageServlet</servlet-name>
-        <servlet-class>ProfileMyPageServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ProfileMyPageServlet</servlet-name>
-        <url-pattern>/ProfileMyPageServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>ReminderPassServlet</servlet-name>
-        <servlet-class>ReminderPassServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ReminderPassServlet</servlet-name>
-        <url-pattern>/ReminderPassServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>ShowFriendQRServlet</servlet-name>
-        <servlet-class>ShowFriendQRServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ShowFriendQRServlet</servlet-name>
-        <url-pattern>/ShowFriendQRServlet</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>deletesession</servlet-name>
-        <servlet-class>DSession</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>deletesession</servlet-name>
-        <url-pattern>/deletesession</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -534,7 +120,6 @@
         <servlet-name>confirm</servlet-name>
         <url-pattern>/confirm</url-pattern>
     </servlet-mapping>
-
 
     <servlet>
         <servlet-name>home</servlet-name>
@@ -600,8 +185,6 @@
         <servlet-name>wallet</servlet-name>
         <url-pattern>/wallet</url-pattern>
     </servlet-mapping>
-
-
     <servlet>
         <servlet-name>depositmoney</servlet-name>
         <jsp-file>/depositmoney.jsp</jsp-file>
@@ -713,7 +296,6 @@
         <servlet-name>profile</servlet-name>
         <url-pattern>/profile</url-pattern>
     </servlet-mapping>
-
     <servlet>
         <servlet-name>comment-notice</servlet-name>
         <jsp-file>/WEB-INF/jsp/comment-notice.jsp</jsp-file>
@@ -723,14 +305,13 @@
         <url-pattern>/comment-notice</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>profileinfo</servlet-name>
-        <jsp-file>/profileinfo.jsp</jsp-file>
+        <servlet-name>no-friend-profile</servlet-name>
+        <jsp-file>/WEB-INF/jsp/no-friend-profile.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
-        <servlet-name>profileinfo</servlet-name>
-        <url-pattern>/profileinfo</url-pattern>
+        <servlet-name>no-friend-profile</servlet-name>
+        <url-pattern>/no-friend-profile</url-pattern>
     </servlet-mapping>
-
 
     <servlet>
         <servlet-name>deleted-account</servlet-name>
@@ -795,18 +376,7 @@
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
-    <filter>
-        <filter-name>FilterEncoding</filter-name>
-        <filter-class>admin.filter.FilterEncoding</filter-class>
-        <init-param>
-            <param-name>encoding</param-name>
-            <param-value>windows-31j</param-value>
-        </init-param>
-    </filter>
-    <filter-mapping>
-        <filter-name>FilterEncoding</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+
     <servlet>
         <servlet-name>AdminHomePageServlet</servlet-name>
         <servlet-class>admin.AdminHomePageServlet</servlet-class>

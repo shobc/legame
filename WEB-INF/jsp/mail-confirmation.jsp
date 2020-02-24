@@ -4,6 +4,7 @@
 <c:import url="/WEB-INF/jsp/non-login-layout.jsp">
     <c:param name="head">
         <link rel="stylesheet" href="<c:url value='/css/confirmation-screen.css' />">
+        <title>Šm”F</title>
     </c:param>
     <c:param name="content">
         <div class="confirm">

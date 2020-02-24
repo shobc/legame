@@ -7,12 +7,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.annotation.WebServlet;
+
 import bean.LoginUserBean;
 import function.RandomString;
 import function.SendMail;
 import function.EscapeString;
 
-
+@WebServlet("/ReminderPassServlet")
 public class ReminderPassServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         ServletContext  sc = getServletContext();

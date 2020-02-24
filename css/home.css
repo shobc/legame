@@ -20,6 +20,9 @@
 }
 
 .top{
+    z-index: 9999;
+    width: 100%;
+    position: fixed;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -223,7 +226,8 @@ a{
 }
 
 #myProf{
-    margin-top: 20px;
+    /*margin-top: 20px;*/
+    padding:70px 0 0 0;
 }
 .overall_my_profile{
     display: flex;

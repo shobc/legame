@@ -9,4 +9,6 @@ public interface UserDao{
     boolean searchPassWord(String old_pass,String user_id);
     void UpdateUserPassWord(String new_pass,String user_id);
     void deleteUserAcount(String user_id);
+    boolean judgeUserAccount(LoginUserBean lub);
+    boolean judgeStopUserAccount(LoginUserBean lub);
 }

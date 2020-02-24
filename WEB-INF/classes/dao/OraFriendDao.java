@@ -63,13 +63,12 @@ public class OraFriendDao implements FriendDao{
         PreparedStatement st = null;
         ResultSet rs = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql ="select u.search_id,u.nickname,u.single_word,u.top_picture,u.user_id from user_information_table u left join friend_table f " +
                     "on u.user_id = f.user_id and u.user_id IN(select user_id from friend_table where friend_id =?) and f.friend_id = ? " +
                     "where f.user_id NOT IN(select friend_id from friend_table where user_id=?) and f.friend_flag= 0 and delete_flag = 0";
-
             st = cn.prepareStatement(sql);
             st.setString(1,user_id);
             st.setString(2,user_id);
@@ -86,10 +85,17 @@ public class OraFriendDao implements FriendDao{
                 fb.setTop_picture(bi.getBase64(blob));
                 newFriendList.add(fb);
             }
+            rs.close();
+            st.close();
+            oc.closeConnection();
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            oc.rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -106,17 +112,21 @@ public class OraFriendDao implements FriendDao{
     public void releaseBlockFriend(FriendBean fb){
         PreparedStatement st = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
+
             String sql="update friend_table set friend_flag = 0 where user_id = ? and friend_id = ?";
             st = cn.prepareStatement(sql);
             st.setString(1,fb.getUser_id());
             st.setString(2,fb.getFriend_id());
             st.executeUpdate();
             st.close();
+            oc.commit();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -132,17 +142,20 @@ public class OraFriendDao implements FriendDao{
     public void blockFriend(FriendBean fb){
         PreparedStatement st = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql="update friend_table set friend_flag = 1 where user_id = ? and friend_id = ?";
             st = cn.prepareStatement(sql);
             st.setString(1,fb.getUser_id());
             st.setString(2,fb.getFriend_id());
             st.executeUpdate();
             st.close();
+            oc.commit();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -160,9 +173,9 @@ public class OraFriendDao implements FriendDao{
         PreparedStatement st = null;
         ResultSet rs = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql = "select u.nickname,u.user_id,u.top_picture from user_information_table u left join friend_table f " +
                     "on u.user_id = f.friend_id and f.friend_id IN(select friend_id from friend_table where user_id = ?) " +
                     "where f.USER_ID = ? and f.friend_flag = 1 and delete_flag = 0";
@@ -180,10 +193,17 @@ public class OraFriendDao implements FriendDao{
 
                 blockFriendList.add(fb);
             }
+            rs.close();
+            st.close();
+            oc.closeConnection();
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            oc.rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -200,17 +220,20 @@ public class OraFriendDao implements FriendDao{
     public void deleteFriend(FriendBean fb){
         PreparedStatement st = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql="update friend_table set delete_flag = 1 where user_id = ? and friend_id = ?";
             st = cn.prepareStatement(sql);
             st.setString(1,fb.getUser_id());
             st.setString(2,fb.getFriend_id());
             st.executeUpdate();
             st.close();
+            oc.commit();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -226,17 +249,20 @@ public class OraFriendDao implements FriendDao{
     public void addFriend(FriendBean fb){
         PreparedStatement st = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql="insert into friend_table(user_id ,friend_id) values(?,?)";
             st = cn.prepareStatement(sql);
             st.setString(1,fb.getUser_id());
             st.setString(2,fb.getFriend_id());
             st.executeUpdate();
             st.close();
+            oc.commit();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -278,7 +304,12 @@ public class OraFriendDao implements FriendDao{
                 fb = null;
             }
             oc.closeConnection();
-        }catch(SQLException e){
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            oc.rollback();
+        }
+        catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
             oc.rollback();
@@ -322,7 +353,12 @@ public class OraFriendDao implements FriendDao{
             rs.close();
             st.close();
             oc.closeConnection();
-        }catch(SQLException e){
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            oc.rollback();
+        }
+        catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
             oc.rollback();
@@ -343,8 +379,9 @@ public class OraFriendDao implements FriendDao{
         ResultSet rs = null;
         Connection cn = null;
         FriendBean fb = new FriendBean();
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql = "select nickname,single_word,top_picture,user_id from\n" +
                     "    user_information_table user_information_table where friend_qrcode = ?";
             st = cn.prepareStatement(sql);
@@ -358,11 +395,18 @@ public class OraFriendDao implements FriendDao{
             fb.setUser_id(rs.getString(4));
             Base64Image bi = new Base64Image();
             fb.setTop_picture(bi.getBase64(blob));
-
-        }catch(SQLException e){
+            rs.close();
+            st.close();
+            oc.closeConnection();
+        }catch(IOException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -380,8 +424,9 @@ public class OraFriendDao implements FriendDao{
         ResultSet rs = null;
         Connection cn = null;
         FriendBean fb = new FriendBean();
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql = "select nickname,single_word,top_picture,user_id from\n" +
                     "    user_information_table user_information_table where user_id = ?";
             st = cn.prepareStatement(sql);
@@ -395,10 +440,18 @@ public class OraFriendDao implements FriendDao{
             fb.setUser_id(rs.getString(4));
             Base64Image bi = new Base64Image();
             fb.setTop_picture(bi.getBase64(blob));
-        }catch(SQLException e){
+            rs.close();
+            st.close();
+            oc.closeConnection();
+        }catch(IOException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -519,8 +572,9 @@ public class OraFriendDao implements FriendDao{
     public void releaseFriend(String chat_id){
         PreparedStatement st = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql="update FRIEND_TABLE set FRIEND_FLAG = 0 ,DELETE_FLAG = 0 \n" +
                     "where USER_ID = (select USER_CHAT_ID from CHAT_TABLE where chat_id = ?) \n" +
                     "and FRIEND_ID = (select USER_CHAT1_ID from CHAT_TABLE where chat_id = ?)";
@@ -528,12 +582,14 @@ public class OraFriendDao implements FriendDao{
             st.setString(1,chat_id);
             st.setString(2,chat_id);
             int count = st.executeUpdate();
-            st.close();
             System.out.println(count+"åèèàóùÇµÇ‹ÇµÇΩ");
+            st.close();
+            oc.commit();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -548,8 +604,9 @@ public class OraFriendDao implements FriendDao{
     public void noFriendBlock(FriendBean fb){
         PreparedStatement st = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql="insert into friend_table(user_id ,friend_id,friend_flag)\n" +
                     "     values(?,?,1)";
             st = cn.prepareStatement(sql);
@@ -558,9 +615,13 @@ public class OraFriendDao implements FriendDao{
             int count = st.executeUpdate();
             st.close();
             System.out.println(count+"åèèàóùÇµÇ‹ÇµÇΩ");
+
+            st.close();
+            oc.commit();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){

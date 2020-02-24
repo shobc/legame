@@ -15,10 +15,10 @@
         <title>トーク一覧</title>
     </c:param>
     <c:param name="title">
-        <div class="titleStart">
-            <center>
-                <h2>トークリスト</h2>
-            </center>
+        <div class="header">
+            <div class="header_image">
+                <img src="<c:url value='/image/talk_logo.png' />" width="163px" height="37px">
+            </div>
         </div>
     </c:param>
     <c:param name="content">

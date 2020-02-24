@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpSession;
 
-import dao.OracleConnectionManager;
+import exception.NoRegisterAccountException;
+import exception.StopAccountException;
 import dao.AbstractDaoFactory;
 import dao.ProfileDao;
 import dao.UserDao;
@@ -26,35 +27,30 @@ public class LoginCheckFilter  extends HttpServlet implements Filter{
     public void doFilter(ServletRequest req,ServletResponse res, FilterChain chain)throws IOException,ServletException{
         String mail = req.getParameter("mail");
         String pass = req.getParameter("pass");
-        HttpSession session = ((HttpServletRequest)req).getSession();
         if(mail!=null&&pass!=null){
-            OracleConnectionManager.getInstance().beginTransaction();
             AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
-            ProfileDao dao = factory.getOraProfileDao();
-
-            UserBean ub = dao.getProfile(mail,pass);
             UserDao Udao = factory.getOraUserDao();
-            LoginUserBean lb = new LoginUserBean();
-            lb.setMail(mail);
-            lb.setPass(pass);
-            String user_id = Udao.getUserId(lb);
-
-            OracleConnectionManager.getInstance().commit();
-            OracleConnectionManager.getInstance().closeConnection();
-
-            System.out.println("ub="+ub);
-            System.out.println("ub.getUser_id()"+ub.getUser_id());
-            if(ub.getUser_id()!=null){
+            LoginUserBean lub = new LoginUserBean();
+            lub.setMail(mail);
+            lub.setPass(pass);
+            if(Udao.judgeUserAccount(lub)){
+                throw new NoRegisterAccountException("メールアドレスまたはパスワードが違います");
+            }else if(Udao.judgeStopUserAccount(lub)){
+                throw new StopAccountException("アカウントが停止されています");
+            }else{
+                ProfileDao Pdao = factory.getOraProfileDao();
+                UserBean ub = Pdao.getProfile(mail,pass);
+                if(ub==null){
+                    String user_id = Udao.getUserId(lub);
+                    HttpServletRequest hreq = (HttpServletRequest)req;
+                    hreq.setAttribute("user_id",user_id);
+                    RequestDispatcher dis = req.getRequestDispatcher("register-profile");
+                    dis.forward(req,res);
+                }
+                HttpSession session = ((HttpServletRequest)req).getSession();
                 session.setAttribute("token","OK");
                 session.setAttribute("ub",ub);
                 session.setAttribute("user_id",ub.getUser_id());
-                System.out.println(session.getId());
-            }else{
-                HttpServletRequest hreq = (HttpServletRequest)req;
-                String servletPath = hreq.getServletPath();
-                hreq.setAttribute("user_id",user_id);
-                RequestDispatcher dis = req.getRequestDispatcher("/registerProfile");
-                dis.forward(req,res);
             }
         }
         chain.doFilter(req,res);

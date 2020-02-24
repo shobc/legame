@@ -10,7 +10,7 @@
         <form action="InputAccountServlet" method="post">
             <div class="mallStart">
                 <label for="input" class="l_input">メールアドレス</label>
-                <input class="input not" placeholder="xxx@legame.co.jp" id="mail" type="email" name="mail" required>
+                <input class="input" placeholder="xxx@legame.co.jp" id="mail" type="email" name="mail" required>
                 <div class="text_underline"></div>
             </div>
             <div class="mail_error">

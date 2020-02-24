@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
@@ -177,14 +178,20 @@ public class OraChatDao implements ChatDao{
                 cb.setTop_picture(bi.getBase64(blob));
                 cb.setChat_id(rs.getString(4));
                 String content = rs.getString(5);
-                if(content.length()>=12){
-                    content = content.substring(0,12)+"...";
+                if(content!=null){
+                    if(content.length()>=12){
+                        content = content.substring(0,12)+"...";
+                    }
                 }
                 cb.setContent(content);
                 cb.setNot_read_count(rs.getString(6));
                 chatList.add(cb);
             }
             oc.closeConnection();
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            oc.rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -204,17 +211,20 @@ public class OraChatDao implements ChatDao{
     public void deleteChat(String chat_id){
         PreparedStatement st = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
+            cn = oc.getConnection();
             String sql="update chat_table set delete_flag = 1,delete_time = sysdate where chat_id = ?";
             st = cn.prepareStatement(sql);
             st.setString(1,chat_id);
             int count = st.executeUpdate();
             System.out.println(count+"åèèàóùÇµÇ‹ÇµÇΩ");
             st.close();
+            oc.commit();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){

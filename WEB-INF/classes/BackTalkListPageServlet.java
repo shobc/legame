@@ -10,16 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
 import javax.servlet.annotation.WebServlet;
 
-import dao.OracleConnectionManager;
 import dao.AbstractDaoFactory;
 import dao.TalkDao;
-import dao.ChatDao;
-import dao.ProfileDao;
-import dao.FriendDao;
-import bean.TalkBean;
-import bean.ChatBean;
 import bean.UserBean;
-import bean.TalkPictureBean;
 
 @WebServlet("/BackTalkListPageServlet")
 public class BackTalkListPageServlet extends HttpServlet{
@@ -32,7 +25,7 @@ public class BackTalkListPageServlet extends HttpServlet{
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         TalkDao dao = factory.getOraTalkDao();
         dao.addRead_flag(chat_id,user_id);
-        httpSession.removeAttribute("sender_chat_id");
+        session.removeAttribute("sender_chat_id");
         res.sendRedirect("TalkListPageServlet");
     }
     public void doGet (HttpServletRequest req, HttpServletResponse res)throws IOException, ServletException {
