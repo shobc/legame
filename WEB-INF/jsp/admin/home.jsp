@@ -4,6 +4,20 @@
 <c:import url="/WEB-INF/jsp/admin/layout.jsp">
     <c:param name="head">
         <link rel="stylesheet" href="<c:url value='/css/admin/home.css' />">
+        <link rel="stylesheet" href="<c:url value='/css/slick-theme.css' />">
+        <link rel="stylesheet" href="<c:url value='/css/slick.css' />">
+        <script src="<c:url value='/js/slick.min.js'/>"></script>
+        <script>
+            $(function(){
+                $('.single').slick({
+                    autoplay: false,
+                    accessibility:false,
+                    arrows:false,
+                    dots: true,
+                    infinite: false,
+                });
+            });
+        </script>
     </c:param>
     <c:param name="title" value="${caption}"/>
     <c:param name="caption" value="${caption}"/>
@@ -25,9 +39,13 @@
                         </div>
                     </div>
                     <div>
-                        <c:forEach var="tt" items="${tll.timeline_picutre}">
-                            <img class="sentence_image" src="data:image;base64,${tt.base64Image}" width="100%" height="100%"/>
-                        </c:forEach>
+                        <div class="single">
+                            <c:forEach var="tt" items="${tll.timeline_picutre}">
+                                <div>
+                                    <img class="sentence_image" src="data:image;base64,${tt.base64Image}" width="100%" height="100%"/>
+                                </div>
+                            </c:forEach>
+                        </div>
                     </div>
                     <div class="timeline_sentence">
                         <p>${tll.timeline_sentence}</p>

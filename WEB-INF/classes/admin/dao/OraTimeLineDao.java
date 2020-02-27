@@ -23,7 +23,7 @@ public class OraTimeLineDao implements TimeLineDao{
         try{
 
             cn = aoc.getConnection();
-            String sql = "select t.TIMELINE_ID,u.NICKNAME,u.top_picture,t.TIMELINE_SENTENCE,t.TIMELINE_TIME\n" +
+            String sql = "select t.TIMELINE_ID,u.NICKNAME,u.top_picture,t.TIMELINE_SENTENCE,TO_CHAR(t.TIMELINE_TIME,'YYYY/MM/DD HH24:Mi')\n" +
                     "from TIMELINE_TABLE t left join USER_INFORMATION_TABLE u on t.USER_ID = u.USER_ID" +
                     " order by t.TIMELINE_TIME desc";
             st = cn.prepareStatement(sql);
@@ -36,11 +36,19 @@ public class OraTimeLineDao implements TimeLineDao{
                 System.out.println("blob"+blob);
                 Base64Image bi = new Base64Image();
                 tlb.setTop_picture(bi.getBase64(blob));
-                tlb.setTimeline_sentence(rs.getString(4));
+                String sentence = null;
+                if(rs.getString(4)!=null){
+                    sentence = rs.getString(4).replaceAll("\n", "<br/>");
+                }
+                tlb.setTimeline_sentence(sentence);
                 tlb.setTime(rs.getString(5));
                 timelineList.add(tlb);
             }
             aoc.closeConnection();
+        } catch(IOException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            aoc.rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -66,7 +74,7 @@ public class OraTimeLineDao implements TimeLineDao{
         try{
 
             cn = aoc.getConnection();
-            String sql = "select t.TIMELINE_ID,u.NICKNAME,u.top_picture,t.TIMELINE_SENTENCE,t.TIMELINE_TIME,(select count(*) from TIMELINE_REPORT_TABLE where TIMELINE_ID = t.TIMELINE_ID)\n" +
+            String sql = "select t.TIMELINE_ID,u.NICKNAME,u.top_picture,t.TIMELINE_SENTENCE,TO_CHAR(t.TIMELINE_TIME,'YYYY/MM/DD HH24:Mi'),(select count(*) from TIMELINE_REPORT_TABLE where TIMELINE_ID = t.TIMELINE_ID)\n" +
                     "from TIMELINE_TABLE t left join USER_INFORMATION_TABLE u on t.USER_ID = u.USER_ID\n" +
                     "where t.TIMELINE_ID = (select distinct TIMELINE_ID from TIMELINE_REPORT_TABLE)\n" +
                     "order by t.TIMELINE_TIME desc";
@@ -79,12 +87,20 @@ public class OraTimeLineDao implements TimeLineDao{
                 Blob blob = rs.getBlob(3);
                 Base64Image bi = new Base64Image();
                 tlb.setTop_picture(bi.getBase64(blob));
-                tlb.setTimeline_sentence(rs.getString(4));
+                String sentence = null;
+                if(rs.getString(4)!=null){
+                    sentence = rs.getString(4).replaceAll("\n", "<br/>");
+                }
+                tlb.setTimeline_sentence(sentence);
                 tlb.setTime(rs.getString(5));
                 tlb.setReport_count(rs.getString(6));
                 timelineList.add(tlb);
             }
             aoc.closeConnection();
+        } catch(IOException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            aoc.rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -126,6 +142,10 @@ public class OraTimeLineDao implements TimeLineDao{
                 timelinePictureList.add(tlpb);
             }
             aoc.closeConnection();
+        } catch(IOException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            aoc.rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -168,6 +188,10 @@ public class OraTimeLineDao implements TimeLineDao{
                 timelinePictureList.add(tlpb);
             }
             aoc.closeConnection();
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            aoc.rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();

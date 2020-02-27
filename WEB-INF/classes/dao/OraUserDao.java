@@ -269,4 +269,39 @@ public class OraUserDao implements UserDao{
         }
         return judge;
     }
+    public boolean judgeSufferMail(String mail){
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Connection cn = null;
+        boolean judge = false;
+        OracleConnecter oc = new OracleConnecter();
+        try{
+            cn = oc.getConnection();
+            String sql = "select count(*) from user_table where mail = ?";
+            st = cn.prepareStatement(sql);
+            st.setString(1,mail);
+            rs = st.executeQuery();
+            rs.next();
+            if(rs.getInt(1)==1){
+                judge = true;
+            }
+            rs.close();
+            st.close();
+            oc.closeConnection();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            oc.rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return judge;
+    }
 }

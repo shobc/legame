@@ -9,6 +9,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.annotation.WebServlet;
 
 import admin.dao.AdminAbstractDaoFactory;
 import admin.dao.TimeLineDao;
@@ -16,6 +17,7 @@ import admin.dao.TalkDao;
 import admin.dao.AdminChatDao;
 import admin.function.CutURL;
 
+@WebServlet("/admin/DeleteTimeLineServlet")
 public class DeleteTimeLineServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         String timeline_id = req.getParameter("timeline_id");

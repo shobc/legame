@@ -19,7 +19,7 @@ public class QRDepositMoneyServlet extends HttpServlet{
         HttpSession session = req.getSession();
         UserBean ub = (UserBean)session.getAttribute("ub");
         String money = req.getParameter("money");
-        CreateQRCode value = CreateQRCode.getQRCode("DepositMoneyServlet?money="+money+"&RandomString=");
+        CreateQRCode value = CreateQRCode.getQRCode("shopAdmin/DepositMoneyServlet?money="+money+"&RandomString=");
         System.out.println("value.randomString"+value.randomString);
         sc.setAttribute(value.randomString,ub.getUser_id());
         req.setAttribute("title","“ü‹àQR");

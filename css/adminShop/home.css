@@ -1,0 +1,53 @@
+body {
+    background: #ffffff;
+}
+
+.content{
+    display: flex;
+    justify-content: center;
+}
+
+.date_search{
+    /*padding: 550px 0 0 0;*/
+    display: flex;
+    justify-content: center;
+}
+
+td{
+    padding-right: 30px;
+    padding-left: 30px;
+    text-align: right;
+}
+
+.selectdiv {
+    display: flex;
+    min-width: 200px;
+}
+
+.selectdiv select {
+    width: 100%;
+    height: 50px;
+    margin: 5px 5px;
+    padding: 0 70px;
+    font-size: 16px;
+    color: #333;
+    background-color: #ffffff;
+    background-image: none;
+    border: 1px solid #cccccc;
+}
+
+.caption{
+    padding-top: 80px;
+    text-align: center;
+}
+
+.submit_box{
+    height: 50px;
+    margin: 5px 15px;
+    padding: 0 30px;
+    font-size: 16px;
+    color: #333;
+    background-color: #ffffff;
+    background-image: none;
+    border: 1px solid #cccccc;
+}

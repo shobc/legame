@@ -86,6 +86,8 @@ body{
     border-radius: 12px;
     background: #30e852;
     font-size: 15px;
+    word-break:break-all;
+    text-align: left;
 }
 
 .my_comment p:after {

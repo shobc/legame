@@ -20,8 +20,8 @@ public interface TimeLineDao{
     void deleteTimeLine(String timeline_id);
     ArrayList getMyTimeLines(String user_id);
     ArrayList getMyTimelinePicture(String user_id);
-//
     boolean reportJudgeTimeLine(TimeLineBean tb);
     void addReportTimeLine(TimeLineBean tb);
     int getReportCountTimeLine(String timeline_id);
+    boolean deleteJudgeTimeline(String timeline_id);
 }

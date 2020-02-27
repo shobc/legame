@@ -12,6 +12,7 @@ import dao.AbstractDaoFactory;
 import dao.ProfileDao;
 import bean.UserBean;
 import function.EscapeString;
+import exception.SufferSearchIdException;
 
 @WebServlet("/ChangeSearchIdServlet")
 public class ChangeSearchIdServlet extends HttpServlet{
@@ -20,9 +21,15 @@ public class ChangeSearchIdServlet extends HttpServlet{
         String search_id =EscapeString.escape(req.getParameter("search_id"));
         HttpSession session = req.getSession();
         UserBean ub = (UserBean)session.getAttribute("ub");
-        ub.setSearch_id(search_id);
+        if(search_id.equals(ub.getSearch_id())) {
+            throw new SufferSearchIdException("‘O‚Æ“¯‚¶ID‚É‚È‚è‚Ü‚·");
+        }
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         ProfileDao dao = factory.getOraProfileDao();
+        if(dao.sufferSearchId(search_id)){
+            throw new SufferSearchIdException("‚»‚ÌID‚ÍŽg—p‚Å‚«‚Ü‚¹‚ñ");
+        }
+        ub.setSearch_id(search_id);
         dao.updateSearchIdProfile(ub);
         res.sendRedirect("profile-setting");
     }

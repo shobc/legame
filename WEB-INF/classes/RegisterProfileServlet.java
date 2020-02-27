@@ -14,6 +14,7 @@ import bean.UserBean;
 import function.PathHolder;
 import function.Base64Decode;
 import function.EscapeString;
+import exception.SufferNewRegisterSearchIdException;
 
 import javax.servlet.annotation.WebServlet;
 @WebServlet("/RegisterProfileServlet")
@@ -40,7 +41,9 @@ public class RegisterProfileServlet extends HttpServlet{
 
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         ProfileDao dao = factory.getOraProfileDao();
-
+        if(dao.sufferSearchId(id)){
+            throw new SufferNewRegisterSearchIdException("ÇªÇÃIDÇÕégópÇ≈Ç´Ç‹ÇπÇÒ");
+        }
         dao.addProfile(ub);
 
         req.setAttribute("message","ìoò^Ç≥ÇÍÇ‹ÇµÇΩÅI");

@@ -9,11 +9,13 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.annotation.WebServlet;
 
 import admin.dao.AdminAbstractDaoFactory;
 import admin.dao.UserDao;
 import admin.function.CutURL;
 
+@WebServlet("/admin/ReleaseUserServlet")
 public class ReleaseUserServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         String user_id = req.getParameter("user_id");

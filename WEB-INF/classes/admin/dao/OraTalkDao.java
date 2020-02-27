@@ -36,7 +36,7 @@ public class OraTalkDao implements TalkDao{
                 }else{
                     Blob blob = rs.getBlob(6);
                     Base64Image bi = new Base64Image();
-                    tb.setContent("<img src='data:image;base64,"+bi.getBase64(blob)+"' height='10%' width='10%'");
+                    tb.setContent("<img src='data:image;base64,"+bi.getBase64(blob)+"'>");
                 }
                 tb.setDate(rs.getString(3));
                 tb.setTime(rs.getString(4));
@@ -46,6 +46,10 @@ public class OraTalkDao implements TalkDao{
                 talkList.add(tb);
             }
             aoc.closeConnection();
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            aoc.rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();

@@ -33,6 +33,7 @@ body{
     padding-top: 5px;
     height: 35px;
     padding-left: 28px;
+    z-index: 9999;
 }
 .item{
     line-height: 1.5em;

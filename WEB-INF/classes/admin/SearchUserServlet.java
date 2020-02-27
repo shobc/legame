@@ -9,10 +9,13 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.annotation.WebServlet;
 
 import admin.dao.AdminAbstractDaoFactory;
 import admin.dao.UserDao;
 
+
+@WebServlet("/admin/SearchUserServlet")
 public class SearchUserServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         String search_id = req.getParameter("search_id");

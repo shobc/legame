@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpSession;
 
 import bean.LoginUserBean;
+import exception.NoMatchRandomException;
 
 @WebServlet("/GetValueServlet")
 public class GetValueServlet extends HttpServlet{
@@ -18,8 +19,12 @@ public class GetValueServlet extends HttpServlet{
         String RandomCode = req.getParameter("RandomCode");
         ServletContext sc = getServletContext();
         LoginUserBean lub = (LoginUserBean)sc.getAttribute(RandomCode);
-        if(RandomCode.equals(lub.getRandomCode())){
-            //間違ってたら例外を出す
+        if(RandomCode.equals("")||lub==null){
+            throw new NoMatchRandomException("該当しない文字列を受け付けました");
+        }
+        String random = lub.getRandomCode();
+        if(!RandomCode.equals(random)){
+            throw new NoMatchRandomException("該当しない文字列を受け付けました");
         }
         RequestDispatcher dis = req.getRequestDispatcher("password-reissue");
         dis.forward(req,res);

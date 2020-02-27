@@ -21,6 +21,7 @@
         <div class="header">
                 <h2 id="caption"></h2>
         </div>
+        <p class="exception">${pageContext.exception.message}</p>
         <form id="form" action="" method="post">
             <div id="changeArea">
                 <label for="input" class="l_input"></label>

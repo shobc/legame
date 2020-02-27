@@ -20,7 +20,7 @@ public class PaymentQRCodeServlet extends HttpServlet{
         HttpSession session = req.getSession();
         UserBean ub = (UserBean)session.getAttribute("ub");
         String user_id = ub.getUser_id();
-        CreateQRCode value = CreateQRCode.getQRCode("PayServlet?RandomString=");
+        CreateQRCode value = CreateQRCode.getQRCode("shopAdmin/PayServlet?RandomString=");
 
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         PropertyDao dao = factory.getOraPropertyDao();

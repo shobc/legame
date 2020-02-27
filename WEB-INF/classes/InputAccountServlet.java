@@ -12,6 +12,9 @@ import function.RandomString;
 import function.SendMail;
 import bean.LoginUserBean;
 import function.EscapeString;
+import dao.UserDao;
+import dao.AbstractDaoFactory;
+import exception.SufferMailException;
 
 @WebServlet("/InputAccountServlet")
 public class InputAccountServlet extends HttpServlet{
@@ -19,6 +22,11 @@ public class InputAccountServlet extends HttpServlet{
         ServletContext  sc = getServletContext();
         req.setCharacterEncoding("windows-31j");
         String mail = EscapeString.escape(req.getParameter("mail"));
+        AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
+        UserDao dao = factory.getOraUserDao();
+        if(dao.judgeSufferMail(mail)){
+            throw new SufferMailException("メールアドレスが被っています");
+        }
         String pass = req.getParameter("pass");
 
         String RString = RandomString.getString();

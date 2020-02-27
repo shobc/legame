@@ -42,8 +42,8 @@ public class LoginCheckFilter  extends HttpServlet implements Filter{
                 UserBean ub = Pdao.getProfile(mail,pass);
                 if(ub==null){
                     String user_id = Udao.getUserId(lub);
-                    HttpServletRequest hreq = (HttpServletRequest)req;
-                    hreq.setAttribute("user_id",user_id);
+                    HttpSession session = ((HttpServletRequest)req).getSession();
+                    session.setAttribute("user_id",user_id);
                     RequestDispatcher dis = req.getRequestDispatcher("register-profile");
                     dis.forward(req,res);
                 }

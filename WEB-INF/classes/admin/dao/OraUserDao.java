@@ -38,6 +38,10 @@ public class OraUserDao implements UserDao{
                 userList.add(ub);
             }
             aoc.closeConnection();
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            aoc.rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -80,6 +84,10 @@ public class OraUserDao implements UserDao{
                 userList.add(ub);
             }
             aoc.closeConnection();
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+           aoc.rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();

@@ -9,7 +9,7 @@
     <c:param name="content">
         <div class="titleStart">
             <center>
-                <img src="<c:url value='/image/logo.PNG' />" alt="legame" width="50%" height="7%">
+                <img src="<c:url value='/image/logo.PNG' />" alt="legame" width="50%" height="%">
             </center>
         </div>
         ${param.content}

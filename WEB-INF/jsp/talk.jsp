@@ -18,7 +18,14 @@
                 <div class="item2">${requestScope.yub.name}</div>
             </div>
             <div>
-                <div class="item3">${friendJudge}</div>
+                <c:if test="${empty friendJudge}">
+                    <div class="item3">
+                        <span id="friendAdd" onclick="ajaxReportFriend(${requestScope.yub.user_id})">’Ê•ñ</span>
+                    </div>
+                </c:if>
+                <c:if test="${not empty friendJudge}">
+                    <div class="item3">${friendJudge}</div>
+                </c:if>
             </div>
         </div>
         <!-- ŽÀÛ‚Ì‰ï˜b -->
@@ -93,7 +100,7 @@
                         </div>
                     </div>
                     <div class="sendMessageBox">
-                        <textarea id='message' class="text_area"></textarea>
+                        <textarea id='message' class="text_area" required></textarea>
                     </div>
                     <div class="sendPictureBox">
                             <%--                    <img id="preview">--%>
@@ -120,7 +127,7 @@
                         </div>
                     </div>
                     <div class="sendMessageBox judge_text">
-                        <textarea id='message' class="text_area"></textarea>
+                        <textarea id='message' class="text_area" required></textarea>
                     </div>
                     <div class="sendPictureBox">
                     </div>
@@ -208,6 +215,17 @@
                     showFlag--;
                 }
             }
+            function ajaxReportFriend(id){
+                $.ajax({
+                    url: "AjaxReportFriendServlet",
+                    type: "GET",
+                    data: {friend_id :id}
+                }).done(function (result) {
+                }).fail(function () {
+                    alert("“Ç‚Ýž‚ÝŽ¸”s");
+                }).always(function (result) {
+                });
+            }
 
             $(function(){
                 var modalBtn = $('.js-modal__btn');
@@ -255,23 +273,26 @@
             }
             var i=1;
             function wsSendMessage(){
-                console.log(message.value);
-                webSocket.send(message.value);
-                $("#preview").attr('src','');
-                var str = message.value;
-                if(message.value.length>=2000){
-                    str = "<img src='"+message.value+"' >";
+                if($("#message").val()!=""){
+                    webSocket.send(message.value);
+                    $("#preview").attr('src','');
+                    var str = message.value;
+                    if(message.value.length>=2000){
+                        str = "<img src='"+message.value+"' >";
+                    }else{
+                        str = escape_html(str);
+                    }
+                    $(".line-bc").append("<div class='my_comment'>"+
+                        "<p>"+str+"</p>"+
+                        "</div>"+
+                        "<span class='item'>?</span>"+
+                        "<span>"+getDate()+"</span>");
+                    message.value = "";
+                    $('html, body').animate({
+                        scrollTop: $(document).height()
+                    },0);
+                    return false;
                 }
-                $(".line-bc").append("<div class='my_comment'>"+
-                "<p>"+escape_html(str)+"</p>"+
-                "</div>"+
-                "<span class='item'>?</span>"+
-                "<span>"+getDate()+"</span>");
-                message.value = "";
-                $('html, body').animate({
-                    scrollTop: $(document).height()
-                },0);
-                return false;
             }
             function wsSendContact(name,user_id){
                 webSocket.send("<a href='ProfilePageServlet?id="+user_id+"'>"+name+"</a>");

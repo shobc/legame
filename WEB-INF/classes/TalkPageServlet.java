@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpSession;
+import javax.servlet.annotation.WebServlet;
 
-import dao.OracleConnectionManager;
 import dao.AbstractDaoFactory;
 import dao.TalkDao;
 import dao.ChatDao;
@@ -20,6 +20,7 @@ import bean.ChatBean;
 import bean.UserBean;
 import bean.TalkPictureBean;
 
+@WebServlet("/TalkPageServlet")
 public class TalkPageServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         String  chat_id = req.getParameter("chat_id");

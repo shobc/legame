@@ -105,6 +105,10 @@ public class OraTalkDao implements TalkDao{
             rs.close();
             st.close();
             oc.closeConnection();
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            oc.rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -166,9 +170,10 @@ public class OraTalkDao implements TalkDao{
     public void addTalk(TalkBean tb){
         PreparedStatement st = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
-            cn = OracleConnectionManager.getInstance().getConnection();
-                    String sql = "INSERT INTO TALK_TABLE (talk_id,chat_id,chat1_id,content,block_flag)\n" +
+            cn = oc.getConnection();
+            String sql = "INSERT INTO TALK_TABLE (talk_id,chat_id,chat1_id,content,block_flag)\n" +
                             "values(talk_sequesnce.nextval,?,(SELECT CHAT_ID FROM CHAT_TABLE\n" +
                             "where CHAT_ID = (select CHAT_ID from CHAT_TABLE where USER_CHAT_ID = (select USER_CHAT1_ID from CHAT_TABLE where chat_id = ?)\n" +
                             "and USER_CHAT1_ID = (select USER_CHAT_ID from CHAT_TABLE where chat_id = ?))),?,?)";
@@ -180,10 +185,14 @@ public class OraTalkDao implements TalkDao{
             st.setString(5,tb.getBlock_flag());
             int count =st.executeUpdate();
             System.out.println(count+"åèèàóùÇµÇ‹ÇµÇΩ");
+
+            st.close();
+            oc.commit();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -200,7 +209,9 @@ public class OraTalkDao implements TalkDao{
         PreparedStatement st = null;
         ResultSet rs = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
+            cn = oc.getConnection();
             cn = OracleConnectionManager.getInstance().getConnection();
             String sql = "select count(user_id) from friend_table where user_id = " +
                     "(select CHAT_TABLE.USER_CHAT1_ID from CHAT_TABLE where chat_id = ?) " +
@@ -214,10 +225,13 @@ public class OraTalkDao implements TalkDao{
             if(count==1){
                 judge = true;
             }
+            rs.close();
+            st.close();
+            oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }finally{
             try{
                 if(st != null){
@@ -230,11 +244,12 @@ public class OraTalkDao implements TalkDao{
         }
         return judge;
     }
-//    public void addTalkPicture(String chat_id,String imagePath){
     public void addTalkPicture(TalkBean tb){
         PreparedStatement st = null;
         Connection cn = null;
+        OracleConnecter oc = new OracleConnecter();
         try{
+            cn = oc.getConnection();
             FileInputStream fis = new FileInputStream(tb.getContent());
             cn = OracleConnectionManager.getInstance().getConnection();
             String sql = "INSERT INTO TALK_TABLE (talk_id,chat_id,chat1_id,talk_picture,block_flag)\n" +
@@ -246,14 +261,16 @@ public class OraTalkDao implements TalkDao{
             st.setString(2,tb.getChat_id());
             st.setString(3,tb.getChat_id());
             st.setBinaryStream(4,fis);
-//            st.setString(4,tb.getContent());
             st.setString(5,tb.getBlock_flag());
             int count =st.executeUpdate();
             System.out.println(count+"åèèàóùÇµÇ‹ÇµÇΩ");
+            st.close();
+            oc.commit();
+            oc.closeConnection();
         }catch(IOException e){
             System.out.println(e.getMessage());
             e.printStackTrace();
-            OracleConnectionManager.getInstance().rollback();
+            oc.rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();

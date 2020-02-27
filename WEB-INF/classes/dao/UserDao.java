@@ -11,4 +11,5 @@ public interface UserDao{
     void deleteUserAcount(String user_id);
     boolean judgeUserAccount(LoginUserBean lub);
     boolean judgeStopUserAccount(LoginUserBean lub);
+    boolean judgeSufferMail(String mail);
 }

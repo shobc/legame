@@ -513,7 +513,8 @@ public class OraFriendDao implements FriendDao{
             String sql = "select count(*) from FRIEND_TABLE " +
                     "where USER_ID =(select USER_CHAT_ID from CHAT_TABLE where CHAT_ID = ?) " +
                     "and FRIEND_ID=(select USER_CHAT1_ID from CHAT_TABLE where CHAT_ID = ?)\n" +
-                    " and (FRIEND_FLAG = 1 or DELETE_FLAG = 1) ";
+//                    " and (FRIEND_FLAG = 1 or DELETE_FLAG = 1) ";
+                    " and (DELETE_FLAG = 1) ";
             st = cn.prepareStatement(sql);
             st.setString(1,chat_id);
             st.setString(2,chat_id);

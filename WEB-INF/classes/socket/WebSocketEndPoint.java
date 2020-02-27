@@ -53,7 +53,6 @@ public class WebSocketEndPoint {
     public void onClose(Session session){
         sessionMap.remove(session.getId());
         ChatFactory.load(sender_chat_id,"null");
-//        httpSession.removeAttribute("sender_chat_id");
         httpSession.removeAttribute("receiver_chat_id");
         System.out.println("Close Connection ...");
     }
@@ -67,7 +66,7 @@ public class WebSocketEndPoint {
         tb.setUser_id(ub.getUser_id());
         cb.setChat_id(sender_chat_id);
         cb.setUser_id(ub.getUser_id());
-        OracleConnectionManager.getInstance().beginTransaction();
+
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         TalkDao dao = factory.getOraTalkDao();
         ChatDao Cdao = factory.getOraChatDao();
@@ -130,8 +129,6 @@ public class WebSocketEndPoint {
             dao.addRead_flag(sender_chat_id,user_id);
             dao.addRead_flag(receiver_chat_id,user_id);
         }
-        OracleConnectionManager.getInstance().commit();
-        OracleConnectionManager.getInstance().closeConnection();
     }
 
     @OnError

@@ -8,9 +8,9 @@ import bean.BalanceBean;
 public interface PropertyDao{
     //お金をチャージする
     void addPropery(PropertyBean p);
-    //お金を使う
-    BalanceBean getBalanceProperty(String id);
     //合計残高と合計ポイントを取得する
+    BalanceBean getBalanceProperty(String id);
+    //お金を使う
     void employMoney(PropertyBean p);
     //ユーザーのIDにあたる履歴を取得する
     List getAllProperty(String id);

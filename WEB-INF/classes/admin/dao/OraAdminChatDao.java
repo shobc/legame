@@ -23,10 +23,7 @@ public class OraAdminChatDao implements AdminChatDao{
         try{
 
             cn = aoc.getConnection();
-            String sql = "select c.CHAT_ID,u.NICKNAME,u.top_picture,(select NVL(CONTENT,'‰æ‘œ‚ª‚ ‚è‚Ü‚·') from TALK_TABLE\n" +
-                    "where TALK_ID = (select MAX(TALK_ID) from TALK_TABLE where CHAT_ID =\n" +
-                    "(select CHAT_ID from CHAT_TABLE where USER_CHAT_ID\n" +
-                    "IN (select CHAT_TABLE.USER_CHAT1_ID from CHAT_TABLE where CHAT_ID = c.CHAT_ID and REPORT_FLAG = 1)))and CHAT1_ID = c.CHAT_ID)\n" +
+            String sql = "select c.CHAT_ID,u.NICKNAME,u.top_picture\n" +
                     "from CHAT_TABLE c left join USER_INFORMATION_TABLE u on c.USER_CHAT1_ID = u.USER_ID where c.REPORT_FLAG = 1\n" +
                     "order by c.DELETE_TIME desc";
             st = cn.prepareStatement(sql);
@@ -38,10 +35,20 @@ public class OraAdminChatDao implements AdminChatDao{
                 Blob blob = rs.getBlob(3);
                 Base64Image bi = new Base64Image();
                 cb.setTop_picture(bi.getBase64(blob));
-                cb.setLast_talk(rs.getString(4));
+//                String sentence = rs.getString(4);
+//                if(sentence!=null){
+//                    if(sentence.length()>=20){
+//                        sentence = sentence.substring(0,20)+"...";
+//                    }
+//                }
+//                cb.setLast_talk(sentence);
                 chatList.add(cb);
             }
             aoc.closeConnection();
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            aoc.rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             e.printStackTrace();

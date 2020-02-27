@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="/WEB-INF/jsp/admin/layout.jsp">
     <c:param name="head">
-                <link rel="stylesheet" href="<c:url value='/css/admin/chat.css' />">
+        <link rel="stylesheet" href="<c:url value='/css/admin/chat.css' />">
     </c:param>
     <c:param name="title" value="通報されたチャット一覧"/>
     <c:param name="caption" value="通報されたチャット一覧"/>

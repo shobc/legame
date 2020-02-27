@@ -2,6 +2,19 @@ body{
     margin:0;
 }
 
+.timeline_sentence{
+    border: none;
+    height: 100%;
+    width: 100%;
+    font-size: 19px;
+}
+#image_error{
+    text-align: center;
+    margin: 100px auto 0 auto;
+    font-size: 26px;
+    color: red;
+}
+
 .text{
     height: 25%;
 }
@@ -9,7 +22,6 @@ body{
 a{
     height:1px;
 }
-
 .header{
     display: flex;
     justify-content: space-between;
@@ -28,9 +40,9 @@ a{
 /* メニューバーとの仕切り */
 .border{
     border-bottom: 2px solid #000;
-    /*border-top: 0px;*/
-    /*border-left: 0px;*/
-    /*border-right: 0px;*/
+/*border-top: 0px;*/
+/*border-left: 0px;*/
+/*border-right: 0px;*/
 }
 .image_btn{
     position: absolute;
@@ -41,8 +53,8 @@ a{
     margin: 22px auto 22px auto;
     padding: 15px;
     border-radius: 4px;
-    /*max-width: 120px;*/
-    width: 80%;
+/*max-width: 120px;*/
+width: 80%;
     text-align: center;
     display: block;
     background-color: #f1f1f1;
@@ -54,11 +66,11 @@ a{
 }
 /* パソコンではタイル型で表示 */
 .slide-wrap {
-    /*background-color: #ccc;*/
+/*background-color: #ccc;*/
     display: flex;
-    /*margin: 0 auto;*/
-    margin: 100px 0 0 0;
-    max-width: initial;
+    margin: 0 auto;
+/*margin: 100px 0 0 0;*/
+max-width: initial;
     max-height: 300px;
     width: 100%;
 
@@ -66,8 +78,8 @@ a{
 .slide-box {
     height: auto;
     margin-right: 1%;
-    /*width: 24%;*/
-    border-radius: 50%;
+/*width: 24%;*/
+border-radius: 50%;
 }
 /* サムネイルとタイトルのスタイル調整 */
 .slide-box a {
@@ -86,18 +98,6 @@ a{
 .slide-box p {
     font-weight: bold;
     padding: 10px;
-}
-.timeline_sentence{
-    border: none;
-    height: 100%;
-    width: 100%;
-    font-size: 19px;
-}
-#image_error{
-    text-align: center;
-    margin: 100px auto 0 auto;
-    font-size: 26px;
-    color: red;
 }
 @media screen and (max-width: 479px) {
     /* スマホではスライダーで表示 */

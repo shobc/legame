@@ -26,4 +26,6 @@ public interface ProfileDao{
 
     void UpdateFriendQRCode(String user_id,String QRCode);
 
+    boolean sufferSearchId(String search_id);
+
 }

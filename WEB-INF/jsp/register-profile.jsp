@@ -14,7 +14,7 @@
         </div>
         <span>Å¶ïKê{</span>
         <form action="RegisterProfileServlet" method="post">
-            <input type="hidden" name="user_id" value="${user_id}">
+            <input type="hidden" name="user_id" value="${sessionScope.user_id}">
             <div>
                 <label for="input" class="l_input">Å¶ñºëO</label>
                 <input class="input" type="text" id="user_name" maxlength="10" name="name" required>
@@ -26,6 +26,7 @@
                 <label for="input" class="l_input">Å¶åüçıID</label>
                 <input class="input" id="search_id" type="text" maxlength="20" name="id" required>
                 <div class="text_underline"></div>
+                <span class="error_e">${pageContext.exception.message}</span>
                 <span class="error"></span>
                 <span class="setting">8ï∂éöà»è„20ï∂éöà»ì‡</span>
             </div>

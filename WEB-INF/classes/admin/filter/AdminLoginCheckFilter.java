@@ -30,9 +30,6 @@ public class AdminLoginCheckFilter  extends HttpServlet implements Filter{
             aub.setUser_name(name);
             aub.setMail(mail);
             aub.setPassword(pass);
-            System.out.println("name"+name);
-            System.out.println("mail"+mail);
-            System.out.println("pass"+pass);
             AdminAbstractDaoFactory factory = AdminAbstractDaoFactory.getFactory();
             AdminUserDao dao = factory.getAdminUserDao();
             if(dao.getAdminUserJudge(aub)){

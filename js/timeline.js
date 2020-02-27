@@ -30,7 +30,7 @@ function ajaxLike(id,count){
             $("#c"+id).text(count-1);
         }
     }).fail(function () {
-        console.log("èª­ã¿è¾¼ã¿å¤±æ•—");
+        console.log("“Ç‚İ‚İ¸”s");
     }).always(function (result) {
     });
 }
@@ -50,7 +50,7 @@ function timelineNotice(){
             }
         }
     }).fail(function () {
-        console.log("èª­ã¿è¾¼ã¿å¤±æ•—");
+        console.log("“Ç‚İ‚İ¸”s");
     }).always(function (result) {
     });
 }

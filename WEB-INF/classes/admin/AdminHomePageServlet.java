@@ -9,12 +9,14 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.annotation.WebServlet;
 
 import admin.dao.AdminAbstractDaoFactory;
 import admin.dao.TimeLineDao;
 import admin.bean.TimeLineBean;
 import admin.bean.TimeLinePictureBean;
 
+@WebServlet("/admin/AdminHomePageServlet")
 public class AdminHomePageServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         AdminAbstractDaoFactory factory = AdminAbstractDaoFactory.getFactory();
