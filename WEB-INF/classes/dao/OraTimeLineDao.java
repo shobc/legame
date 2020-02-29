@@ -3,7 +3,6 @@ package dao;
 import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileInputStream;
 
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -16,4 +16,7 @@ public class AdminOraDaoFactory extends AdminAbstractDaoFactory{
     public UserDao getUserDao(){
         return new OraUserDao();
     }
+    public ShopAdminUserDao getShopAdminUserDao(){
+        return new OraShopAdminUserDao();
+    }
 }

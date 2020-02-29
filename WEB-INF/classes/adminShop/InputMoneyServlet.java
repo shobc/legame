@@ -43,5 +43,6 @@ public class InputMoneyServlet extends HttpServlet{
         req.setAttribute("title","“ü‹àŠ®—¹");
         req.setAttribute("caption","“ü‹à‚ªŠ®—¹‚µ‚Ü‚µ‚½");
         RequestDispatcher dis = req.getRequestDispatcher("/WEB-INF/jsp/adminShop/clear.jsp");
+        dis.forward(req,res);
     }
 }

@@ -29,7 +29,7 @@ ${param.head}
         <li class="category-title"><a href="#"><a href="ReportTimeLineServlet">通報されたタイムライン</a></a></li>
         <li class="category-title"><a href="ReportChatListServlet">通報されたチャット</a></li>
         <li class="category-title"><a href="UserListServlet">ユーザー設定</a></li>
-        <li class="category-title"><a href="#">お店の申請許可</a></li>
+        <li class="category-title"><a href="ShopApprovalListServlet">お店の申請許可</a></li>
         <li class="category-title logout"><img src="<c:url value='/image/logout.png' />"id="logoutImage" height="3%" width="9%"><a href="LogoutServlet">ログアウト</a></li>
     </ul>
 </div>

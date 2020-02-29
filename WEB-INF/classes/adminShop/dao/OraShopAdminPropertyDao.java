@@ -81,7 +81,37 @@ public class OraShopAdminPropertyDao implements ShopAdminPropertyDao{
         }
     }
     public void employMoney(PropertyBean p){
-
+        PreparedStatement st = null;
+        Connection cn = null;
+        ShopAdminOracleConnecter oc = new ShopAdminOracleConnecter();
+        try{
+            cn = oc.getConnection();
+            String sql="insert into PROPERTY_TABLE(property_id,SHOP_ADMIN_USER_ID,USER_ID,money,point,HISTORY)\n" +
+                    "    values (PROPERTY_SEQUESNCE.nextval,?,(select user_id from USER_INFORMATION_TABLE where QRCODE = ?) ,-?,?,? )";
+            st = cn.prepareStatement(sql);
+            st.setString(1,p.getShop_admin_user_id());
+            st.setString(2,p.getRandomString());
+            st.setInt(3,p.getMoney());
+            st.setInt(4,p.getMoney()/100);
+            st.setString(5,p.getHistory());
+            int count = st.executeUpdate();
+            System.out.println(count+"åèèàóùÇµÇ‹ÇµÇΩ");
+            st.close();
+            oc.commit();
+            oc.closeConnection();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            oc.rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
     }
     public ArrayList getDateSort(PropertyBean p){
         PreparedStatement st = null;

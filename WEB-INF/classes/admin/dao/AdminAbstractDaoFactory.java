@@ -35,4 +35,5 @@ public abstract class AdminAbstractDaoFactory{
     public abstract AdminChatDao getAdminChatDao();
     public abstract TalkDao getTalkDao();
     public abstract UserDao getUserDao();
+    public abstract ShopAdminUserDao getShopAdminUserDao();
 }

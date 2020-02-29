@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 import adminShop.bean.ShopAdminUserBean;
 
@@ -114,22 +116,28 @@ public class OraShopAdminUserDao implements ShopAdminUserDao{
         }
         return saub;
     }
-    public void ProvisionalRegisterShopAdminUser(ShopAdminUserBean saub) {
+    public void provisionalRegisterShopAdminUser(ShopAdminUserBean saub) {
         PreparedStatement st = null;
         Connection cn = null;
         ShopAdminOracleConnecter aoc = new ShopAdminOracleConnecter();
         try{
+            FileInputStream fis = new FileInputStream(saub.getPicture());
             cn = aoc.getConnection();
-            String sql="insert into SHOP_ADMIN_TABLE values(shop_admin_sequesnce.nextval,SHOP_USER_SEQUESNCE.currval,?,?,?,0)";
+            String sql="insert into SHOP_ADMIN_TABLE(shop_admin_user_id,name,mail,password,approval_image) values(shop_admin_sequesnce.nextval,?,?,?,?)";
             st = cn.prepareStatement(sql);
-            st.setString(1,saub.getMail());
-            st.setString(2,saub.getUser_name());
+            st.setString(1,saub.getUser_name());
+            st.setString(2,saub.getMail());
             st.setString(3,saub.getPassword());
+            st.setBinaryStream(4,fis);
             int count = st.executeUpdate();
             System.out.println(count+"åèèàóùÇµÇ‹ÇµÇΩ");
             st.close();
             aoc.commit();
             aoc.closeConnection();
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            aoc.rollback();
         }catch(SQLException e){
             System.out.println(e.getMessage());
             aoc.rollback();

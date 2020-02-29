@@ -396,6 +396,14 @@
         <url-pattern>/admin/user</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>adminShopList</servlet-name>
+        <jsp-file>/WEB-INF/jsp/admin/approval-shop-list.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>adminShopList</servlet-name>
+        <url-pattern>/admin/approval-shop-list</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>adminResultDevice</servlet-name>
         <jsp-file>/WEB-INF/jsp/admin/resultDevice.jsp</jsp-file>
     </servlet>
@@ -451,5 +459,13 @@
     <servlet-mapping>
         <servlet-name>shopAdminLogin</servlet-name>
         <url-pattern>/shopAdmin/login</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>new-account</servlet-name>
+        <jsp-file>/WEB-INF/jsp/adminShop/new-account.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>new-account</servlet-name>
+        <url-pattern>/shopAdmin/new-account</url-pattern>
     </servlet-mapping>
 </web-app>

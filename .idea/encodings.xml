@@ -62,6 +62,7 @@
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/admin/dao/AdminUserDao.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/admin/dao/OraAdminChatDao.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/admin/dao/OraAdminUserDao.java" charset="windows-31j" />
+    <file url="file://$PROJECT_DIR$/WEB-INF/classes/admin/dao/OraShopAdminUserDao.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/admin/dao/OraTalkDao.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/admin/dao/OraTimeLineDao.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/admin/dao/OraUserDao.java" charset="windows-31j" />
@@ -76,6 +77,7 @@
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/adminShop/DateSortHistoryServlet.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/adminShop/InputMoneyServlet.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/adminShop/PayServlet.java" charset="windows-31j" />
+    <file url="file://$PROJECT_DIR$/WEB-INF/classes/adminShop/RegisterShopAccountServlet.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/adminShop/SettlementServlet.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/adminShop/ShopAdminHomeServlet.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/adminShop/dao/OraShopAdminPropertyDao.java" charset="windows-31j" />

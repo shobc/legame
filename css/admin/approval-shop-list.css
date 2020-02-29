@@ -1,0 +1,21 @@
+.approval_user{
+    display: flex;
+    justify-content: center;
+}
+.approval_image{
+    height: 400px;
+}
+.approval_info{
+    display: flex;
+    align-items: center;
+}
+.delete_approval{
+    display: flex;
+    align-items: center;
+}
+p{
+    margin: 10px 150px;
+}
+span{
+    margin:0 20px;
+}

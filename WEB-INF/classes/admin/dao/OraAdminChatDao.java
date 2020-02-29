@@ -35,13 +35,6 @@ public class OraAdminChatDao implements AdminChatDao{
                 Blob blob = rs.getBlob(3);
                 Base64Image bi = new Base64Image();
                 cb.setTop_picture(bi.getBase64(blob));
-//                String sentence = rs.getString(4);
-//                if(sentence!=null){
-//                    if(sentence.length()>=20){
-//                        sentence = sentence.substring(0,20)+"...";
-//                    }
-//                }
-//                cb.setLast_talk(sentence);
                 chatList.add(cb);
             }
             aoc.closeConnection();
