@@ -269,6 +269,41 @@ public class OraUserDao implements UserDao{
         }
         return judge;
     }
+    public boolean judgeStopUserAccount(String user_id){
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Connection cn = null;
+        boolean judge = false;
+        OracleConnecter oc = new OracleConnecter();
+        try{
+            cn = oc.getConnection();
+            String sql = "select count(*) from user_table where user_id = ? and USER_TIME>= sysdate";
+            st = cn.prepareStatement(sql);
+            st.setString(1,user_id);
+            rs = st.executeQuery();
+            rs.next();
+            if(rs.getString(1).equals("1")){
+                judge = true;
+            }
+            st.close();
+            oc.closeConnection();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            oc.rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return judge;
+    }
+
     public boolean judgeSufferMail(String mail){
         PreparedStatement st = null;
         ResultSet rs = null;

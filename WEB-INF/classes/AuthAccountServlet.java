@@ -33,7 +33,8 @@ public class AuthAccountServlet extends HttpServlet{
         UserDao dao = factory.getOraUserDao();
         dao.RegisterUser(lb);
         String user_id = dao.getUserId(lb);
-        req.setAttribute("user_id",user_id);
+        HttpSession session = req.getSession();
+        session.setAttribute("user_id",user_id);
         sc.removeAttribute(RandomCode);
         RequestDispatcher dis = req.getRequestDispatcher("register-profile");
         dis.forward(req,res);

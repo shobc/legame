@@ -8,7 +8,7 @@ public class EscapeString{
         val = val.replaceAll(">", "&gt;");
         val = val.replaceAll("\"", "&quot;");
         val = val.replaceAll("'", "&apos;");
-        val = val.replaceAll("&quot;n","\"n");
+//        val = val.replaceAll("&quot;n","\"n");
         return val;
     }
 }

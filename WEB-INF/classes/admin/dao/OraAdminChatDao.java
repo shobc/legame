@@ -23,7 +23,7 @@ public class OraAdminChatDao implements AdminChatDao{
         try{
 
             cn = aoc.getConnection();
-            String sql = "select c.CHAT_ID,u.NICKNAME,u.top_picture\n" +
+            String sql = "select c.CHAT_ID,u.search_id,u.top_picture\n" +
                     "from CHAT_TABLE c left join USER_INFORMATION_TABLE u on c.USER_CHAT1_ID = u.USER_ID where c.REPORT_FLAG = 1\n" +
                     "order by c.DELETE_TIME desc";
             st = cn.prepareStatement(sql);

@@ -22,7 +22,7 @@
             </div>
             <div>
                 <center>
-                    <img class="timeline_logo" src="<c:url value='/image/timeline.png' />" height="190px">
+                    <img class="timeline_logo" src="<c:url value='/image/timeline.png' />" height="250px">
                 </center>
             </div>
             <div>

@@ -21,7 +21,7 @@ public class ReportChatListServlet extends HttpServlet{
         AdminChatDao dao = factory.getAdminChatDao();
         ArrayList chatList = dao.getReportChatList();
         req.setAttribute("chatList",chatList);
-        RequestDispatcher dis = req.getRequestDispatcher("/admin/chat");
+        RequestDispatcher dis = req.getRequestDispatcher("/WEB-INF/jsp/admin/chat.jsp");
         dis.forward(req,res);
     }
     public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{

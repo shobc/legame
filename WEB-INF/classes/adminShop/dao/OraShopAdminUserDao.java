@@ -87,7 +87,7 @@ public class OraShopAdminUserDao implements ShopAdminUserDao{
         ShopAdminOracleConnecter oc = new ShopAdminOracleConnecter();
         try{
             cn = oc.getConnection();
-            String sql="select * from shop_admin_table where mail = ? and name = ? and password = ? ";
+            String sql="select shop_admin_user_id,name,mail from shop_admin_table where mail = ? and name = ? and password = ? ";
             st = cn.prepareStatement(sql);
             st.setString(1,saub.getMail());
             st.setString(2,saub.getUser_name());
@@ -95,10 +95,8 @@ public class OraShopAdminUserDao implements ShopAdminUserDao{
             rs = st.executeQuery();
             rs.next();
             saub.setShop_admin_user_id(rs.getString(1));
-            saub.setUser_id(rs.getString(2));
-            saub.setUser_name(rs.getString(3));
-            saub.setMail(rs.getString(4));
-            saub.setPassword(rs.getString(5));
+            saub.setUser_name(rs.getString(2));
+            saub.setMail(rs.getString(3));
             oc.closeConnection();
         }catch(SQLException e){
             System.out.println(e.getMessage());

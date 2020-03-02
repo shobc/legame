@@ -26,6 +26,7 @@ $(function(){
         $('.text').removeAttr('required');
         $('.text').removeAttr('minlength');
         $('.text').attr('value', single_word);
+        $("#setting").text('20•¶šˆÈ“à');
         $("#caption").text('ˆêŒ¾•ÏX');
 
     }else if(path === '/change-top-picture'){

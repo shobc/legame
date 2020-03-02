@@ -99,7 +99,7 @@ public class WebSocketEndPoint {
         tb.setContent(EscapeString.escape(message));
         if(id==null||id.equals("null")){
             System.out.println("データベースに入れるだけ");
-            if(message.length()>=2000){
+            if(message.length()>=300){
                 Base64Decode bd = new Base64Decode();
                 bd.setImagePath(message);
                 tb.setContent(bd.getFilePath("WEB-INF/talkImage/"));
@@ -109,7 +109,7 @@ public class WebSocketEndPoint {
             }
         }else{
             Session session = sessionMap.get(id);
-            if(message.length()>=2000){
+            if(message.length()>=300){
                 Base64Decode bd = new Base64Decode();
                 bd.setImagePath(message);
                 tb.setContent(bd.getFilePath("WEB-INF/talkImage/"));

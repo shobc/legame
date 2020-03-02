@@ -23,4 +23,7 @@ public class NewFriendInfoServlet extends HttpServlet{
         RequestDispatcher dis = req.getRequestDispatcher("no-friend-profile");
         dis.forward(req,res);
     }
+    public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
+        this.doGet(req,res);
+    }
 }

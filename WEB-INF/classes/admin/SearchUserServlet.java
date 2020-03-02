@@ -23,7 +23,7 @@ public class SearchUserServlet extends HttpServlet{
         UserDao dao = factory.getUserDao();
         ArrayList userList = dao.searchUser(search_id);
         req.setAttribute("userList",userList);
-        RequestDispatcher dis = req.getRequestDispatcher("user");
+        RequestDispatcher dis = req.getRequestDispatcher("/WEB-INF/jsp/admin/user.jsp");
         dis.forward(req,res);
     }
     public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{

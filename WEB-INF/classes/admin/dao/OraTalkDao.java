@@ -24,7 +24,7 @@ public class OraTalkDao implements TalkDao{
             String sql = "select u.SEARCH_ID,t.content,TO_CHAR(t.mess_time, 'MM/DD HH24:MI'),TO_CHAR(t.mess_time,'HH24\"Žž\"MI\"•ª\"'),u.TOP_PICTURE,t.talk_picture from TALK_TABLE t\n" +
                     "                    left join USER_INFORMATION_TABLE u\n" +
                     "                    on u.USER_ID = (select CHAT_TABLE.USER_CHAT_ID from CHAT_TABLE where chat_id = t.chat_id)\n" +
-                    "                    where t.CHAT1_ID = ?";
+                    "                    where t.CHAT1_ID = ? order by t.mess_time asc";
             st = cn.prepareStatement(sql);
             st.setString(1,chat_id);
             rs = st.executeQuery();

@@ -15,3 +15,11 @@ $(function(){
         this.value = this.value.replace(/[^0-9a-zA-Z]+/i,'');
     });
 });
+
+
+function profileInfo(action,id){
+    $('<form/>',{action:action, method:"post"})
+        .append("<input type='hidden' name='friend_id' value='"+id+"'>")
+        .appendTo($('body'))
+        .submit();
+}

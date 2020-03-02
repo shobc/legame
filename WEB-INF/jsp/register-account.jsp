@@ -31,7 +31,7 @@
 <%--            <div class="error">--%>
 <%--            </div>--%>
             <div class="loginStart">
-                <input class="btn-border" type="submit" value="“o˜^">
+                <input class="btn-border" type="button" value="“o˜^">
             </div>
         </form>
     </c:param>

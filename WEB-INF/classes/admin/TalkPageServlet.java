@@ -22,7 +22,7 @@ public class TalkPageServlet extends HttpServlet{
         TalkDao dao = factory.getTalkDao();
         ArrayList talkList = dao.getUserTalk(chat_id);
         req.setAttribute("talkList",talkList);
-        RequestDispatcher dis = req.getRequestDispatcher("/admin/talk");
+        RequestDispatcher dis = req.getRequestDispatcher("/WEB-INF/jsp/admin/talk.jsp");
         dis.forward(req,res);
     }
     public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{

@@ -100,7 +100,7 @@
                         </div>
                     </div>
                     <div class="sendMessageBox">
-                        <textarea id='message' class="text_area" required></textarea>
+                        <textarea id='message' class="text_area" maxlength="250" required></textarea>
                     </div>
                     <div class="sendPictureBox">
                             <%--                    <img id="preview">--%>
@@ -277,7 +277,7 @@
                     webSocket.send(message.value);
                     $("#preview").attr('src','');
                     var str = message.value;
-                    if(message.value.length>=2000){
+                    if(message.value.length>=300){
                         str = "<img src='"+message.value+"' >";
                     }else{
                         str = escape_html(str);
@@ -308,7 +308,7 @@
             }
             function wsGetMessage(message){
                 var str = message.data;
-                if(message.data.length>=2000){
+                if(message.data.length>=300){
                     str = "<img src='"+message.data+"'>";
                 }
                 $(".line-bc").append("<div class='balloon6'>"+

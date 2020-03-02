@@ -38,7 +38,8 @@ public class InputAccountServlet extends HttpServlet{
         sc.setAttribute(RString,lub);
         String url = "http://localhost:8080/legame/AuthAccountServlet?RandomCode="+RString;
         SendMail sendmail = new SendMail();
-        sendmail.send(mail,url);
+        String message = "urlにアクセスして登録を完了してください";
+        sendmail.send(mail,message,url);
         res.sendRedirect("mail-confirmation");
     }
 }

@@ -175,7 +175,8 @@ public class OraTalkDao implements TalkDao{
             cn = oc.getConnection();
             String sql = "INSERT INTO TALK_TABLE (talk_id,chat_id,chat1_id,content,block_flag)\n" +
                             "values(talk_sequesnce.nextval,?,(SELECT CHAT_ID FROM CHAT_TABLE\n" +
-                            "where CHAT_ID = (select CHAT_ID from CHAT_TABLE where USER_CHAT_ID = (select USER_CHAT1_ID from CHAT_TABLE where chat_id = ?)\n" +
+                            "where CHAT_ID = (select CHAT_ID from CHAT_TABLE where USER_CHAT_ID = " +
+                            "(select USER_CHAT1_ID from CHAT_TABLE where chat_id = ?)\n" +
                             "and USER_CHAT1_ID = (select USER_CHAT_ID from CHAT_TABLE where chat_id = ?))),?,?)";
             st = cn.prepareStatement(sql);
             st.setString(1,tb.getChat_id());

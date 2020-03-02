@@ -23,7 +23,7 @@ public class OraTimeLineDao implements TimeLineDao{
         try{
 
             cn = aoc.getConnection();
-            String sql = "select t.TIMELINE_ID,u.NICKNAME,u.top_picture,t.TIMELINE_SENTENCE,TO_CHAR(t.TIMELINE_TIME,'YYYY/MM/DD HH24:Mi')\n" +
+            String sql = "select t.TIMELINE_ID,u.search_id,u.top_picture,t.TIMELINE_SENTENCE,TO_CHAR(t.TIMELINE_TIME,'YYYY/MM/DD HH24:Mi')\n" +
                     "from TIMELINE_TABLE t left join USER_INFORMATION_TABLE u on t.USER_ID = u.USER_ID" +
                     " order by t.TIMELINE_TIME desc";
             st = cn.prepareStatement(sql);
@@ -74,7 +74,7 @@ public class OraTimeLineDao implements TimeLineDao{
         try{
 
             cn = aoc.getConnection();
-            String sql = "select t.TIMELINE_ID,u.NICKNAME,u.top_picture,t.TIMELINE_SENTENCE,TO_CHAR(t.TIMELINE_TIME,'YYYY/MM/DD HH24:Mi'),(select count(*) from TIMELINE_REPORT_TABLE where TIMELINE_ID = t.TIMELINE_ID)\n" +
+            String sql = "select t.TIMELINE_ID,u.search_id,u.top_picture,t.TIMELINE_SENTENCE,TO_CHAR(t.TIMELINE_TIME,'YYYY/MM/DD HH24:Mi'),(select count(*) from TIMELINE_REPORT_TABLE where TIMELINE_ID = t.TIMELINE_ID)\n" +
                     "from TIMELINE_TABLE t left join USER_INFORMATION_TABLE u on t.USER_ID = u.USER_ID\n" +
                     "where t.TIMELINE_ID = (select distinct TIMELINE_ID from TIMELINE_REPORT_TABLE)\n" +
                     "order by t.TIMELINE_TIME desc";

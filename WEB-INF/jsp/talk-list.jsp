@@ -17,7 +17,7 @@
     <c:param name="title">
         <div class="header">
             <div class="header_image">
-                <img src="<c:url value='/image/talk_logo.png' />" width="163px" height="37px">
+                <img src="<c:url value='/image/talk_logo.png' />" width="150px" height="37px">
             </div>
         </div>
     </c:param>

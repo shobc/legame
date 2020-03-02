@@ -57,7 +57,8 @@
                         <span class="new_friend_name">${nfl.name}</span>
                     </div>
                     <div class="judge_new_friend">
-                        <span class="profile"><a href="NewFriendInfoServlet?friend_id=${nfl.user_id}">Ú×</a></span>
+<%--                        <span class="profile"><a onclick="profileInfo('NewFriendInfoServlet','${nfl.user_id}')" href="NewFriendInfoServlet?friend_id=${nfl.user_id}">Ú×</a></span>--%>
+                        <span class="profile"><a onclick="profileInfo('NewFriendInfoServlet','${nfl.user_id}')" href="#">Ú×</a></span>
                         <span class="profile"><a href="FriendAddServlet?friend_id=${nfl.user_id}">’Ç‰Á</a></span>
                         <span class="profile"><a href="NoFriendBlockServlet?friend_id=${nfl.user_id}">ƒuƒƒbƒN</a></span>
                     </div>

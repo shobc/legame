@@ -54,7 +54,7 @@ public class TalkPageServlet extends HttpServlet{
         boolean judge = dao.getBlockJudge(chat_id,user_id);
         req.setAttribute("yub",Pdao.getProfile(chat_id));
         ArrayList frieadList = Fdao.getFriend(user_id);
-
+        System.out.println("judge"+judge);
         String inputText = "not null";
         if(judge){
             inputText =null;

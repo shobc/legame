@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.annotation.WebServlet;
 
 import dao.AbstractDaoFactory;
 import dao.ProfileDao;
@@ -16,7 +17,6 @@ import function.Base64Decode;
 import function.EscapeString;
 import exception.SufferNewRegisterSearchIdException;
 
-import javax.servlet.annotation.WebServlet;
 @WebServlet("/RegisterProfileServlet")
 public class RegisterProfileServlet extends HttpServlet{
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{

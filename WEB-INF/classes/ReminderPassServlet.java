@@ -24,7 +24,8 @@ public class ReminderPassServlet extends HttpServlet{
         String url = "http://localhost:8080/legame/GetValueServlet?RandomCode="+RString;
 
         SendMail sm = new SendMail();
-        sm.send(mail,url);
+        String message = "URLにアクセスしてパスワード変更してください";
+        sm.send(mail,message,url);
 
         LoginUserBean lub = new LoginUserBean();
         lub.setMail(mail);

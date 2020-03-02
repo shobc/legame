@@ -23,7 +23,7 @@ public class ShopApprovalListServlet extends HttpServlet{
         ArrayList shopList = dao.getShopAdminApprovalList();
 
         req.setAttribute("shopList",shopList);
-        RequestDispatcher dis = req.getRequestDispatcher("approval-shop-list");
+        RequestDispatcher dis = req.getRequestDispatcher("/WEB-INF/jsp/admin/approval-shop-list.jsp");
         dis.forward(req,res);
     }
     public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{

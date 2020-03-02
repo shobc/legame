@@ -51,6 +51,7 @@ h2{
     right: 55%;
     z-index: 0;
     left: 20%;
+    width: 40%;
     font-size: 20px;
     margin-top: 10px;
 }
@@ -245,7 +246,7 @@ a{
     margin-left: 10px;
 }
 .home_logo{
-    height: 27px;
+    height: 37px;
 }
 
 .user_name{

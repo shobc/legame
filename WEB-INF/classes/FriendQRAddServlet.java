@@ -16,12 +16,9 @@ import bean.FriendBean;
 public class FriendQRAddServlet extends HttpServlet{
     public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         String QRCode = req.getParameter("QRCode");
-
         AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
         FriendDao dao = factory.getOraFriendDao();
-
         FriendBean fb = dao.getFriendQRUser_id(QRCode);
-
         req.setAttribute("fb",fb);
         RequestDispatcher dis = req.getRequestDispatcher("no-friend-profile");
         dis.forward(req,res);

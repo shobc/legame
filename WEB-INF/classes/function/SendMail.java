@@ -29,7 +29,7 @@ public class SendMail{
 
 //ここからメール送付に必要なSMTP,SSL認証などの設定
 
-    public void send(String mail,String url) {
+    public void send(String mail,String send_message,String url) {
         final Properties props = new Properties();
 
         // SMTPサーバーの設定。ここではgooglemailのsmtpサーバーを設定。
@@ -79,7 +79,8 @@ public class SendMail{
             message.setSubject("認証", ENCODE);
 
             // メール本文。
-            message.setText("urlにアクセスして登録を完了してください。"+url, ENCODE);
+//            message.setText("urlにアクセスして登録を完了してください。"+url, ENCODE);
+            message.setText(send_message+url, ENCODE);
 
 
             // その他の付加情報。

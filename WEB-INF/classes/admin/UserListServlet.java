@@ -21,7 +21,7 @@ public class UserListServlet extends HttpServlet{
         UserDao dao = factory.getUserDao();
         ArrayList userList = dao.getUserList();
         req.setAttribute("userList",userList);
-        RequestDispatcher dis = req.getRequestDispatcher("/admin/user");
+        RequestDispatcher dis = req.getRequestDispatcher("/WEB-INF/jsp/admin/user.jsp");
         dis.forward(req,res);
     }
     public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{

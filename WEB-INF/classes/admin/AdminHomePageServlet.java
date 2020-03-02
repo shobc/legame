@@ -39,7 +39,7 @@ public class AdminHomePageServlet extends HttpServlet{
         }
         req.setAttribute("timelineList",timelineList);
         req.setAttribute("caption","全てのタイムライン");
-        RequestDispatcher dis = req.getRequestDispatcher("home");
+        RequestDispatcher dis = req.getRequestDispatcher("/WEB-INF/jsp/admin/home.jsp");
         dis.forward(req,res);
     }
     public void doGet(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
