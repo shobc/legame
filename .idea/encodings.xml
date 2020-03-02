@@ -74,13 +74,16 @@
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/admin/function/CutURL.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/adminShop/CancelItemServlet.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/adminShop/CancelListServlet.java" charset="windows-31j" />
+    <file url="file://$PROJECT_DIR$/WEB-INF/classes/adminShop/ChangePassWordServlet.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/adminShop/DateSortCancelServlet.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/adminShop/DateSortHistoryServlet.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/adminShop/DepositMoneyServlet.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/adminShop/InputMoneyServlet.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/adminShop/LogoutServlet.java" charset="windows-31j" />
+    <file url="file://$PROJECT_DIR$/WEB-INF/classes/adminShop/PasswordReminderServlet.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/adminShop/PayServlet.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/adminShop/RegisterShopAccountServlet.java" charset="windows-31j" />
+    <file url="file://$PROJECT_DIR$/WEB-INF/classes/adminShop/RemoveAccountServlet.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/adminShop/SettlementServlet.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/adminShop/ShopAdminHomeServlet.java" charset="windows-31j" />
     <file url="file://$PROJECT_DIR$/WEB-INF/classes/adminShop/dao/OraShopAdminPropertyDao.java" charset="windows-31j" />

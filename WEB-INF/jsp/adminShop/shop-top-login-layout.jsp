@@ -23,6 +23,7 @@
                 <li class="category-title"><a href="ShopAdminHomeServlet">ホーム</a></li>
                 <li class="category-title"><a href="CancelListServlet">返金リスト</a></li>
                 <li class="category-title logout"><img src="<c:url value='/image/logout.png' />" id="logoutImage" height="3%" width="9%"><a href="LogoutServlet">ログアウト</a></li>
+                <li class="category-title" style="text-align: center"><a href="RemoveAccountServlet">アカウント削除</a></li>
             </ul>
         </div>
         ${param.content}

@@ -492,4 +492,14 @@
         <url-pattern>/shopAdmin/new-account</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>reminder-password</servlet-name>
+        <jsp-file>/WEB-INF/jsp/adminShop/reminder-password.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>reminder-password</servlet-name>
+        <url-pattern>/shopAdmin/reminder-password</url-pattern>
+    </servlet-mapping>
+
+
 </web-app>

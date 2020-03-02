@@ -150,4 +150,92 @@ public class OraShopAdminUserDao implements ShopAdminUserDao{
             }
         }
     }
+    public String getUser_id(String mail){
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Connection cn = null;
+        String shop_admin_user_id = null;
+        ShopAdminOracleConnecter oc = new ShopAdminOracleConnecter();
+        try{
+            cn = oc.getConnection();
+            String sql="select shop_admin_user_id from shop_admin_table where mail = ?";
+            st = cn.prepareStatement(sql);
+            st.setString(1,mail);
+            rs = st.executeQuery();
+            rs.next();
+            shop_admin_user_id = rs.getString(1);
+            oc.closeConnection();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            oc.rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return shop_admin_user_id;
+    }
+    public void changePassWord(ShopAdminUserBean saub){
+        PreparedStatement st = null;
+        Connection cn = null;
+        ShopAdminOracleConnecter aoc = new ShopAdminOracleConnecter();
+        try{
+            cn = aoc.getConnection();
+            String sql="update SHOP_ADMIN_TABLE set password = ? where shop_admin_user_id = ?";
+            st = cn.prepareStatement(sql);
+            st.setString(1,saub.getPassword());
+            st.setString(2,saub.getShop_admin_user_id());
+            int count = st.executeUpdate();
+            System.out.println(count+"åèèàóùÇµÇ‹ÇµÇΩ");
+            st.close();
+            aoc.commit();
+            aoc.closeConnection();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            aoc.rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
+    public void removeAccount(String shop_admin_user_id){
+        PreparedStatement st = null;
+        Connection cn = null;
+        ShopAdminOracleConnecter aoc = new ShopAdminOracleConnecter();
+        try{
+            cn = aoc.getConnection();
+            String sql="update SHOP_ADMIN_TABLE set delete_flag = 1 where shop_admin_user_id = ?";
+            st = cn.prepareStatement(sql);
+            st.setString(1,shop_admin_user_id);
+            int count = st.executeUpdate();
+            System.out.println(count+"åèèàóùÇµÇ‹ÇµÇΩ");
+            st.close();
+            aoc.commit();
+            aoc.closeConnection();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            aoc.rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
 }

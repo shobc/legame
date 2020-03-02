@@ -7,4 +7,7 @@ public interface ShopAdminUserDao{
     boolean getApprovalShopAdminUserJudge(ShopAdminUserBean saub);
     ShopAdminUserBean getShopAdminUser(ShopAdminUserBean saub);
     void provisionalRegisterShopAdminUser(ShopAdminUserBean saub);
+    String getUser_id(String mail);
+    void changePassWord(ShopAdminUserBean saub);
+    void removeAccount(String shop_admin_user_id);
 }

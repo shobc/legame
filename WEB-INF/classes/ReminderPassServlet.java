@@ -23,6 +23,9 @@ public class ReminderPassServlet extends HttpServlet{
         String RString = RandomString.getString();
         String url = "http://localhost:8080/legame/GetValueServlet?RandomCode="+RString;
 
+//        if(dao.emailJudge(mail)){
+//            //例外を投げる
+//        }
         SendMail sm = new SendMail();
         String message = "URLにアクセスしてパスワード変更してください";
         sm.send(mail,message,url);

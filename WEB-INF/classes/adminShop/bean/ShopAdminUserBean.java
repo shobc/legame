@@ -7,6 +7,15 @@ public class ShopAdminUserBean implements Serializable{
     private String mail;
     private String password;
     private String picture;
+    private String random;
+
+    public String getRandom() {
+        return random;
+    }
+
+    public void setRandom(String random) {
+        this.random = random;
+    }
 
     public String getShop_admin_user_id() {
         return shop_admin_user_id;

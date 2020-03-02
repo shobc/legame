@@ -29,7 +29,7 @@ function FriendNotice(){
             }
         }
     }).fail(function () {
-        alert("ì«Ç›çûÇ›é∏îs");
+        console.log("ì«Ç›çûÇ›é∏îs");
     }).always(function (result) {
     });
 }

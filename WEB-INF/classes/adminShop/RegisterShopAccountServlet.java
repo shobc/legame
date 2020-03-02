@@ -45,7 +45,7 @@ public class RegisterShopAccountServlet extends HttpServlet{
         ShopAdminAbstractDaoFactory factory = ShopAdminAbstractDaoFactory.getFactory();
         ShopAdminUserDao dao = factory.getShopAdminUserDao();
         dao.provisionalRegisterShopAdminUser(saub);
-
+        req.setAttribute("message","ämîFÇ∑ÇÈÇ‹Ç≈è≠ÅXÇ®ë“ÇøÇ≠ÇæÇ≥Ç¢");
         RequestDispatcher dis = req.getRequestDispatcher("/WEB-INF/jsp/adminShop/confirm.jsp");
         dis.forward(req,res);
     }

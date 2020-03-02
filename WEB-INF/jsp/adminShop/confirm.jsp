@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="confirm">
-            <h1>確認するまで少々お待ちください。</h1>
+            <h1>${message}</h1>
             <a href="login">ログインページに戻る</a>
         </div>
     </c:param>
