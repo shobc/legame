@@ -16,6 +16,8 @@ import javax.servlet.http.HttpSession;
 import adminShop.dao.ShopAdminAbstractDaoFactory;
 import adminShop.dao.ShopAdminUserDao;
 import adminShop.bean.ShopAdminUserBean;
+import adminShop.exception.NotShopAdminAccountException;
+import adminShop.exception.ApprovalShopAdminAccountException;
 
 public class ShopAdminLoginCheckFilter  extends HttpServlet implements Filter{
     public void init(FilterConfig config)throws ServletException{}
@@ -36,14 +38,14 @@ public class ShopAdminLoginCheckFilter  extends HttpServlet implements Filter{
             ShopAdminAbstractDaoFactory factory = ShopAdminAbstractDaoFactory.getFactory();
             ShopAdminUserDao dao = factory.getShopAdminUserDao();
             if(dao.getApprovalShopAdminUserJudge(saub)){
-//                まだお店でPayを使える許可を持っていないから例外
+                throw new ApprovalShopAdminAccountException("許可されていないアカウントです");
             }
             if(dao.getShopAdminUserJudge(saub)){
                 saub = dao.getShopAdminUser(saub);
                 session.setAttribute("adminShopToken","OK");
                 session.setAttribute("saub",saub);
             }else{
-//                ユーザーが登録されていない
+                throw new NotShopAdminAccountException("アカウントが登録されていません");
             }
         }
         chain.doFilter(req,res);

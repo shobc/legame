@@ -63,6 +63,10 @@
         <exception-type>exception.LoginUserStopAccountException</exception-type>
         <location>/StopAccountDeleteSessionServlet</location>
     </error-page>
+    <error-page>
+        <exception-type>exception.NotMailException</exception-type>
+        <location>/WEB-INF/jsp/error/no-login.jsp</location>
+    </error-page>
 <!--    メインのフィルター-->
     <filter>
         <filter-name>loginCheckFilter</filter-name>
@@ -377,6 +381,12 @@
         <url-pattern>/resultDevice</url-pattern>
     </servlet-mapping>
 <!--    管理者ページ-->
+<!--    管理者のエラーページ-->
+    <error-page>
+        <exception-type>admin.exception.NotAdminAccountException</exception-type>
+        <location>/WEB-INF/jsp/admin/error/no-login.jsp</location>
+    </error-page>
+<!--    管理者のフィルター-->
     <filter>
         <filter-name>adminLoginCheckFilter</filter-name>
         <filter-class>admin.filter.AdminLoginCheckFilter</filter-class>
@@ -437,7 +447,16 @@
         <url-pattern>/admin/resultDevice</url-pattern>
     </servlet-mapping>
 <!--    お店の管理者-->
-<!--    管理者のfilter-->
+    <!--    お店の管理者のエラーページ-->
+    <error-page>
+        <exception-type>adminShop.exception.ApprovalShopAdminAccountException</exception-type>
+        <location>/WEB-INF/jsp/adminShop/error/no-login.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>adminShop.exception.NotShopAdminAccountException</exception-type>
+        <location>/WEB-INF/jsp/adminShop/error/no-login.jsp</location>
+    </error-page>
+<!--    お店の管理者のfilter-->
     <filter>
         <filter-name>shopAdminLoginCheckFilter</filter-name>
         <filter-class>adminShop.filter.ShopAdminLoginCheckFilter</filter-class>
@@ -500,6 +519,5 @@
         <servlet-name>reminder-password</servlet-name>
         <url-pattern>/shopAdmin/reminder-password</url-pattern>
     </servlet-mapping>
-
 
 </web-app>

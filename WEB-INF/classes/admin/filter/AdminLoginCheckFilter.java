@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import admin.dao.AdminAbstractDaoFactory;
 import admin.dao.AdminUserDao;
 import admin.bean.AdminUserBean;
+import admin.exception.NotAdminAccountException;
 
 public class AdminLoginCheckFilter  extends HttpServlet implements Filter{
     public void init(FilterConfig config)throws ServletException{}
@@ -37,7 +38,7 @@ public class AdminLoginCheckFilter  extends HttpServlet implements Filter{
                 session.setAttribute("adminToken","OK");
                 session.setAttribute("aub",aub);
             }else{
-//                例外が入る予定
+                throw new NotAdminAccountException("アカウントがありません");
             }
         }
         chain.doFilter(req,res);

@@ -60,7 +60,7 @@ public class OraShopAdminUserDao implements ShopAdminUserDao{
             st.setString(3,saub.getPassword());
             rs = st.executeQuery();
             rs.next();
-            if(rs.getInt(1)==0){
+            if(rs.getInt(1)==1){
                 judge = true;
             }
             oc.closeConnection();

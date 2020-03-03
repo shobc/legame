@@ -9,10 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.annotation.WebServlet;
 
+import dao.AbstractDaoFactory;
+import dao.UserDao;
 import bean.LoginUserBean;
 import function.RandomString;
 import function.SendMail;
 import function.EscapeString;
+import exception.NotMailException;
 
 @WebServlet("/ReminderPassServlet")
 public class ReminderPassServlet extends HttpServlet{
@@ -22,10 +25,11 @@ public class ReminderPassServlet extends HttpServlet{
         String mail = EscapeString.escape(req.getParameter("mail"));
         String RString = RandomString.getString();
         String url = "http://localhost:8080/legame/GetValueServlet?RandomCode="+RString;
-
-//        if(dao.emailJudge(mail)){
-//            //例外を投げる
-//        }
+        AbstractDaoFactory factory = AbstractDaoFactory.getFactory();
+        UserDao dao = factory.getOraUserDao();
+        if(!dao.judgeSufferMail(mail)){
+            throw new NotMailException("メールが登録されてません");
+        }
         SendMail sm = new SendMail();
         String message = "URLにアクセスしてパスワード変更してください";
         sm.send(mail,message,url);
