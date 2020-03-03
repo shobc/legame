@@ -7,4 +7,7 @@ public class ShopAdminOraDaoFactory extends ShopAdminAbstractDaoFactory{
     public ShopAdminPropertyDao getShopAdminPropertyDao(){
         return new OraShopAdminPropertyDao();
     }
+    public UserDao getUserDao(){
+        return new OraUserDao();
+    }
 }

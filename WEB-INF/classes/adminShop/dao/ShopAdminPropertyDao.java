@@ -12,4 +12,5 @@ public interface ShopAdminPropertyDao{
     void cancelItem(String property_id);
     void cancelAdd(String property_id);
     ArrayList getCancelList(String shop_admin_user_id);
+    int getBalance(PropertyBean p);
 }

@@ -300,4 +300,38 @@ public class OraShopAdminPropertyDao implements ShopAdminPropertyDao{
         }
         return propertyList;
     }
+    public int getBalance(PropertyBean p){
+        PreparedStatement st = null;
+        int money = 0;
+        ResultSet rs = null;
+        Connection cn = null;
+        ShopAdminOracleConnecter oc = new ShopAdminOracleConnecter();
+        try{
+            cn = oc.getConnection();
+            String sql="select NVL(sum(money),0) from PROPERTY_TABLE " +
+                    " where USER_ID = (select user_id from USER_INFORMATION_TABLE where QRCODE = ?)";
+            st = cn.prepareStatement(sql);
+            st.setString(1,p.getRandomString());
+            rs = st.executeQuery();
+            rs.next();
+            money = rs.getInt(1);
+            rs.close();
+            st.close();
+            oc.closeConnection();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            oc.rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return money;
+    }
 }

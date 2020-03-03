@@ -18,7 +18,7 @@ public class OraShopAdminUserDao implements ShopAdminUserDao{
         ShopAdminOracleConnecter oc = new ShopAdminOracleConnecter();
         try{
             cn = oc.getConnection();
-            String sql="select count(*) from shop_admin_table where mail = ? and name = ? and password = ? ";
+            String sql="select count(*) from shop_admin_table where mail = ? and name = ? and password = ? and delete_flag = 0";
             st = cn.prepareStatement(sql);
             st.setString(1,saub.getMail());
             st.setString(2,saub.getUser_name());
@@ -53,7 +53,7 @@ public class OraShopAdminUserDao implements ShopAdminUserDao{
         ShopAdminOracleConnecter oc = new ShopAdminOracleConnecter();
         try{
             cn = oc.getConnection();
-            String sql="select count(*) from shop_admin_table where mail = ? and name = ? and password = ? and APPROVAL_FLAG = 0 ";
+            String sql="select count(*) from shop_admin_table where mail = ? and name = ? and password = ? and APPROVAL_FLAG = 0 and Delete_flag = 0 ";
             st = cn.prepareStatement(sql);
             st.setString(1,saub.getMail());
             st.setString(2,saub.getUser_name());
@@ -237,5 +237,71 @@ public class OraShopAdminUserDao implements ShopAdminUserDao{
                 e.printStackTrace();
             }
         }
+    }
+    public boolean judgeRegisterMail(String mail){
+        PreparedStatement st = null;
+        boolean judge = false;
+        ResultSet rs = null;
+        Connection cn = null;
+        ShopAdminOracleConnecter oc = new ShopAdminOracleConnecter();
+        try{
+            cn = oc.getConnection();
+            String sql="select count(*) from shop_admin_table where mail = ? and Delete_flag = 0 ";
+            st = cn.prepareStatement(sql);
+            st.setString(1,mail);
+            rs = st.executeQuery();
+            rs.next();
+            if(rs.getInt(1)==1){
+                judge = true;
+            }
+            oc.closeConnection();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            oc.rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return judge;
+    }
+    public boolean emailJudge(String email){
+        PreparedStatement st = null;
+        boolean judge = false;
+        ResultSet rs = null;
+        Connection cn = null;
+        ShopAdminOracleConnecter oc = new ShopAdminOracleConnecter();
+        try{
+            cn = oc.getConnection();
+            String sql="select count(*) from shop_admin_table where mail = ? and APPROVAL_FLAG = 1";
+            st = cn.prepareStatement(sql);
+            st.setString(1,email);
+            rs = st.executeQuery();
+            rs.next();
+            if(rs.getInt(1)==0){
+                judge = true;
+            }
+            oc.closeConnection();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            oc.rollback();
+        }finally{
+            try{
+                if(st != null){
+                    st.close();
+                }
+            }catch (SQLException e){
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return judge;
     }
 }

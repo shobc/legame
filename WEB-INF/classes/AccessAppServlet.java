@@ -19,11 +19,21 @@ public class AccessAppServlet extends HttpServlet{
     String weather_num = "1";
     public void doPost(HttpServletRequest req,HttpServletResponse res)throws IOException,ServletException{
         if(req.getParameter("number")!=null){
-            number = req.getParameter("number");
+            if(Integer.parseInt(req.getParameter("number"))>9){
+                number = "9";
+            }else{
+                number = req.getParameter("number");
+            }
         }
+
         if(req.getParameter("weather_num")!=null){
-            weather_num = req.getParameter("weather_num");
+            if(Integer.parseInt(req.getParameter("weather_num"))>8){
+                number = "8";
+            }else{
+                weather_num = req.getParameter("weather_num");
+            }
         }
+
         ArrayList newsList = new ArrayList();
         newsList = NewsPickup.getNews(number);
         String title = NewsPickup.getTitle(number);

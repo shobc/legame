@@ -14,6 +14,7 @@ import adminShop.dao.ShopAdminAbstractDaoFactory;
 import adminShop.dao.ShopAdminPropertyDao;
 import adminShop.bean.ShopAdminUserBean;
 import adminShop.bean.PropertyBean;
+import adminShop.exception.NotMoneyException;
 
 @WebServlet("/shopAdmin/SettlementServlet")
 public class SettlementServlet extends HttpServlet{
@@ -33,6 +34,9 @@ public class SettlementServlet extends HttpServlet{
 
         ShopAdminAbstractDaoFactory factory = ShopAdminAbstractDaoFactory.getFactory();
         ShopAdminPropertyDao dao = factory.getShopAdminPropertyDao();
+        if(dao.getBalance(pb)<Integer.parseInt(price)){
+            throw new NotMoneyException("Žc‚‚ª‘«‚è‚Ü‚¹‚ñ");
+        }
         dao.employMoney(pb);
 
         req.setAttribute("title","ŒˆÏŠ®—¹");

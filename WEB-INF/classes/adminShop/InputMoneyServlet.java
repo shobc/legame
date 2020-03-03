@@ -32,9 +32,7 @@ public class InputMoneyServlet extends HttpServlet{
         pb.setUser_id(String.valueOf(sc.getAttribute(RandomString)));
         pb.setShop_admin_user_id(saub.getShop_admin_user_id());
         pb.setMoney(pay);
-        System.out.println(pb.getUser_id());
-        System.out.println(pb.getShop_admin_user_id());
-        System.out.println(pb.getMoney());
+
         ShopAdminAbstractDaoFactory factory = ShopAdminAbstractDaoFactory.getFactory();
         ShopAdminPropertyDao dao = factory.getShopAdminPropertyDao();
         dao.addPropery(pb);

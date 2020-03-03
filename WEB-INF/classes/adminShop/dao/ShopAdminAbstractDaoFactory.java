@@ -32,4 +32,5 @@ public abstract class ShopAdminAbstractDaoFactory{
     }
     public abstract ShopAdminUserDao getShopAdminUserDao();
     public abstract ShopAdminPropertyDao getShopAdminPropertyDao();
+    public abstract UserDao getUserDao();
 }

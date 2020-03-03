@@ -21,6 +21,7 @@ import adminShop.bean.ShopAdminUserBean;
 import adminShop.dao.ShopAdminAbstractDaoFactory;
 import adminShop.dao.ShopAdminUserDao;
 import adminShop.bean.PropertyBean;
+import adminShop.exception.RegisterAccountException;
 
 @WebServlet("/shopAdmin/RegisterShopAccountServlet")
 @MultipartConfig(maxFileSize=1048571121)
@@ -44,6 +45,9 @@ public class RegisterShopAccountServlet extends HttpServlet{
         saub.setPicture(imagePath);
         ShopAdminAbstractDaoFactory factory = ShopAdminAbstractDaoFactory.getFactory();
         ShopAdminUserDao dao = factory.getShopAdminUserDao();
+        if(dao.judgeRegisterMail(mail)){
+            throw new RegisterAccountException("アカウントが登録されています");
+        }
         dao.provisionalRegisterShopAdminUser(saub);
         req.setAttribute("message","確認するまで少々お待ちください");
         RequestDispatcher dis = req.getRequestDispatcher("/WEB-INF/jsp/adminShop/confirm.jsp");

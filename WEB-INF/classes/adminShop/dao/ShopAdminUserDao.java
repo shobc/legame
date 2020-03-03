@@ -10,4 +10,6 @@ public interface ShopAdminUserDao{
     String getUser_id(String mail);
     void changePassWord(ShopAdminUserBean saub);
     void removeAccount(String shop_admin_user_id);
+    boolean judgeRegisterMail(String mail);
+    boolean emailJudge(String email);
 }

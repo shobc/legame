@@ -4,6 +4,7 @@
     <listener>
         <listener-class>listener.LoadListener</listener-class>
     </listener>
+
 <!--    エラーページ -->
     <error-page>
         <error-code>404</error-code>
@@ -429,6 +430,7 @@
         <dispatcher>REQUEST</dispatcher>
         <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
+
 <!--管理者JSP-->
     <servlet>
         <servlet-name>adminLogin</servlet-name>
@@ -453,7 +455,19 @@
         <location>/WEB-INF/jsp/adminShop/error/no-login.jsp</location>
     </error-page>
     <error-page>
+        <exception-type>adminShop.exception.NotMoneyException</exception-type>
+        <location>/WEB-INF/jsp/adminShop/clear.jsp</location>
+    </error-page>
+    <error-page>
         <exception-type>adminShop.exception.NotShopAdminAccountException</exception-type>
+        <location>/WEB-INF/jsp/adminShop/error/no-login.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>adminShop.exception.NotUserQRCodeException</exception-type>
+        <location>/WEB-INF/jsp/adminShop/clear.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>adminShop.exception.RegisterAccountException</exception-type>
         <location>/WEB-INF/jsp/adminShop/error/no-login.jsp</location>
     </error-page>
 <!--    お店の管理者のfilter-->
@@ -518,6 +532,24 @@
     <servlet-mapping>
         <servlet-name>reminder-password</servlet-name>
         <url-pattern>/shopAdmin/reminder-password</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>settlement</servlet-name>
+        <jsp-file>/WEB-INF/jsp/adminShop/settlement.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>settlement</servlet-name>
+        <url-pattern>/shopAdmin/settlement</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>deposit-money</servlet-name>
+        <jsp-file>/WEB-INF/jsp/adminShop/deposit-money.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>deposit-money</servlet-name>
+        <url-pattern>/shopAdmin/deposit-money</url-pattern>
     </servlet-mapping>
 
 </web-app>

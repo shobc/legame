@@ -9,6 +9,18 @@
                 padding-top: 200px;
                 text-align: center;
             }
+            p{
+                font-size: 30px;
+            }
+
+            input[type=submit]{
+                width: 100%;
+                height: 50px;
+                background-color: #FFFFFF;
+                color: black;
+                border: none;
+                font-size: 30px;
+            }
         </style>
     </c:param>
     <c:param name="content">

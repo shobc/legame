@@ -20,10 +20,10 @@
                     </div>
                     <div class="delete_approval">
                         <div >
-                            <span><a href="DoApprovalServlet?shop_admin_user_id=${sl.shop_admin_user_id}">ãñâ¬</a></span>
+                            <span><a href="DoApprovalServlet?shop_admin_user_id=${sl.shop_admin_user_id}&mail=${sl.mail}">ãñâ¬</a></span>
                         </div>
                         <div>
-                            <span><a href="DeleteAdminUserAccountServlet?shop_admin_user_id=${sl.shop_admin_user_id}">çÌèú</a></span>
+                            <span><a href="DeleteAdminUserAccountServlet?shop_admin_user_id=${sl.shop_admin_user_id}&mail=${sl.mail}">çÌèú</a></span>
                         </div>
                     </div>
                 </div>

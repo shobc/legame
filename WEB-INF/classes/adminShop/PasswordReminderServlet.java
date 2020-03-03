@@ -15,6 +15,7 @@ import function.EscapeString;
 import adminShop.dao.ShopAdminAbstractDaoFactory;
 import adminShop.dao.ShopAdminUserDao;
 import adminShop.bean.ShopAdminUserBean;
+import adminShop.exception.RegisterAccountException;
 import function.SendMail;
 import function.RandomString;
 
@@ -26,9 +27,9 @@ public class PasswordReminderServlet extends HttpServlet{
         String mail = EscapeString.escape(req.getParameter("mail"));
         ShopAdminAbstractDaoFactory factory = ShopAdminAbstractDaoFactory.getFactory();
         ShopAdminUserDao dao = factory.getShopAdminUserDao();
-//        if(dao.emailJudge(mail)){
-//            //例外を投げる
-//        }
+        if(dao.emailJudge(mail)){
+            throw new RegisterAccountException("メールアドレスが登録されていません");
+        }
         String RString = RandomString.getString();
         ShopAdminUserBean saub = new ShopAdminUserBean();
         saub.setMail(mail);
